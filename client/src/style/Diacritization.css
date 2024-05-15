@@ -1,36 +1,36 @@
 .edit-input {
-    font-size: 1.3em; 
-    width: auto;
-  }
-.buttons-container button {
-    margin-right: 10px; 
+  font-size: 1.3em; 
+  width: auto;
 }
+
 .add-diacritics-button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #1d4b78;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .add-diacritics-button:hover {
-    background-color: lightskyblue;
-    color: black;
-  }
-  .edit-diacritics-button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #1d4b78;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .edit-diacritics-button:hover {
-    background-color: lightskyblue;
-    color: black;
-  }
-  
+  margin-right: 70%;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #1d4b78;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.add-diacritics-button:hover {
+  background-color: lightskyblue;
+  color: black;
+}
+.edit-diacritics-button {
+  position: relative;
+  margin-right: 50%;
+  margin-top: -35px;
+  padding: 10px 20px;
+  background-color: #1d4b78;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.edit-diacritics-button:hover {
+  background-color: lightskyblue;
+  color: black;
+}

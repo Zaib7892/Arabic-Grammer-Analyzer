@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { TiArrowBackOutline } from 'react-icons/ti';
 import { useNavigate } from "react-router-dom";
 import '../style/GiveFeedback.css';
-import {ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 
 const GiveFeedback = () => {
     const [feedback, setFeedback] = useState('');
@@ -14,11 +14,16 @@ const GiveFeedback = () => {
     };
 
     const handleSubmit = () => {
-        if (feedback.trim() !== '') {
+        if (feedback.trim() !== "") {
             toast.success("Feedback Submitted!", {
-                position: "top-center"
+                position: "top-center",
+                autoClose: 2000 // Close after 1 second (adjust as needed)
             });
-            history("/standardsolutions");
+
+            // Use setTimeout to delay navigation
+            setTimeout(() => {
+                history("/standardsolutions");
+            }, 2000); // Delay for 1 second (match toast duration)
         } else {
             toast.error("Kindly Enter Feedback.", {
                 position: "top-center"
@@ -48,9 +53,9 @@ const GiveFeedback = () => {
             <button className="submit-button" onClick={handleSubmit}>
                 Submit Feedback
             </button>
-            <ToastContainer/>
+            <ToastContainer />
         </div>
-        
+
     );
 }
 

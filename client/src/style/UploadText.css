@@ -66,3 +66,34 @@
     background-color: lightskyblue;
     color: black;
   }
+
+
+  .translate-button-uploadtext{
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #1d4b78;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    align-items: center;
+
+  }
+
+  .translation-section {
+    width: 80%;
+    max-width: 80%;
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle depth effect */
+    background-color: #f9f9f9; /* Light background */
+  }
+  
+  .translation-text {
+    font-size: 16px;
+    line-height: 1.5; /* Improved readability */
+    text-align: left;
+    color: #333; /* Darker text for contrast */
+  }
