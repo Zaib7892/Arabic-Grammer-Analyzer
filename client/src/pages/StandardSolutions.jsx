@@ -13,12 +13,12 @@ const StandardSolutions = () => {
     ];
 
     const posTags = [
-        ["Noun", "Number", "Noun", "Verb", "Noun"],
-        ["Noun", "Number", "Noun", "Noun", "Noun"],
-        ["Noun", "Number", "Noun", "Noun", "Noun", "Adjective"],
-        ["Noun", "Noun", "Noun", "Noun", "Adjective", "Noun"],
-        ["Noun", "Noun", "Noun", "Noun", "Adjective", "Noun"],
-        ["Noun", "Preposition", "Noun", "Noun", "Preposition", "Noun"]
+        ["Noun", "Verb", "Noun"],
+        ["Noun", "Verb", "Definite Article"],
+        ["Verb", "Noun", "Adjective"],
+        ["Verb", "Noun", "Adjective"],
+        ["Noun", "Noun", "Adjective"],
+        ["Noun", "Preposition", "Noun"]
     ];
 
     const [selectedSentence, setSelectedSentence] = useState(null);
@@ -35,14 +35,14 @@ const StandardSolutions = () => {
         const words = arabicTextSentences[index].split(' ');
         const nodes = words.map((word, wordIndex) => ({
             id: `${index}-${wordIndex}`,
-            label: word,
+            label: `${word} (${posTags[index][wordIndex]})`,
             x: (words.length - 1 - wordIndex) * 150, // Adjust node position horizontally
             y: 0 // Keep nodes in a single line vertically
         }));
         const edges = words.slice(1).map((word, wordIndex) => ({
             from: `${index}-${wordIndex}`,
             to: `${index}-${wordIndex + 1}`,
-            label: posTags[index][wordIndex]
+            label: null
         }));
 
         const graphData = { nodes, edges };

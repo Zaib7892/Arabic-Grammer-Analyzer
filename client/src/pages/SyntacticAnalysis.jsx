@@ -12,34 +12,31 @@ const SyntacticAnalysis = () => {
     "The small brown dog plays in the green garden", // Translation of the new sentence
   ];
 
-  const posTags = [
-    [["Det", "Adj", "Adj", "Noun", "Verb", "Prep", "Det", "Adj", "Noun"]] // POS tags for the new sentence
-  ];
 
   // Example dependencies for the new sentence
   const dependencies = [
     [
-      { from: 0, to: 1, label: posTags[0][0][0] }, // Adding label for each edge
-      { from: 1, to: 2, label: posTags[0][0][1] },
-      { from: 2, to: 3, label: posTags[0][0][2] },
-      { from: 3, to: 4, label: posTags[0][0][3] },
-      { from: 4, to: 5, label: posTags[0][0][4] },
-      { from: 5, to: 6, label: posTags[0][0][5] },
-      { from: 6, to: 7, label: posTags[0][0][6] },
-      { from: 7, to: 8, label: posTags[0][0][7] },
+      { from: 0, to: 1}, // Adding label for each edge
+      { from: 1, to: 2},
+      { from: 2, to: 3},
+      { from: 3, to: 4},
+      { from: 4, to: 5},
+      { from: 5, to: 6},
+      { from: 6, to: 7},
+      { from: 7, to: 8},
     ]
   ];
 
   // Hardcoded nodes for the new sentence
   const nodes = [
-    { id: 0, label: 'الكلب' },
-    { id: 1, label: 'البني' },
-    { id: 2, label: 'الصغير' },
-    { id: 3, label: 'يلعب' },
-    { id: 4, label: 'في' },
-    { id: 5, label: 'الحديقة' },
-    { id: 6, label: 'الخضراء' }
-  ];
+    { id: 0, label: 'الكلب (Noun)' },
+    { id: 1, label: 'البني (Adj)' },
+    { id: 2, label: 'الصغير (Adj)' },
+    { id: 3, label: 'يلعب (Verb)' },
+    { id: 4, label: 'في (Prep)' },
+    { id: 5, label: 'الحديقة (Noun)' },
+    { id: 6, label: 'الخضراء (Adj)' }
+];
 
   const [selectedSentence, setSelectedSentence] = useState('');
   const [translatedSentence, setTranslatedSentence] = useState('');
@@ -157,7 +154,9 @@ const SyntacticAnalysis = () => {
               },
               interaction: {
                 dragNodes: false, 
-                dragView: false 
+                dragView: false ,
+                zoomView: false, // Disable zooming
+                zoom: false // Disable zooming
               }
             }}
             events={{

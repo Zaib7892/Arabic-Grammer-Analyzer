@@ -20,10 +20,12 @@ const SemanticAnalysis = () => {
     const posTags = [
         [["Det", "Det", "Noun", "Adj"], ["Conj", "Det", "Noun", "Adj"], ["Adv", "Verb", "Det", "Noun", "Adj"]]
     ];
+    
 
     const [graphData, setGraphData] = useState(null); // State to hold graph data
     const [selectedSentence, setSelectedSentence] = useState(''); // State to track selected sentence
     const [translatedSentence, setTranslatedSentence] = useState(''); // State to hold translated sentence
+
 
     // Function to select a sentence
     const selectSentence = (sentence) => {
@@ -41,36 +43,35 @@ const SemanticAnalysis = () => {
         }
     };
 
-    // Function to generate graph data
-    const generateGraphData = () => {
-        let nodes = [];
-        let edges = [];
-        let offsetX = 0;
+// Function to generate graph data
+const generateGraphData = () => {
+    let nodes = [];
+    let edges = [];
+    let offsetX = 0;
 
-        // Create nodes for each word in sentences
-        arabicTextSentences.forEach((sentence, sentenceIndex) => {
-            const words = sentence.split(' ');
-            let sentenceLength = 0;
-            words.forEach((word, wordIndex) => {
-                const wordLength = word.length * 10; // Calculate word length
-                const x = offsetX + sentenceLength; // Position node in a straight line
-                nodes.push({ id: `${sentenceIndex}-${wordIndex}`, label: word, x: x, y: sentenceIndex * 100 });
-                offsetX += wordLength + 20; // Adjust offset for the next word
-                sentenceLength += wordLength + 20; // Adjust sentence length
-            });
-            offsetX = 0; // Reset offset for the next sentence
+    // Create nodes for each word in sentences
+    arabicTextSentences.forEach((sentence, sentenceIndex) => {
+        const words = sentence.split(' ');
+        words.forEach((word, wordIndex) => {
+            const wordLength = word.length * 10; // Calculate word length
+            const x = offsetX - wordLength; // Position node from right to left
+            nodes.push({ id: `${sentenceIndex}-${wordIndex}`, label: word, x: x, y: sentenceIndex * 100 });
+            offsetX -= wordLength + 20; // Adjust offset for the next word
         });
+        offsetX = 0; // Reset offset for the next sentence
+    });
 
-        // Connect nodes to represent words in each sentence
-        arabicTextSentences.forEach((sentence, sentenceIndex) => {
-            const words = sentence.split(' ');
-            for (let i = 0; i < words.length - 1; i++) {
-                edges.push({ from: `${sentenceIndex}-${i}`, to: `${sentenceIndex}-${i + 1}` });
-            }
-        });
+    // Connect nodes to represent words in each sentence
+    arabicTextSentences.forEach((sentence, sentenceIndex) => {
+        const words = sentence.split(' ');
+        for (let i = 0; i < words.length - 1; i++) {
+            edges.push({ from: `${sentenceIndex}-${i}`, to: `${sentenceIndex}-${i + 1}`, label: posTags[i] }); // Assign each POS tag to the corresponding word
+        }
+    });
 
-        setGraphData({ nodes, edges });
-    };
+    setGraphData({ nodes, edges });
+};
+
 
     return (
         <div className="text-analysis">
@@ -100,13 +101,14 @@ const SemanticAnalysis = () => {
             </div>
             {/* Display the graph if graphData exists */}
             {graphData && (
-                <div className="graph-container">
+                <div className="graph-container" style={{ width: '100%', height: '600px' }}>
                     <Graph
                         graph={graphData}
                         options={{
                             layout: {
                                 hierarchical: false,
                                 layout: 'directed'
+
                             },
                             edges: {
                                 color: {
@@ -121,10 +123,12 @@ const SemanticAnalysis = () => {
                             },
                             interaction: {
                                 dragNodes: false,
-                                dragView: false
+                                dragView: false,
+                                zoomView: false, // Disable zooming
+                                zoom: false // Disable zooming
                             }
                         }}
-                        style={{ width: '100%', height: '400px' }}
+                        style={{ width: '100%', height: '100%' }}
                     />
                 </div>
             )}
