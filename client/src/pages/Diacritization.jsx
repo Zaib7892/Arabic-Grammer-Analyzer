@@ -21,6 +21,34 @@ const Diacritization = () => {
   const [uploadedText, setUploadedText] = useState('');
 
 
+//-------------Farasa APi Call with Proxy-----------------
+const sendRequestToFarasa = () => {
+  var api_key = "WltNKBUvNMAeBFxAWO";
+  var dialect = "mor";
+  var text = uploadedText; // Assuming uploadedText contains the text to be diacritized
+
+  fetch("https://farasa.qcri.org/webapi/seq2seq_diacritize/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "cache-control": "no-cache"
+    },
+    body: JSON.stringify({
+      text: text,
+      api_key: api_key,
+      dialect: dialect
+    })
+  })
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error(error));
+};
+
+
+//--------------------------------------------------------
+
+
+
   useEffect(() => {
     // Retrieve uploaded text from local storage
     const storedText = localStorage.getItem('uploadedText');
@@ -75,7 +103,7 @@ const Diacritization = () => {
         </div>
       </div>
 
-      <button className="add-diacritics-button" onClick={addDiacritics}>
+      <button className="add-diacritics-button" onClick={sendRequestToFarasa}>
         Add Diacritics
       </button>
       <button className="edit-diacritics-button" onClick={() => setIsEditing(true)}>
