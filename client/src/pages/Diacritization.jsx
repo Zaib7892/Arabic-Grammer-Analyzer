@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import '../style/Diacritization.css';
 
 const Diacritization = () => {
@@ -18,12 +18,22 @@ const Diacritization = () => {
   const [selectedSentenceIndex, setSelectedSentenceIndex] = useState(null);
   const [selectedSentence, setSelectedSentence] = useState('');
   const [isEditing, setIsEditing] = useState(false);
+  const [uploadedText, setUploadedText] = useState('');
 
-  const selectSentence = (index) => {
-    setSelectedSentenceIndex(index);
-    setSelectedSentence(arabicTextSentences[index]);
-    setIsEditing(false); // Ensure editing mode is turned off when a sentence is selected
-  };
+
+  useEffect(() => {
+    // Retrieve uploaded text from local storage
+    const storedText = localStorage.getItem('uploadedText');
+    if (storedText) {
+      setUploadedText(storedText);
+    }
+  }, []);
+
+  // const selectSentence = (index) => {
+  //   setSelectedSentenceIndex(index);
+  //   setSelectedSentence(arabicTextSentences[index]);
+  //   setIsEditing(false); // Ensure editing mode is turned off when a sentence is selected
+  // };
 
   const addDiacritics = () => {
     if (selectedSentenceIndex !== null) {
@@ -61,14 +71,10 @@ const Diacritization = () => {
           )}
         </div>
         <div className="sentences-list">
-          {arabicTextSentences.map((sentence, index) => (
-            <div key={index} onClick={() => selectSentence(index)}>
-              {index + 1}. {sentence}
-            </div>
-          ))}
+          {uploadedText}
         </div>
       </div>
-      
+
       <button className="add-diacritics-button" onClick={addDiacritics}>
         Add Diacritics
       </button>
