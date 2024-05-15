@@ -12,31 +12,28 @@ const SyntacticAnalysis = () => {
     "The small brown dog plays in the green garden", // Translation of the new sentence
   ];
 
-
   // Example dependencies for the new sentence
   const dependencies = [
     [
-      { from: 0, to: 1}, // Adding label for each edge
-      { from: 1, to: 2},
-      { from: 2, to: 3},
-      { from: 3, to: 4},
-      { from: 4, to: 5},
-      { from: 5, to: 6},
-      { from: 6, to: 7},
-      { from: 7, to: 8},
+      { from: 1, to: 0 },
+      { from: 2, to: 0 },
+      { from: 3, to: 0 },
+      { from: 3, to: 4 },
+      { from: 4, to: 5 },
+      { from: 6, to: 5 }
     ]
   ];
 
   // Hardcoded nodes for the new sentence
   const nodes = [
-    { id: 0, label: 'الكلب (Noun)' },
-    { id: 1, label: 'البني (Adj)' },
-    { id: 2, label: 'الصغير (Adj)' },
-    { id: 3, label: 'يلعب (Verb)' },
-    { id: 4, label: 'في (Prep)' },
-    { id: 5, label: 'الحديقة (Noun)' },
-    { id: 6, label: 'الخضراء (Adj)' }
-];
+    { id: 0, label: 'الكلب .1(Noun)' },
+    { id: 1, label: 'البني .2(Adj)' },
+    { id: 2, label: 'الصغير .3(Adj)' },
+    { id: 3, label: 'يلعب .4(Verb)' },
+    { id: 4, label: 'في .5(Prep)' },
+    { id: 5, label: 'الحديقة .6(Noun)' },
+    { id: 6, label: 'الخضراء .7(Adj)' }
+  ];
 
   const [selectedSentence, setSelectedSentence] = useState('');
   const [translatedSentence, setTranslatedSentence] = useState('');
@@ -68,6 +65,7 @@ const SyntacticAnalysis = () => {
       });
     }
   };
+
   const exportGraphData = () => {
     const graphData = JSON.stringify(activeGraph);
     const element = document.createElement("a");
@@ -77,35 +75,6 @@ const SyntacticAnalysis = () => {
     document.body.appendChild(element); // Required for Firefox
     element.click();
   };
-  const getCurvedEdgePath = (from, to, curvature = 0.5) => {
-    const fromX = nodes[from].x;
-    const toX = nodes[to].x;
-    const fromY = nodes[from].y;
-    const toY = nodes[to].y;
-
-    const deltaX = toX - fromX;
-    const deltaY = toY - fromY;
-    const dist = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-    const offsetX = (curvature * dist) / 2;
-
-    const data = [
-      'M', fromX, fromY,
-      'Q', fromX + offsetX, fromY - 50,
-      toX, toY,
-    ];
-
-    return data.join(' ');
-  };
-
-  const getNodePosition = (nodeId) => {
-    return { x: 1000 - nodeId * 150, y: 100 };
-  };
-
-  nodes.forEach((node, index) => {
-    node.x = getNodePosition(index).x;
-    node.y = getNodePosition(index).y;
-  });
-
 
   return (
     <div className="text-analysis">
@@ -132,55 +101,57 @@ const SyntacticAnalysis = () => {
           Translate
         </button>
       </div>
-      <div className="graph-container">
+      <div className="graph-container" style={{ width: '100%', overflow: 'auto' }}>
         {activeGraph && (
           <>
-          <Graph
-            graph={activeGraph}
-            options={{
-              layout: {
-                hierarchical: false
-              },
-              edges: {
-                color: {
-                  color: 'royalblue', // Set color to royal blue
-                  highlight: 'royalblue',
-                  hover: 'royalblue'
+            <Graph
+              graph={activeGraph}
+              options={{
+                layout: {
+                  randomSeed: undefined, // Remove this line
+                  hierarchical: false,
+                  improvedLayout: false
                 },
-                font: {
-                  color: 'black',
-                  size: 12
+                edges: {
+                  color: {
+                    color: 'royalblue', // Set color to royal blue
+                    highlight: 'royalblue',
+                    hover: 'royalblue'
+                  },
+                  font: {
+                    color: 'black',
+                    size: 12
+                  },
+                  smooth: {
+                    type: 'curvedCCW'
+                  }
+                },
+                interaction: {
+                  dragNodes: false,
+                  dragView: false,
+                  zoomView: false, // Disable zooming
+                  zoom: false // Disable zooming
                 }
-              },
-              interaction: {
-                dragNodes: false, 
-                dragView: false ,
-                zoomView: false, // Disable zooming
-                zoom: false // Disable zooming
-              }
-            }}
-            events={{
-              selectNode: ({ nodes }) => {
-                if (selectedNode1 === null) {
-                  setSelectedNode1(nodes[0]);
-                } else {
-                  setSelectedNode2(nodes[0]);
+              }}
+              events={{
+                selectNode: ({ nodes }) => {
+                  if (selectedNode1 === null) {
+                    setSelectedNode1(nodes[0]);
+                  } else {
+                    setSelectedNode2(nodes[0]);
+                  }
+                },
+                deselectNode: ({ nodes }) => {
+                  if (selectedNode1 === nodes[0]) {
+                    setSelectedNode1(null);
+                  } else if (selectedNode2 === nodes[0]) {
+                    setSelectedNode2(null);
+                  }
                 }
-              },
-              deselectNode: ({ nodes }) => {
-                if (selectedNode1 === nodes[0]) {
-                  setSelectedNode1(null);
-                } else if (selectedNode2 === nodes[0]) {
-                  setSelectedNode2(null);
-                }
-              }
-            }}
-            getEdgeLabel={(edge) => edge.label} // Display edge label as POS tag
-            getEdgeTitle={() => null}
-            getCurvedEdgePath={(edge, start, end, _points) => getCurvedEdgePath(start, end)}
-            style={{ width: '100%', height: '400px' }}
-          />
-          <button className="export-button" onClick={exportGraphData}>
+              }}
+              style={{ height: '400px' }} // Adjust the height as needed
+            />
+            <button className="export-button" onClick={exportGraphData}>
               Export Graph Data
             </button>
           </>
@@ -188,6 +159,6 @@ const SyntacticAnalysis = () => {
       </div>
     </div>
   );
-}
+};
 
 export default SyntacticAnalysis;

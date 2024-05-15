@@ -65,7 +65,10 @@ const CreateTest = () => {
         hierarchical: false
       },
       edges: {
-        color: "#000000"
+        color: "#000000",
+        smooth: {
+          type: 'curvedCCW'
+        }
       },
       physics: {
         enabled: false

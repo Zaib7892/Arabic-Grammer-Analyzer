@@ -71,6 +71,12 @@ const Login = () => {
                 window.location.href = "/home";
                 setInpval({...inpval,email:"",password:""});
             }
+            else
+            {
+                toast.error("Invalid username or password!", {
+                    position: "top-center"
+                });
+            }
         }
     }
 

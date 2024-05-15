@@ -41,7 +41,6 @@ const Header = () => {
       localStorage.removeItem("usersdatatoken");
       setLoginData(false);
       history("/");
-      //history("/");
     } else {
       console.log("error");
     }
@@ -51,9 +50,6 @@ const Header = () => {
     history("/dash");
   };
 
-  const goError = () => {
-    history("*");
-  };
 
   return (
     <>
@@ -108,16 +104,7 @@ const Header = () => {
                 </MenuItem>
               </>
             ) : (
-              <>
-                <MenuItem
-                  onClick={() => {
-                    goError();
-                    handleClose();
-                  }}
-                >
-                  Profile
-                </MenuItem>
-              </>
+              <></>
             )}
           </Menu>
         </nav>
