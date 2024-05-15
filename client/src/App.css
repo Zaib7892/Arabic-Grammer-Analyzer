@@ -12,12 +12,15 @@ main{
   padding: 20px;
 
 }
-.sidebar{
+.sidebar {
   background: #1d4b78;
   color: white;
-  height: 100vh;
+  /* height: 100vh; */  /* Remove this line */
+  min-height: 100vh;   /* Add this line */
   width: 300px;
-  transition:all 0.5s;
+  transition: all 0.5s;
+  position: sticky;    /* Add this line to keep the sidebar in view */
+  top: 0;             /* Add this line to start sidebar at the top */
 }
 .top_section{
   display: flex;

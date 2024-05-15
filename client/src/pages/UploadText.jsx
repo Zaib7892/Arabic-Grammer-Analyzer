@@ -39,7 +39,7 @@ function UploadText() {
           ))}
         </div>
       </div>
-      <button className="analyze-text-button">Analyze Text</button>
+      <button className="analyze-text-button" disabled>Analyze Text</button>
     </div>
   );
 }

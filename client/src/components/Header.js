@@ -60,7 +60,7 @@ const Header = () => {
       <header>
         <nav>
           {/* Replace HP Cloud with dynamic username */}
-            <h1>Hi, {logindata.ValidUserOne?.fname}</h1>
+          <h1>Hi, {logindata.ValidUserOne?.fname}</h1>
           <div className="avtar">
             {logindata.ValidUserOne ? (
               <Avatar
@@ -94,6 +94,7 @@ const Header = () => {
                     goDash();
                     handleClose();
                   }}
+                  disabled // Add the disabled attribute
                 >
                   Profile
                 </MenuItem>
