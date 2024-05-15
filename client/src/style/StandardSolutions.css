@@ -1,0 +1,36 @@
+.solution {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* Align items to the end of the flex container */
+    margin-bottom: 20px; /* Adjust as needed */
+    padding: 10px;
+    width: 100%; /* Use full width to control spacing better */
+    
+}
+
+.solution span {
+    flex-grow: 1; /* Allows the text span to take up available space, pushing the button to the end */
+    margin-right: 50px; /* Provides some space between the text and the button */
+    border: 1px solid #ccc; /* Optional: Add border around each solution item */
+    border-radius: 10px; /* Optional: Rounded corners for the solution boxes */
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; 
+    padding-right: 10px; 
+}
+
+.solution button {
+    margin-right: 100px;
+    min-width: 80px; 
+    background-color: #1d4b78;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.solution button:hover{
+    background-color: lightskyblue;
+    color: black;
+}

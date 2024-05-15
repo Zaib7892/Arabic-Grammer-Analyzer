@@ -1,0 +1,55 @@
+  .translate-button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #1d4b78;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 840px;
+  }
+  
+  .translate-button:hover {
+    background-color: lightskyblue;
+    color: black;
+  }
+  .analyze-button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #1d4b78;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 840px;
+  }
+  
+  .analyze-button:hover {
+    background-color: lightskyblue;
+    color: black;
+  }
+  .buttons-container {
+    width: 40%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    margin-right: 540px;
+  }
+  
+  .translate-button, .analyze-button {
+    padding: 10px 20px;
+  }
+  .export-button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #1d4b78;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .export-button:hover {
+    background-color: lightskyblue;
+    color: black;
+  }

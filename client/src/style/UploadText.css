@@ -1,0 +1,65 @@
+.text-analysis {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    direction: rtl;
+  }
+  
+  .text-input {
+    width: 80%;
+    height: 100px;
+    margin-bottom: 20px;
+    direction: rtl; 
+    border-radius: 10px;
+  }
+  
+  .results-container {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    direction: ltr; 
+  }
+  
+  .sentences-list {
+    width: 50%;
+    margin-left: 10px;
+    background-color: #f0f0f0;
+    padding: 10px;
+    direction: rtl;
+    border-radius: 10px;
+  }
+  
+  .sentences-list div {
+    margin-bottom: 5px;
+    padding: 5px;
+  }
+  
+  .sentences-list div:hover {
+    background-color: #e0e0e0;
+    cursor: pointer;
+  }
+  
+  .selected-sentence {
+    width: 50%;
+    margin-right: 10px;
+    background-color: #ffffff;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    direction: rtl; 
+  }
+  .analyze-text-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #1d4b78;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .save-text-button:hover {
+    background-color: lightskyblue;
+    color: black;
+  }
