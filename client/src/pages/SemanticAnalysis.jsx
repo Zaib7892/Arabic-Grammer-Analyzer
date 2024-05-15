@@ -20,12 +20,10 @@ const SemanticAnalysis = () => {
     const posTags = [
         [["Det", "Det", "Noun", "Adj"], ["Conj", "Det", "Noun", "Adj"], ["Adv", "Verb", "Det", "Noun", "Adj"]]
     ];
-    
 
     const [graphData, setGraphData] = useState(null); // State to hold graph data
     const [selectedSentence, setSelectedSentence] = useState(''); // State to track selected sentence
     const [translatedSentence, setTranslatedSentence] = useState(''); // State to hold translated sentence
-
 
     // Function to select a sentence
     const selectSentence = (sentence) => {
@@ -44,36 +42,35 @@ const SemanticAnalysis = () => {
     };
 
     // Function to generate graph data
-   // Function to generate graph data
-// Function to generate graph data
-const generateGraphData = () => {
-    let nodes = [];
-    let edges = [];
-    let offsetX = 0;
+    const generateGraphData = () => {
+        let nodes = [];
+        let edges = [];
+        let offsetX = 0;
 
-    // Create nodes for each word in sentences
-    arabicTextSentences.forEach((sentence, sentenceIndex) => {
-        const words = sentence.split(' ');
-        words.forEach((word, wordIndex) => {
-            const wordLength = word.length * 10; // Calculate word length
-            const x = offsetX - wordLength; // Position node from right to left
-            nodes.push({ id: `${sentenceIndex}-${wordIndex}`, label: word, x: x, y: sentenceIndex * 100 });
-            offsetX -= wordLength + 20; // Adjust offset for the next word
+        // Create nodes for each word in sentences
+        arabicTextSentences.forEach((sentence, sentenceIndex) => {
+            const words = sentence.split(' ');
+            let sentenceLength = 0;
+            words.forEach((word, wordIndex) => {
+                const wordLength = word.length * 10; // Calculate word length
+                const x = offsetX + sentenceLength; // Position node in a straight line
+                nodes.push({ id: `${sentenceIndex}-${wordIndex}`, label: word, x: x, y: sentenceIndex * 100 });
+                offsetX += wordLength + 20; // Adjust offset for the next word
+                sentenceLength += wordLength + 20; // Adjust sentence length
+            });
+            offsetX = 0; // Reset offset for the next sentence
         });
-        offsetX = 0; // Reset offset for the next sentence
-    });
 
-    // Connect nodes to represent words in each sentence
-    arabicTextSentences.forEach((sentence, sentenceIndex) => {
-        const words = sentence.split(' ');
-        for (let i = 0; i < words.length - 1; i++) {
-            edges.push({ from: `${sentenceIndex}-${i}`, to: `${sentenceIndex}-${i + 1}` });
-        }
-    });
+        // Connect nodes to represent words in each sentence
+        arabicTextSentences.forEach((sentence, sentenceIndex) => {
+            const words = sentence.split(' ');
+            for (let i = 0; i < words.length - 1; i++) {
+                edges.push({ from: `${sentenceIndex}-${i}`, to: `${sentenceIndex}-${i + 1}` });
+            }
+        });
 
-    setGraphData({ nodes, edges });
-};
-
+        setGraphData({ nodes, edges });
+    };
 
     return (
         <div className="text-analysis">
@@ -108,7 +105,8 @@ const generateGraphData = () => {
                         graph={graphData}
                         options={{
                             layout: {
-                                hierarchical: false
+                                hierarchical: false,
+                                layout: 'directed'
                             },
                             edges: {
                                 color: {

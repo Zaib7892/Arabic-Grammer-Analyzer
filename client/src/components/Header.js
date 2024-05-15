@@ -60,9 +60,7 @@ const Header = () => {
       <header>
         <nav>
           {/* Replace HP Cloud with dynamic username */}
-          <NavLink to="/">
             <h1>Hi, {logindata.ValidUserOne?.fname}</h1>
-          </NavLink>
           <div className="avtar">
             {logindata.ValidUserOne ? (
               <Avatar

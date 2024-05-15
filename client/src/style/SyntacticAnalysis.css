@@ -21,7 +21,6 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin-right: 840px;
   }
   
   .analyze-button:hover {
@@ -33,7 +32,6 @@
     display: flex;
     justify-content: space-between;
     margin-top: 10px;
-    margin-right: 540px;
   }
   
   .translate-button, .analyze-button {
