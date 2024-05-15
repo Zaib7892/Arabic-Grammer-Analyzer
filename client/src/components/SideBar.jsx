@@ -1,7 +1,9 @@
-// SideBar.jsx
-
+import { RiFeedbackFill } from "react-icons/ri";
+import { FaClipboardQuestion } from "react-icons/fa6";
+import { IoIosCreate } from "react-icons/io";
+import { SiGraphql } from "react-icons/si";
 import React, { useState } from 'react';
-import { FaHome, FaUpload, FaBars,FaDochub,FaClipboardList} from 'react-icons/fa';
+import { FaHome, FaUpload, FaBars,FaDochub} from 'react-icons/fa';
 import { FaDiceD20 } from "react-icons/fa6";
 import { BiSpreadsheet } from "react-icons/bi";
 import logo from './logo.png';
@@ -33,6 +35,11 @@ const SideBar = ({ children }) => {
             icon: <FaDiceD20 />
         },
         {
+            path: "/semanticanalysis",
+            name: "Semantic Analysis",
+            icon: <SiGraphql />
+        },
+        {
             path: "/standardsolutions",
             name: "Standard Solutions",
             icon: <BiSpreadsheet />
@@ -40,13 +47,20 @@ const SideBar = ({ children }) => {
         {
             path: "/test",
             name: "Test",
-            icon: <FaClipboardList />
+            icon: <FaClipboardQuestion />
         },
         {
-            path: "/semanticanalysis",
-            name: "Semantic Analysis",
-            icon: <FaClipboardList />
+            path: "/viewfeedback",
+            name: "Feedback",
+            icon: <RiFeedbackFill />
+        },
+        {
+            path: "/createtest",
+            name: "Create Test",
+            icon: <IoIosCreate />
         }
+
+       
     ];
 
     return (

@@ -19,6 +19,8 @@ import StandardSolutions from "./pages/StandardSolutions";
 import Test from "./pages/Test";
 import GiveFeedback from "./pages/GiveFeedback";
 import SemanticAnalysis from "./pages/SemanticAnalysis";
+import ViewFeedback from "./pages/ViewFeedback";
+import CreateTest from "./pages/CreateTest";
 
 function App() {
   const [data, setData] = useState(false);
@@ -75,6 +77,8 @@ function App() {
               <Route path="/standardsolutions" element={<StandardSolutions />}/>
               <Route path="/test" element={<Test />} />
               <Route path="/standardsolutions/givefeedback" element={<GiveFeedback/>} />
+              <Route path="/viewfeedback" element={<ViewFeedback/>} />
+              <Route path="/createtest" element={<CreateTest/>} />
             </Routes>
           </SideBar>
         </>

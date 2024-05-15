@@ -34,3 +34,23 @@
     background-color: lightskyblue;
     color: black;
 }
+
+.create-test-button{
+    margin-right: 100px;
+    min-width: 80px; 
+    background-color: #1d4b78;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.create-test-button:hover{
+    background-color: lightskyblue;
+    color: black;
+}
+.category{
+    padding: 7px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
