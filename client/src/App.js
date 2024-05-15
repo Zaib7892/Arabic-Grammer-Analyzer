@@ -63,7 +63,6 @@ function App() {
             <Route path="/" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/standardsolutions/givefeedback" element={<GiveFeedback/>} />
           </Routes>
           <SideBar>
             <Routes>
@@ -75,6 +74,7 @@ function App() {
               <Route path="/semanticanalysis" element={<SemanticAnalysis/>}/>
               <Route path="/standardsolutions" element={<StandardSolutions />}/>
               <Route path="/test" element={<Test />} />
+              <Route path="/standardsolutions/givefeedback" element={<GiveFeedback/>} />
             </Routes>
           </SideBar>
         </>
