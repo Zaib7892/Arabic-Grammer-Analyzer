@@ -6,7 +6,6 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin-right: 840px;
   }
   
   .translate-button:hover {
@@ -45,6 +44,7 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    margin-right: 150px;
   }
   
   .export-button:hover {

@@ -1,18 +1,18 @@
 .solution {
     display: flex;
     align-items: center;
-    justify-content: flex-end; /* Align items to the end of the flex container */
-    margin-bottom: 20px; /* Adjust as needed */
+    justify-content: flex-end; 
+    margin-bottom: 20px;
     padding: 10px;
-    width: 100%; /* Use full width to control spacing better */
+    width: 100%; 
     
 }
 
 .solution span {
-    flex-grow: 1; /* Allows the text span to take up available space, pushing the button to the end */
-    margin-right: 50px; /* Provides some space between the text and the button */
-    border: 1px solid #ccc; /* Optional: Add border around each solution item */
-    border-radius: 10px; /* Optional: Rounded corners for the solution boxes */
+    flex-grow: 1; 
+    margin-right: 50px; 
+    border: 1px solid #ccc; 
+    border-radius: 10px; 
     height: 40px;
     display: flex;
     align-items: center;
