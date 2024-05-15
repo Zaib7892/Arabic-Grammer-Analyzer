@@ -4,6 +4,7 @@
 }
 
 .add-diacritics-button {
+ 
   margin-right: 70%;
   margin-top: 20px;
   padding: 10px 20px;
@@ -19,8 +20,9 @@
   color: black;
 }
 .edit-diacritics-button {
+  
   position: relative;
-  margin-right: 50%;
+  margin-right: 45%;
   margin-top: -35px;
   padding: 10px 20px;
   background-color: #1d4b78;
