@@ -82,7 +82,7 @@ const Login = () => {
 
     return (
         <>
-            <section>
+            <div className='login'>
                 <div className="form_data">
                     <div className="form_heading">
                         <h1>Welcome Back, Log In</h1>
@@ -108,7 +108,7 @@ const Login = () => {
                     </form>
                     <ToastContainer />
                 </div>
-            </section>
+            </div>
         </>
     )
 }

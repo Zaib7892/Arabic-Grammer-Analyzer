@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState } from 'react';
 import '../style/Diacritization.css';
 
 const Diacritization = () => {
@@ -18,50 +18,12 @@ const Diacritization = () => {
   const [selectedSentenceIndex, setSelectedSentenceIndex] = useState(null);
   const [selectedSentence, setSelectedSentence] = useState('');
   const [isEditing, setIsEditing] = useState(false);
-  const [uploadedText, setUploadedText] = useState('');
 
-
-//-------------Farasa APi Call with Proxy-----------------
-const sendRequestToFarasa = () => {
-  var api_key = "WltNKBUvNMAeBFxAWO";
-  var dialect = "mor";
-  var text = uploadedText; // Assuming uploadedText contains the text to be diacritized
-
-  fetch("https://farasa.qcri.org/webapi/seq2seq_diacritize/", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "cache-control": "no-cache"
-    },
-    body: JSON.stringify({
-      text: text,
-      api_key: api_key,
-      dialect: dialect
-    })
-  })
-    .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(error => console.error(error));
-};
-
-
-//--------------------------------------------------------
-
-
-
-  useEffect(() => {
-    // Retrieve uploaded text from local storage
-    const storedText = localStorage.getItem('uploadedText');
-    if (storedText) {
-      setUploadedText(storedText);
-    }
-  }, []);
-
-  // const selectSentence = (index) => {
-  //   setSelectedSentenceIndex(index);
-  //   setSelectedSentence(arabicTextSentences[index]);
-  //   setIsEditing(false); // Ensure editing mode is turned off when a sentence is selected
-  // };
+  const selectSentence = (index) => {
+    setSelectedSentenceIndex(index);
+    setSelectedSentence(arabicTextSentences[index]);
+    setIsEditing(false); // Ensure editing mode is turned off when a sentence is selected
+  };
 
   const addDiacritics = () => {
     if (selectedSentenceIndex !== null) {
@@ -99,19 +61,21 @@ const sendRequestToFarasa = () => {
           )}
         </div>
         <div className="sentences-list">
-          {uploadedText}
+          {arabicTextSentences.map((sentence, index) => (
+            <div key={index} onClick={() => selectSentence(index)}>
+              {index + 1}. {sentence}
+            </div>
+          ))}
         </div>
       </div>
-
-      <button className="add-diacritics-button" onClick={sendRequestToFarasa}>
-        Add Diacritics
-      </button>
-      <button className="edit-diacritics-button" onClick={() => setIsEditing(true)}>
-        Edit Diacritics
-      </button>
-      {/* <button className="save-text-button">
-          Save Text
-        </button> */}
+      <div className="buttons-container">
+        <button className="add-diacritics-button" onClick={addDiacritics}>
+          Add Diacritics
+        </button>
+        <button className="edit-diacritics-button" onClick={() => setIsEditing(true)}>
+          Edit Diacritics
+        </button>
+      </div>
     </div>
   );
 }

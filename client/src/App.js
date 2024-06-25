@@ -1,15 +1,11 @@
+import React, { useEffect, useContext, useState } from "react";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Header from "./components/Header";
 import Login from "./components/Login";
 import Register from "./components/Register";
-import Dashboard from "./components/Dashboard";
-import Error from "./components/Error";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
-import { Routes, Route, useNavigate } from "react-router-dom";
-import { useEffect, useContext, useState } from "react";
 import { LoginContext } from "./components/ContextProvider/Context";
-import "./App.css";
-import React from "react";
 import SideBar from "./components/SideBar";
 import Home from "./pages/Home";
 import UploadText from "./pages/UploadText";
@@ -21,9 +17,11 @@ import GiveFeedback from "./pages/GiveFeedback";
 import SemanticAnalysis from "./pages/SemanticAnalysis";
 import ViewFeedback from "./pages/ViewFeedback";
 import CreateTest from "./pages/CreateTest";
+import "./App.css";
 
 function App() {
   const [data, setData] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { setLoginData } = useContext(LoginContext);
   const history = useNavigate();
 
@@ -45,7 +43,8 @@ function App() {
     } else {
       console.log("user verify");
       setLoginData(data);
-      history("/home"); // Redirect to the dashboard
+      setIsLoggedIn(true);  // Set login state to true
+      history("/home"); // Redirect to the home
     }
   };
 
@@ -60,27 +59,30 @@ function App() {
     <>
       {data ? (
         <>
-          <Header />
-          <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-          </Routes>
-          <SideBar>
+          {isLoggedIn ? (
+            <>
+              <Header />
+              <SideBar>
+                <Routes>
+                  <Route path="/home" element={<Home />} />
+                  <Route path="/uploadtext" element={<UploadText />} />
+                  <Route path="/diacritization" element={<Diacritization />} />
+                  <Route path="/syntacticanalysis" element={<SyntacticAnalysis />} />
+                  <Route path="/semanticanalysis" element={<SemanticAnalysis />} />
+                  <Route path="/standardsolutions" element={<StandardSolutions />} />
+                  <Route path="/test" element={<Test />} />
+                  <Route path="/standardsolutions/givefeedback" element={<GiveFeedback />} />
+                  <Route path="/viewfeedback" element={<ViewFeedback />} />
+                  <Route path="/createtest" element={<CreateTest />} />
+                </Routes>
+              </SideBar>
+            </>
+          ) : (
             <Routes>
-              <Route path="*" element={<Error />} />
-              <Route path="/home" element={<Home />} />
-              <Route path="/uploadtext" element={<UploadText />} />
-              <Route path="/diacritization" element={<Diacritization />} />
-              <Route path="/syntacticanalysis" element={<SyntacticAnalysis />}/>
-              <Route path="/semanticanalysis" element={<SemanticAnalysis/>}/>
-              <Route path="/standardsolutions" element={<StandardSolutions />}/>
-              <Route path="/test" element={<Test />} />
-              <Route path="/standardsolutions/givefeedback" element={<GiveFeedback/>} />
-              <Route path="/viewfeedback" element={<ViewFeedback/>} />
-              <Route path="/createtest" element={<CreateTest/>} />
+              <Route path="/" element={<Login />} />
+              <Route path="/register" element={<Register />} />
             </Routes>
-          </SideBar>
+          )}
         </>
       ) : (
         <Box

@@ -40,7 +40,7 @@ const Header = () => {
       console.log("use logout");
       localStorage.removeItem("usersdatatoken");
       setLoginData(false);
-      history("/");
+      window.location.href = "/";
     } else {
       console.log("error");
     }

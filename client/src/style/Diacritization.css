@@ -3,9 +3,10 @@
   width: auto;
 }
 
+.buttons-container button {
+  margin-right: 0px; 
+}
 .add-diacritics-button {
- 
-  margin-right: 70%;
   margin-top: 20px;
   padding: 10px 20px;
   background-color: #1d4b78;
@@ -20,10 +21,7 @@
   color: black;
 }
 .edit-diacritics-button {
-  
-  position: relative;
-  margin-right: 45%;
-  margin-top: -35px;
+  margin-top: 20px;
   padding: 10px 20px;
   background-color: #1d4b78;
   color: white;
@@ -33,6 +31,20 @@
 }
 
 .edit-diacritics-button:hover {
+  background-color: lightskyblue;
+  color: black;
+}
+.save-text-button{
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #1d4b78;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.save-text-button:hover {
   background-color: lightskyblue;
   color: black;
 }

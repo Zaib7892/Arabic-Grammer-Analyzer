@@ -52,5 +52,6 @@
 .category{
     padding: 7px 10px;
     border-radius: 5px;
+    border-color: #1d4b78;
     cursor: pointer;
 }

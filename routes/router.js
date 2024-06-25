@@ -13,7 +13,7 @@ router.post("/register", async (req, res) => {
 
     if (!fname || !email || !password || !cpassword) {
         res.status(422).json({ error: "fill all the details" })
-    }asdsdfsfsfsdf
+    }
 
     try {
 
