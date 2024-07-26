@@ -33,5 +33,26 @@
     hyphens: auto;
     white-space: pre-wrap;
   }
-  
+  .start-button {
+    margin-top: 20px;
+  background: linear-gradient(45deg, #1d4b78, #87CEEB);
+  border: none;
+  border-radius: 15px;
+  color: white;
+  cursor: pointer;
+  font-size: 1.2em;
+  padding: 15px 30px;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.start-button:hover {
+  background: linear-gradient(45deg, #87CEEB, #1d4b78);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+.start-button:active {
+  transform: translateY(2px);
+}
   

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../style/Diacritization.css';
+import { diacritizeArabicText } from '../diaApi'; // Adjust the path as necessary
 
 const Diacritization = () => {
   const arabicTextSentences = [
@@ -8,16 +9,10 @@ const Diacritization = () => {
     "ثم تأتي الجملة الثالثة",
   ];
 
-  // Hardcoded sentences with diacritics added
-  const arabicTextSentencesWithDiacritics = [
-    "هَذِهُ الْجُمْلَةُ الْأُولَى",
-    "وَهَذِهِ الْجُمْلَةُ الثَّانِيَة",
-    "ثُمَّ تَأْتِي الْجُملَةُ الثَّالِثَةُ",
-  ];
-
   const [selectedSentenceIndex, setSelectedSentenceIndex] = useState(null);
   const [selectedSentence, setSelectedSentence] = useState('');
   const [isEditing, setIsEditing] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const selectSentence = (index) => {
     setSelectedSentenceIndex(index);
@@ -25,10 +20,18 @@ const Diacritization = () => {
     setIsEditing(false); // Ensure editing mode is turned off when a sentence is selected
   };
 
-  const addDiacritics = () => {
+  const addDiacritics = async () => {
     if (selectedSentenceIndex !== null) {
-      // Set the selected sentence with diacritics
-      setSelectedSentence(arabicTextSentencesWithDiacritics[selectedSentenceIndex]);
+      try {
+        setLoading(true); // Start loading
+        const data = await diacritizeArabicText(arabicTextSentences[selectedSentenceIndex]);
+        console.log('API Response Data:', data);
+        setSelectedSentence(data.text);
+      } catch (error) {
+        console.error('Error adding diacritics', error);
+      } finally {
+        setLoading(false); // Stop loading
+      }
     }
   };
 
@@ -39,7 +42,7 @@ const Diacritization = () => {
   const saveEdit = () => {
     setIsEditing(false);
     if (selectedSentenceIndex !== null) {
-      arabicTextSentencesWithDiacritics[selectedSentenceIndex] = selectedSentence;
+      arabicTextSentences[selectedSentenceIndex] = selectedSentence;
     }
   };
 
@@ -69,8 +72,8 @@ const Diacritization = () => {
         </div>
       </div>
       <div className="buttons-container">
-        <button className="add-diacritics-button" onClick={addDiacritics}>
-          Add Diacritics
+        <button className="add-diacritics-button" onClick={addDiacritics} disabled={loading}>
+          {loading ? 'Adding Diacritics...' : 'Add Diacritics'}
         </button>
         <button className="edit-diacritics-button" onClick={() => setIsEditing(true)}>
           Edit Diacritics

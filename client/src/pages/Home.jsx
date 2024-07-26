@@ -1,6 +1,13 @@
 import React from 'react';
 import '../style/Home.css';
-function Home() {
+import { useNavigate } from 'react-router-dom';
+
+const Home = () =>{
+  const navigate = useNavigate();
+
+  const handleGetStartedClick = () => {
+    navigate('/uploadText');
+  }
   return (
     <div className="main-content">
       <h1 className="welcome-animation">Welcome to Arabic Grammar Analyzer</h1>
@@ -15,8 +22,10 @@ function Home() {
         Natural Language <br />Processing (NLP) techniques, users can identify parts of
         speech, syntactic patterns within sentences. <br />
       </p>
+      <button className='start-button' onClick={handleGetStartedClick}>Get Started</button>
     </div>
-  )
-}
+    
+  );
+};
 
 export default Home
