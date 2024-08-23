@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../style/UploadText.css'; // Import your CSS file
 
 function UploadText() {
@@ -9,6 +10,7 @@ function UploadText() {
   const [wordCount, setWordCount] = useState(0);
   const [language, setLanguage] = useState('');
   const [showFields, setShowFields] = useState(false); // Track if "Proceed" button has been clicked
+  const navigate = useNavigate();
 
   // Function to separate sentences using regular expressions
   function segmentSentences(text) {
@@ -71,6 +73,10 @@ function UploadText() {
     setShowFields(true); // Show additional fields when "Proceed" is clicked
   };
 
+  const handleAnalyze = () => {
+    navigate('/syntacticanalysis', { state: { selectedSentence } });
+  };
+
   return (
     <div className="text-analysis">
       <textarea
@@ -94,7 +100,13 @@ function UploadText() {
               ))}
             </div>
           </div>
-          <button className="analyze-text-button">Analyze Text</button>
+          <button
+            className="analyze-text-button"
+            onClick={handleAnalyze}
+            disabled={!selectedSentence} // Disable button if no sentence is selected
+          >
+            Analyze Text
+          </button>
           <button className="translate-button-uploadtext" onClick={handleTranslate}>
             Translate
           </button>

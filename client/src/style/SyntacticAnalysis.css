@@ -51,3 +51,10 @@
     background-color: lightskyblue;
     color: black;
   }
+
+.translated-sentence{
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  width: 500px;
+}
+  

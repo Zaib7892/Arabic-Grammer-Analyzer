@@ -51,14 +51,12 @@
   }
   
   .analyze-text-button {
-    margin-top: 20px;
+    margin-top: 10px;
     padding: 10px 20px;
-    background-color: #ccc; /* Change the background color to a muted tone */
-    color: #3b3b3b; /* Change the text color to a muted tone */
+    background-color: #1d4b78;
+    color: white;
     border: none;
     border-radius: 5px;
-    cursor: not-allowed; /* Change the cursor to indicate it's not clickable */
-    opacity: 0.5; /* Reduce the opacity to indicate a disabled state */
 }
 
 .proceed-text-button {
