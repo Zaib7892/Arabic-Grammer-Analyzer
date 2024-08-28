@@ -20,20 +20,21 @@ const SideBar = ({ children }) => {
             icon: <FaHome />
         },
         {
-            path: "/uploadtext",
-            name: "UploadText",
-            icon: <FaUpload />
-        },
-        {
             path: "/diacritization",
             name: "Diacritization",
             icon: <FaDochub />
         },
         {
-            path: "/syntacticanalysis",
+            path: "/uploadtext",
             name: "Syntactic Analysis",
             icon: <FaDiceD20 />
         },
+        
+       /*{
+            path: "/syntacticanalysis",
+            name: "Syntactic Analysis",
+            icon: <FaDiceD20 />
+        },*/
         {
             path: "/semanticanalysis",
             name: "Semantic Analysis",
