@@ -18,8 +18,8 @@ import '../style/SyntacticAnalysis.css';
 const CircularNode = ({ data }) => {
   return (
     <div style={{
-      width: 80,
-      height: 50,
+      width: 50,
+      height: 30,
       borderRadius: '20%',
       backgroundColor: 'transparent',
       display: 'flex',
@@ -30,20 +30,54 @@ const CircularNode = ({ data }) => {
       {data.label}
       <Handle
         type="source"
-        position={Position.Right}
+        position={Position.Left}
         style={{ background: '#555' }}
       />
       <Handle
         type="target"
-        position={Position.Left}
+        position={Position.Right}
         style={{ background: '#555' }}
       />
     </div>
   );
 };
+//custom edges
+const HalfCircleEdge = ({
+  id,
+  sourceX,
+  sourceY,
+  targetX,
+  targetY,
+  style = {},
+  markerEnd,
+}) => {
+  // Calculate control points for the half-circle curve
+  const midX = (sourceX + targetX) / 2;
+  const midY = sourceY - 80; // Adjust to make the curve more prominent
+
+  // Create a quadratic Bézier curve path
+  const edgePath = `M ${sourceX},${sourceY} Q ${midX},${midY} ${targetX},${targetY}`;
+
+  return (
+    <>
+      <path
+        id={id}
+        style={style}
+        className="react-flow__edge-path"
+        d={edgePath}
+        markerEnd={markerEnd}
+      />
+    </>
+  );
+};
+
 
 const nodeTypes = {
   circularNode: CircularNode,
+};
+
+const edgeTypes = {
+  halfCircle: HalfCircleEdge,
 };
 
 const SyntacticAnalysis = () => {
@@ -114,6 +148,7 @@ const SyntacticAnalysis = () => {
         id: `e${index}`,
         source: `${headIndex}`,
         target: `${index}`,
+        type: 'halfCircle',
         style: { stroke: '#000000', strokeWidth: 1 },
       };
     }).filter(edge => edge.source !== edge.target); // Filter self-loops
@@ -123,7 +158,7 @@ const SyntacticAnalysis = () => {
   };
 
   const onConnect = useCallback((params) =>
-    setEdges((eds) => addEdge({ ...params, style: { stroke: '#000000', strokeWidth: 1 } }, eds)), [setEdges]
+    setEdges((eds) => addEdge({ ...params, type: 'halfCircle',style: { stroke: '#000000', strokeWidth: 1 } }, eds)), [setEdges]
   );
 
   const onEdgeClick = useCallback((event, edge) => {
@@ -158,6 +193,7 @@ const SyntacticAnalysis = () => {
           onConnect={onConnect} // Enables dynamic edge creation with arrowheads
           onEdgeClick={onEdgeClick} // Enables edge deletion on click
           nodeTypes={nodeTypes}
+          edgeTypes={edgeTypes}
         >
           <Controls />
           <Background variant="dots" gap={12} size={1} />
