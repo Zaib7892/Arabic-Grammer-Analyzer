@@ -57,4 +57,22 @@
   border-radius: 10px;
   width: 500px;
 }
-  
+.download-button{
+  margin-top: 40px;
+    padding: 10px 20px;
+    background-color: #1d4b78;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.upload-button{
+  margin-top: 40px;
+    padding: 10px 20px;
+    background-color: #1d4b78;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}

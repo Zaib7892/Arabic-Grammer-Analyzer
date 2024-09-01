@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
+import { LoginContext } from '../components/ContextProvider/Context';
 import {
   ReactFlow,
   Controls,
@@ -41,7 +42,7 @@ const CircularNode = ({ data }) => {
     </div>
   );
 };
-//custom edges
+
 const HalfCircleEdge = ({
   id,
   sourceX,
@@ -51,11 +52,9 @@ const HalfCircleEdge = ({
   style = {},
   markerEnd,
 }) => {
-  // Calculate control points for the half-circle curve
   const midX = (sourceX + targetX) / 2;
-  const midY = sourceY - 80; // Adjust to make the curve more prominent
+  const midY = sourceY - 100;
 
-  // Create a quadratic Bézier curve path
   const edgePath = `M ${sourceX},${sourceY} Q ${midX},${midY} ${targetX},${targetY}`;
 
   return (
@@ -70,7 +69,6 @@ const HalfCircleEdge = ({
     </>
   );
 };
-
 
 const nodeTypes = {
   circularNode: CircularNode,
@@ -87,10 +85,16 @@ const SyntacticAnalysis = () => {
   const [analysisResult, setAnalysisResult] = useState([]);
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const [showGraph, setShowGraph] = useState(false);
+  const {logindata,setLoginData} = useContext(LoginContext);
+
 
   useEffect(() => {
-    setNodes([]);
-    setEdges([]);
+    if (selectedSentence) {
+      setNodes([]);
+      setEdges([]);
+      setShowGraph(false); // Hide the graph and download button initially
+    }
   }, [selectedSentence]);
 
   const translateSentence = async () => {
@@ -124,6 +128,7 @@ const SyntacticAnalysis = () => {
         const data = await response.json();
         setAnalysisResult(data);
         createGraph(data);
+        setShowGraph(true); // Show the graph and download button
       } else {
         setAnalysisResult([{ error: 'Error analyzing text' }]);
       }
@@ -133,13 +138,14 @@ const SyntacticAnalysis = () => {
   };
 
   const createGraph = (data) => {
-    const width = 1000; // Adjust the total width based on your layout needs
+    const width = 1000;
 
     const newNodes = data.map((token, index) => ({
       id: `${index}`,
       type: 'circularNode',
       position: { x: width - index * 100, y: 0 },
-      data: { label: `${token.text} (${token.pos})` },  //tagging
+      data: { label: `${token.text} (${token.pos})` },
+      draggable: false
     }));
 
     const newEdges = data.map((token, index) => {
@@ -149,31 +155,47 @@ const SyntacticAnalysis = () => {
         source: `${headIndex}`,
         target: `${index}`,
         type: 'halfCircle',
-        style: { stroke: '#000000', strokeWidth: 1 },
+        style: { stroke: '#000000', strokeWidth: 1.5 },
+        markerEnd: {
+          type: 'arrow',
+          color: '#ff0072',
+        },
       };
-    }).filter(edge => edge.source !== edge.target); // Filter self-loops
+    }).filter(edge => edge.source !== edge.target);
 
     setNodes(newNodes);
     setEdges(newEdges);
   };
 
   const onConnect = useCallback((params) =>
-    setEdges((eds) => addEdge({ ...params, type: 'halfCircle',style: { stroke: '#000000', strokeWidth: 1 } }, eds)), [setEdges]
+    setEdges((eds) => addEdge({ ...params, type: 'halfCircle', style: { stroke: '#000000', strokeWidth: 1.5 }, markerEnd: { type: 'arrow', color: '#ff0072' } }, eds)), [setEdges]
   );
 
   const onEdgeClick = useCallback((event, edge) => {
-    event.stopPropagation(); // Prevents triggering other click events
-    setEdges((eds) => eds.filter((e) => e.id !== edge.id)); // Removes the clicked edge
+    event.stopPropagation();
+    setEdges((eds) => eds.filter((e) => e.id !== edge.id));
   }, [setEdges]);
+
+  const downloadGraph = () => {
+    const graphData = {
+      nodes,
+      edges
+    };
+    const blob = new Blob([JSON.stringify(graphData, null, 2)], { type: 'application/json' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'graph.json';
+    link.click();
+  };
 
   return (
     <div className="text-analysis">
       <div className="results-container">
         <div className="selected-sentence">
-          {selectedSentence && <p> {selectedSentence}</p>}
+          {selectedSentence && <p>{selectedSentence}</p>}
         </div>
         <div className="translated-sentence">
-          {translatedSentence && <p> {translatedSentence}</p>}
+          {translatedSentence && <p>{translatedSentence}</p>}
         </div>
       </div>
       <div className="buttons-container">
@@ -184,21 +206,36 @@ const SyntacticAnalysis = () => {
           Analyze
         </button>
       </div>
-      <div style={{ width: '100%', height: '400px', marginTop: '20px' }}>
-        <ReactFlow
-          nodes={nodes}
-          edges={edges}
-          onNodesChange={onNodesChange}
-          onEdgesChange={onEdgesChange}
-          onConnect={onConnect} // Enables dynamic edge creation with arrowheads
-          onEdgeClick={onEdgeClick} // Enables edge deletion on click
-          nodeTypes={nodeTypes}
-          edgeTypes={edgeTypes}
-        >
-          <Controls />
-          <Background variant="dots" gap={12} size={1} />
-        </ReactFlow>
-      </div>
+      {showGraph && (
+        <>
+          <div style={{ width: '100%', height: '400px', marginTop: '20px' }}>
+            <ReactFlow
+              nodes={nodes}
+              edges={edges}
+              onNodesChange={onNodesChange}
+              onEdgesChange={onEdgesChange}
+              onConnect={onConnect}
+              onEdgeClick={onEdgeClick}
+              nodeTypes={nodeTypes}
+              edgeTypes={edgeTypes}
+            >
+              <Controls />
+              <Background variant="dots" gap={12} size={1} />
+            </ReactFlow>
+          </div>
+          <div className="buttons-container" style={{ marginTop: '10px' }}>
+          <button className="download-button" onClick={downloadGraph}>
+            Download Graph
+          </button>
+          { logindata.ValidUserOne?.type === 'a' && (
+          <button className="upload-button">
+            Upload Solution
+          </button>
+          )}
+        </div>
+        
+        </>
+      )}
     </div>
   );
 };

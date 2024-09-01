@@ -32,6 +32,10 @@ const userSchema = new mongoose.Schema({
         required: true,
         minlength: 6
     },
+    type: { // New field added here
+        type: String,
+        default: 'u' // Default value
+    },
     tokens: [
         {
             token: {
