@@ -1,155 +1,111 @@
 import React, { useState, useRef } from 'react';
-import Graph from 'react-graph-vis';
-import '../style/SyntacticAnalysis.css';
+import '../style/SemanticAnalysis.css';
 
 const SemanticAnalysis = () => {
-    const graphRef = useRef(null); // Reference to the Graph component
-
-    // Arabic sentences and their corresponding POS tags
-    const arabicTextSentences = [
-        "هذه الجملة الأولى",
-        "وهذه الجملة الثانية",
-        "ثم تأتي الجملة الثالثة",
-    ];
-
-    // Translation of sentences
-    const translations = [
-        "This is the first sentence",
-        "And this is the second sentence",
-        "Then comes the third sentence",
-    ];
-
-    const posTags = [
-        [["Det", "Det", "Noun", "Adj"], ["Conj", "Det", "Noun", "Adj"], ["Adv", "Verb", "Det", "Noun", "Adj"]]
-    ];
-
-    const [graphData, setGraphData] = useState(null); // State to hold graph data
-    const [selectedSentence, setSelectedSentence] = useState(''); // State to track selected sentence
-    const [translatedSentence, setTranslatedSentence] = useState(''); // State to hold translated sentence
-
-    // Function to select a sentence
-    const selectSentence = (sentence) => {
-        setSelectedSentence(sentence);
-        setTranslatedSentence('');
+    const [arabicText, setArabicText] = useState('');
+    const [translatedText, setTranslatedText] = useState('');
+    const [analysisResult, setAnalysisResult] = useState([]); // Add this line to define analysisResult state
+    const [errorMessage, setErrorMessage] = useState('');
+  
+    // Handle changes in the Arabic text input
+    const handleTextChange = (e) => {
+      setArabicText(e.target.value);
     };
-
-    // Function to translate the selected sentence
-    const translateSentence = () => {
-        if (selectedSentence !== '') {
-            const index = arabicTextSentences.indexOf(selectedSentence);
-            if (index !== -1) {
-                setTranslatedSentence(translations[index]);
-            }
+  
+    // Handle the translation request
+    const handleTranslate = async () => {
+      if (!arabicText.trim()) {
+        setErrorMessage('Please enter some Arabic text.');
+        return;
+      }
+  
+      try {
+        const response = await fetch('http://localhost:8000/translate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text: arabicText, to: 'en' }),
+        });
+  
+        if (response.ok) {
+          const data = await response.json();
+          setTranslatedText(data.translatedText);
+          setErrorMessage('');
+        } else {
+          setErrorMessage('Failed to translate the text. Please try again.');
         }
+      } catch (error) {
+        setErrorMessage('An error occurred while connecting to the translation service.');
+      }
     };
-
-    // Function to generate graph data
-    const generateGraphData = () => {
-        let nodes = [];
-        let edges = [];
-        let offsetX = 0;
-
-        // Create nodes for each word in sentences
-        arabicTextSentences.forEach((sentence, sentenceIndex) => {
-            const words = sentence.split(' ');
-            words.forEach((word, wordIndex) => {
-                const wordLength = word.length * 10; // Calculate word length
-                const x = offsetX - wordLength; // Position node from right to left
-                nodes.push({ id: `${sentenceIndex}-${wordIndex}`, label: word, x: x, y: sentenceIndex * 100 });
-                offsetX -= wordLength + 20; // Adjust offset for the next word
-            });
-            offsetX = 0; // Reset offset for the next sentence
+  
+    // Handle the semantic analysis request
+    const handleAnalyze = async () => {
+      if (!arabicText.trim()) {
+        setErrorMessage('Please enter some Arabic text for analysis.');
+        return;
+      }
+  
+      try {
+        const response = await fetch('http://localhost:5005/semantic-analyze', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text: arabicText }),
         });
-
-        // Connect nodes to represent words in each sentence
-        arabicTextSentences.forEach((sentence, sentenceIndex) => {
-            const words = sentence.split(' ');
-            for (let i = 0; i < words.length - 1; i++) {
-                edges.push({ from: `${sentenceIndex}-${i}`, to: `${sentenceIndex}-${i + 1}`, label: posTags[i] }); // Assign each POS tag to the corresponding word
-            }
-        });
-        edges.push({ from: '0-2', to: '1-1' });
-        edges.push({ from: '1-2', to: '2-3' }); 
-        setGraphData({ nodes, edges });
+  
+        if (response.ok) {
+          const data = await response.json();
+          setAnalysisResult(data.relations); // Use setAnalysisResult to update the state
+          setErrorMessage('');
+        } else {
+          setErrorMessage('Failed to analyze the text. Please try again.');
+        }
+      } catch (error) {
+        setErrorMessage('An error occurred while connecting to the analysis service.');
+      }
     };
-
-    // Function to export the graph data as a JSON file
-    const exportGraphJSON = () => {
-        const graphDataJSON = JSON.stringify(graphData);
-        const element = document.createElement("a");
-        const file = new Blob([graphDataJSON], { type: 'application/json' });
-        element.href = URL.createObjectURL(file);
-        element.download = "graph-data.json";
-        document.body.appendChild(element); // Required for Firefox
-        element.click();
-    };
-
+  
     return (
-        <div className="text-analysis">
-            <div className="results-container">
-                <div className="selected-sentence">
-                    {selectedSentence}
-                    <div className="translated-sentence">
-                        {translatedSentence && <p><strong>Translation:</strong> {translatedSentence}</p>}
-                    </div>
-                </div>
-                <div className="sentences-list">
-                    {/* Display sentences */}
-                    {arabicTextSentences.map((sentence, index) => (
-                        <div key={index} onClick={() => selectSentence(sentence)}>
-                            {index + 1}. {sentence}
-                        </div>
-                    ))}
-                </div>
-            </div>
-            <div className="buttons-container">
-                <button className="analyze-button" onClick={generateGraphData}>
-                    Analyze
-                </button>
-                <button className="translate-button" onClick={translateSentence}>
-                    Translate
-                </button>
-                {graphData && (
-                    <button className="export-button" onClick={exportGraphJSON}>
-                        Export JSON
-                    </button>
-                )}
-            </div>
-            {/* Display the graph if graphData exists */}
-            {graphData && (
-                <div className="graph-container" style={{ width: '100%', height: '600px' }}>
-                    <Graph
-                        ref={graphRef}
-                        graph={graphData}
-                        options={{
-                            layout: {
-                                hierarchical: false,
-                                layout: 'directed'
-                            },
-                            edges: {
-                                color: {
-                                    color: 'royalblue',
-                                    highlight: 'royalblue',
-                                    hover: 'royalblue'
-                                },
-                                font: {
-                                    color: 'black',
-                                    size: 12
-                                }
-                            },
-                            interaction: {
-                                dragNodes: false,
-                                dragView: false,
-                                zoomView: false,
-                                zoom: false
-                            }
-                        }}
-                        style={{ width: '100%', height: '100%' }}
-                    />
-                </div>
-            )}
+      <div className="semantic-analysis-container">
+        {/* Left side: Translation Box */}
+        <div className="translation-box">
+          <textarea
+            value={translatedText}
+            readOnly
+            placeholder="Translated text will appear here..."
+            className="translation-textarea"
+          />
+          <button onClick={handleTranslate} className="translate-button">
+            Translate
+          </button>
         </div>
+  
+        {/* Right side: Arabic Input Box */}
+        <div className="arabic-input-box">
+          <textarea
+            value={arabicText}
+            onChange={handleTextChange}
+            placeholder="Enter Arabic text here..."
+            className="arabic-textarea"
+          />
+          <button onClick={handleAnalyze} className="analyze-button">
+            Analyze
+          </button>
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
+        </div>
+  
+        {/* Display Analysis Result */}
+        {analysisResult.length > 0 && (
+          <div className="analysis-result">
+            <h3>Sentence Relations:</h3>
+            <ul>
+              {analysisResult.map((relation, index) => (
+                <li key={index}>{relation}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
     );
-};
-
-export default SemanticAnalysis;
+  };
+  
+  export default SemanticAnalysis;
