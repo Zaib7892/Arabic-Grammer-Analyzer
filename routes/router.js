@@ -1,6 +1,7 @@
 const express = require("express");
 const router = new express.Router();
 const userdb = require("../models/userSchema");
+const Graph = require("../models/graphSchema");
 var bcrypt = require("bcryptjs");
 const authenticate = require("../middleware/authenticate");
 
@@ -136,7 +137,50 @@ router.get("/logout",authenticate,async(req,res)=>{
         console.log("---------4------");
         res.status(401).json({status:401,error})
     }
-})
+});
+
+// Store graph
+router.post("/storegraph", async (req, res) => {
+    const { userId,name, graphData } = req.body;
+
+    if (!name || !graphData) {
+        res.status(422).json({ error: "Graph name and data are required" });
+        return;
+    }
+
+    try {
+        const newGraph = new Graph({
+            userId, // Associate with the logged-in user
+            name,
+            graphData
+        });
+
+        const savedGraph = await newGraph.save();
+
+        res.status(201).json({ status: 201, savedGraph });
+    } catch (error) {
+        res.status(422).json({ error: "Failed to store graph" });
+        console.log("Catch block error in storing graph");
+    }
+});
+
+// Retrieve all graphs
+router.get("/graphs", async (req, res) => {
+    try {
+        // Find graphs for the authenticated user
+        const graphs = await Graph.find({});
+
+        if (!graphs) {
+            return res.status(404).json({ error: "No graphs found" });
+        }
+
+        res.status(200).json({ status: 200, graphs });
+    } catch (error) {
+        console.error("Error retrieving graphs:", error);
+        res.status(500).json({ error: "Failed to retrieve graphs" });
+    }
+});
+
 
 
 module.exports = router;

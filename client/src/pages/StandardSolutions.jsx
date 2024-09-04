@@ -1,96 +1,80 @@
-import React, { useState } from 'react';
-import Graph from 'react-graph-vis';
+import React, { useState, useEffect } from 'react';
+import {
+    ReactFlow,
+    Controls,
+    Background,
+  } from '@xyflow/react';
+import '@xyflow/react/dist/style.css';
+import { CircularNode, HalfCircleEdge } from './Assets/NodeEdge';
 import '../style/StandardSolutions.css';
 import { NavLink } from 'react-router-dom';
+
 const StandardSolutions = () => {
-    const arabicTextSentences = [
-        "استراتيجيات تحسين الأداء",
-        "تطوير البنية التحتية",
-        "تعزيز التعاون الفريقي",
-        "دمج التقنيات الجديدة",
-        "تحليل البيانات المتقدم",
-        "ابتكار في الإدارة"
-    ];
+    const [graphs, setGraphs] = useState([]);
+    const [selectedGraph, setSelectedGraph] = useState(null);
 
-    const posTags = [
-        ["Noun", "Verb", "Noun"],
-        ["Noun", "Verb", "Definite Article"],
-        ["Verb", "Noun", "Adjective"],
-        ["Verb", "Noun", "Adjective"],
-        ["Noun", "Noun", "Adjective"],
-        ["Noun", "Preposition", "Noun"]
-    ];
+    useEffect(() => {
+        const fetchGraphs = async () => {
+            try {
+                const response = await fetch('/graphs', {
+                    method: 'GET',
+                });
 
-    const [selectedSentence, setSelectedSentence] = useState(null);
-    const handleViewClick = (index) => {
-        setSelectedSentence(index);
-    };
-
-    const handleCloseClick = () => {
-        setSelectedSentence(null);
-    };
-
-
-    const renderGraph = (index) => {
-        const words = arabicTextSentences[index].split(' ');
-        const nodes = words.map((word, wordIndex) => ({
-            id: `${index}-${wordIndex}`,
-            label: `${word} (${posTags[index][wordIndex]})`,
-            x: (words.length - 1 - wordIndex) * 150, // Adjust node position horizontally
-            y: 0 // Keep nodes in a single line vertically
-        }));
-        const edges = words.slice(1).map((word, wordIndex) => ({
-            from: `${index}-${wordIndex}`,
-            to: `${index}-${wordIndex + 1}`,
-            label: null
-        }));
-
-        const graphData = { nodes, edges };
-
-        const graphOptions = {
-            layout: {
-                hierarchical: false
-            },
-            edges: {
-                color: "#000000",
-                smooth: {
-                    type: 'curvedCCW'
-                  }
-            },
-            physics: {
-                enabled: false
-            },
-            interaction: {
-                dragNodes: false,
-                dragView: false,
-                zoomView: false,
-                selectable: false,
-                hover: true
+                if (response.ok) {
+                    const data = await response.json();
+                    setGraphs(data.graphs);
+                } else {
+                    console.error('Failed to fetch graphs');
+                }
+            } catch (error) {
+                console.error('Error fetching graphs:', error);
             }
         };
 
-        return (
-            <div style={{ overflowX: 'scroll', whiteSpace: 'nowrap' }}>
-                <div style={{ display: 'inline-block', marginRight: '10px', minWidth: '400px' }}>
-                    <button onClick={handleCloseClick}>Close</button>
-                    <Graph graph={graphData} options={graphOptions} style={{ height: "400px" }} />
-                    <p>Is there any problem in analysis? <NavLink to="/standardsolutions/givefeedback">Give Feedback</NavLink> </p> {/* Feedback button */}
-                </div>
-            </div>
-        );
+        fetchGraphs();
+    }, []);
+
+    const handleViewClick = (graph) => {
+        setSelectedGraph(graph);
     };
+
+    const handleCloseClick = () => {
+        setSelectedGraph(null);
+    };
+
+    const renderGraph = (graph) => (
+        <div style={{ width: '100%', height: '200px', marginTop: '20px' }}>
+            <button onClick={handleCloseClick}>Close</button>
+            <ReactFlow
+                nodes={graph.graphData.nodes}
+                edges={graph.graphData.edges}
+                nodeTypes={{ circularNode: CircularNode }}
+                edgeTypes={{ halfCircle: HalfCircleEdge }}
+                fitView
+            >
+                <Background variant="dots" gap={12} size={1} />
+            </ReactFlow>
+            <p>
+                Is there any problem in analysis?{' '}
+                <NavLink to="/standardsolutions/givefeedback">Give Feedback</NavLink>
+            </p>
+        </div>
+    );
 
     return (
         <div className="sentences">
-            {arabicTextSentences.map((sentence, index) => (
+            {graphs.map((graph, index) => (
                 <div key={index} className="solution" style={{ display: 'inline-block', marginRight: '10px' }}>
-                    <span>{sentence}</span>
-                    <button onClick={() => handleViewClick(index)}>View</button>
-                    {selectedSentence === index && renderGraph(index)}
+                    <span>{graph.name}</span>
+                    {!selectedGraph || selectedGraph._id !== graph._id ? (
+                        <button onClick={() => handleViewClick(graph)}>View</button>
+                    ) : (
+                        renderGraph(selectedGraph)
+                    )}
                 </div>
             ))}
         </div>
     );
-}
+};
 
 export default StandardSolutions;

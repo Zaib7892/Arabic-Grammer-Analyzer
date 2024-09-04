@@ -8,67 +8,12 @@ import {
   useNodesState,
   useEdgesState,
   addEdge,
-  Handle,
-  Position,
 } from '@xyflow/react';
 
 import '@xyflow/react/dist/style.css';
 import '../style/Diacritization.css';
 import '../style/SyntacticAnalysis.css';
-
-const CircularNode = ({ data }) => {
-  return (
-    <div style={{
-      width: 50,
-      height: 30,
-      borderRadius: '20%',
-      backgroundColor: 'transparent',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      color: '#1D4B78',
-    }}>
-      {data.label}
-      <Handle
-        type="source"
-        position={Position.Left}
-        style={{ background: '#555' }}
-      />
-      <Handle
-        type="target"
-        position={Position.Right}
-        style={{ background: '#555' }}
-      />
-    </div>
-  );
-};
-
-const HalfCircleEdge = ({
-  id,
-  sourceX,
-  sourceY,
-  targetX,
-  targetY,
-  style = {},
-  markerEnd,
-}) => {
-  const midX = (sourceX + targetX) / 2;
-  const midY = sourceY - 100;
-
-  const edgePath = `M ${sourceX},${sourceY} Q ${midX},${midY} ${targetX},${targetY}`;
-
-  return (
-    <>
-      <path
-        id={id}
-        style={style}
-        className="react-flow__edge-path"
-        d={edgePath}
-        markerEnd={markerEnd}
-      />
-    </>
-  );
-};
+import { CircularNode, HalfCircleEdge } from './Assets/NodeEdge';
 
 const nodeTypes = {
   circularNode: CircularNode,
@@ -143,7 +88,7 @@ const SyntacticAnalysis = () => {
     const newNodes = data.map((token, index) => ({
       id: `${index}`,
       type: 'circularNode',
-      position: { x: width - index * 100, y: 0 },
+      position: { x: width - index * 100, y: 50 },
       data: { label: `${token.text} (${token.pos})` },
       draggable: false
     }));
@@ -187,6 +132,34 @@ const SyntacticAnalysis = () => {
     link.download = 'graph.json';
     link.click();
   };
+  const uploadGraph = async () =>{
+    try {
+      const graphData = {
+        userId: logindata.ValidUserOne._id, // Get user ID from login context
+        name: selectedSentence, // Use the selected sentence as the graph name
+        graphData: {
+          nodes,
+          edges
+        }
+      };
+
+      const response = await fetch('/storegraph', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(graphData),
+      });
+
+      if (response.ok) {
+        alert('Graph uploaded successfully!');
+      } else {
+        alert('Error uploading graph');
+      }
+    } 
+    catch (error) {
+      console.error('Error uploading graph:', error);
+      alert('Error communicating with the server');
+    }
+  };
 
   return (
     <div className="text-analysis">
@@ -228,7 +201,7 @@ const SyntacticAnalysis = () => {
             Download Graph
           </button>
           { logindata.ValidUserOne?.type === 'a' && (
-          <button className="upload-button">
+          <button className="upload-button" onClick={uploadGraph}>
             Upload Solution
           </button>
           )}
