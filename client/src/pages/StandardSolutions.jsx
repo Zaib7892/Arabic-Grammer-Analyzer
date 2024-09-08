@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import {
     ReactFlow,
-    Controls,
     Background,
-  } from '@xyflow/react';
+} from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { CircularNode, HalfCircleEdge } from './Assets/NodeEdge';
 import '../style/StandardSolutions.css';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 
 const StandardSolutions = () => {
     const [graphs, setGraphs] = useState([]);
     const [selectedGraph, setSelectedGraph] = useState(null);
+    const [loading, setLoading] = useState(true); // Add loading state
 
     useEffect(() => {
         const fetchGraphs = async () => {
@@ -28,6 +30,8 @@ const StandardSolutions = () => {
                 }
             } catch (error) {
                 console.error('Error fetching graphs:', error);
+            } finally {
+                setLoading(false); // Set loading to false after data is fetched
             }
         };
 
@@ -56,23 +60,40 @@ const StandardSolutions = () => {
             </ReactFlow>
             <p>
                 Is there any problem in analysis?{' '}
-                <NavLink to="/standardsolutions/givefeedback">Give Feedback</NavLink>
+                <Link to={`/standardsolutions/givefeedback`} state={{ graphName: graph.name }}>
+                    Give Feedback
+                </Link>
             </p>
         </div>
     );
 
     return (
         <div className="sentences">
-            {graphs.map((graph, index) => (
-                <div key={index} className="solution" style={{ display: 'inline-block', marginRight: '10px' }}>
-                    <span>{graph.name}</span>
-                    {!selectedGraph || selectedGraph._id !== graph._id ? (
-                        <button onClick={() => handleViewClick(graph)}>View</button>
-                    ) : (
-                        renderGraph(selectedGraph)
-                    )}
-                </div>
-            ))}
+            {loading ? (
+                // Show loading spinner while data is being fetched
+                <Box
+                    sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        height: "60vh",
+                    }}
+                >
+                    Loading... &nbsp;
+                    <CircularProgress />
+                </Box>
+            ) : (
+                graphs.map((graph, index) => (
+                    <div key={index} className="solution" style={{ display: 'inline-block', marginRight: '10px' }}>
+                        <span>{graph.name}</span>
+                        {!selectedGraph || selectedGraph._id !== graph._id ? (
+                            <button onClick={() => handleViewClick(graph)}>View</button>
+                        ) : (
+                            renderGraph(selectedGraph)
+                        )}
+                    </div>
+                ))
+            )}
         </div>
     );
 };

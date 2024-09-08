@@ -1,29 +1,70 @@
-import React from 'react';
-import '../style/ViewFeedback.css'
+import React, { useEffect, useState } from "react";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
+import '../style/ViewFeedback.css';
+
 const ViewFeedback = () => {
-  // Sample feedback data
-  const feedbackData = [
-    { id: 3, feedback: 'The word order in this sentence could be improved for clarity.', sentence: 'استراتيجيات تحسين الأداء' },
-    { id: 4, feedback: 'The translation accurately conveys the meaning of the sentence.', sentence: 'تطوير البنية التحتية' },
-    { id: 5, feedback: 'The sentence could be clearer by rephrasing or adding context.', sentence: 'تعزيز التعاون الفريقي' },
-    { id: 6, feedback: 'The translation is well-done and captures the essence of the original sentence.', sentence: 'دمج التقنيات الجديدة' },
-    { id: 7, feedback: 'The sentence structure may need revision for better flow.', sentence: 'تحليل البيانات المتقدم' },
-    { id: 8, feedback: 'Good translation, but consider using more idiomatic language for better fluency.', sentence: 'ابتكار في الإدارة' },
-    // Add more feedback data as needed
-  ];
+  const [loading, setLoading] = useState(true); // Loading state
+  const [feedbackData, setFeedbackData] = useState([]); // State for feedback data
+
+  // Fetch feedback data
+  useEffect(() => {
+    const fetchFeedbackData = async () => {
+      try {
+        const response = await fetch('/feedbacks'); // Make sure the endpoint is correct
+        const result = await response.json();
+
+        if (response.ok) {
+          setFeedbackData(result.feedbacks); // Assuming the response contains feedbacks
+        } else {
+          console.error("Error fetching feedbacks:", result.error);
+        }
+      } catch (error) {
+        console.error("Error occurred while fetching feedbacks:", error);
+      } finally {
+        setLoading(false); // Set loading to false after fetching data
+      }
+    };
+
+    fetchFeedbackData();
+  }, []);
 
   return (
     <div className="feedback-container">
-      <h2 className="feedback-header">Feedbacks on Grammatical Analysis</h2>
-      {/* Mapping over feedback data and rendering each feedback item */}
-      {feedbackData.map((feedback) => (
-        <div key={feedback.id} className="feedback-item">
-          <p className="sentence"><strong>Sentence:</strong> {feedback.sentence}</p>
-          <p className="feedback"><strong>Feedback:</strong> {feedback.feedback}</p>
-        </div>
-      ))}
+      {loading ? (
+        // Show loading spinner while data is being fetched
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "50vh",
+          }}
+        >
+          Loading... &nbsp;
+          <CircularProgress />
+        </Box>
+      ) : (
+        <>
+          <h2 className="feedback-header">Feedbacks on Grammatical Analysis</h2>
+          {feedbackData.length > 0 ? (
+            feedbackData.map((feedback, index) => (
+              <div key={index} className="feedback-item">
+                <p className="sentence">
+                  <strong>Sentence :</strong> {feedback.graphName}
+                </p>
+                <p className="feedback">
+                  <strong>Feedback:</strong> {feedback.feedback}
+                </p>
+              </div>
+            ))
+          ) : (
+            <p>No feedback available.</p>
+          )}
+        </>
+      )}
     </div>
   );
-}
+};
 
 export default ViewFeedback;

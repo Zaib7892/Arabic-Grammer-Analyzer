@@ -2,6 +2,8 @@ const express = require("express");
 const router = new express.Router();
 const userdb = require("../models/userSchema");
 const Graph = require("../models/graphSchema");
+const GraphFeedback = require("../models/feedbackSchema");
+
 var bcrypt = require("bcryptjs");
 const authenticate = require("../middleware/authenticate");
 
@@ -181,7 +183,44 @@ router.get("/graphs", async (req, res) => {
     }
 });
 
+router.post("/storefeedback", async (req, res) => {
+    const { userId,graphName, feedback } = req.body;
 
+    if (!graphName || !feedback) {
+        res.status(422).json({ error: "Graph Name and feedback are required" });
+        return;
+    }
+
+    try {
+        const newFeedback = new GraphFeedback({
+            userId, // Retrieved from authentication middleware
+            graphName,
+            feedback
+        });
+
+        const savedFeedback = await newFeedback.save();
+
+        res.status(201).json({ status: 201, savedFeedback });
+    } catch (error) {
+        res.status(422).json({ error: "Failed to store feedback" });
+        console.log("Catch block error in storing feedback:", error);
+    }
+});
+
+router.get('/feedbacks', async(req,res) =>{
+    try {
+        const feedbacks = await GraphFeedback.find({});
+        // Check if no feedbacks are found
+        if (feedbacks.length === 0) {
+            return res.status(404).json({ error: "No feedback found" });
+        }
+        
+        return res.status(200).json({status:200,feedbacks});
+    } catch (error) {
+        console.error("Error retrieving graphs:", error);
+        res.status(500).json({ error: "Failed to retrieve feedbacks" });
+    }
+}) 
 
 module.exports = router;
 
@@ -195,6 +234,3 @@ module.exports = router;
 // 1 way connection
 // 1234 ->> e#@$hagsjd
 // 1234->> (e#@$hagsjd,e#@$hagsjd)=> true
-
-
-
