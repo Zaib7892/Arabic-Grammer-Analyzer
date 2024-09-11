@@ -39,7 +39,8 @@
   
   .translate-button:hover,
   .analyze-button:hover {
-    background-color: #163d61;
+    background-color: lightskyblue;
+    color: black;
   }
   
   .error-message {

@@ -172,10 +172,10 @@ const SyntacticAnalysis = () => {
         </div>
       </div>
       <div className="buttons-container">
-        <button className="translate-button" onClick={translateSentence}>
+        <button className="trans-button" onClick={translateSentence}>
           Translate
         </button>
-        <button className="analyze-button" onClick={analyzeSentence}>
+        <button className="analyz-button" onClick={analyzeSentence}>
           Analyze
         </button>
       </div>
@@ -197,7 +197,7 @@ const SyntacticAnalysis = () => {
             </ReactFlow>
           </div>
           <div className="buttons-container" style={{ marginTop: '10px' }}>
-          <button className="download-button" onClick={downloadGraph}>
+          <button className="export-button" onClick={downloadGraph}>
             Download Graph
           </button>
           { logindata.ValidUserOne?.type === 'a' && (
