@@ -49,3 +49,10 @@
     font-size: 14px;
   }
   
+
+  .react-flow__edge-path {
+    stroke-width: 2; /* Adjust as needed */
+    stroke: #555; /* Adjust as needed */
+    fill: none;
+  }
+  
