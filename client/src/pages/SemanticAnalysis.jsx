@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../style/SemanticAnalysis.css';
 import {
   ReactFlow,
@@ -26,6 +26,31 @@ const SemanticAnalysis = () => {
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [showGraph, setShowGraph] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [selectedEdge, setSelectedEdge] = useState(null);
+
+
+  const handleEdgeClick = (event, edge) => {
+    setSelectedEdge(edge); // Store the selected edge in the state
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'Delete' && selectedEdge) {
+        // Delete the selected edge
+        setEdges((eds) => eds.filter((e) => e.id !== selectedEdge.id));
+        setSelectedEdge(null); // Clear the selected edge after deletion
+      }
+    };
+
+  // Add the event listener when the component mounts
+  window.addEventListener('keydown', handleKeyDown);
+
+  // Clean up the event listener when the component unmounts
+  return () => {
+    window.removeEventListener('keydown', handleKeyDown);
+  };
+}, [selectedEdge]); // Re-run the effect when selectedEdge changes
+
 
   const handleTextChange = (e) => {
     setArabicText(e.target.value);
@@ -118,18 +143,26 @@ const SemanticAnalysis = () => {
 
       {showGraph && (
         <div style={{ width: '100%', height: '400px', marginTop: '20px' }}>
-          <ReactFlow
-            nodes={nodes}
-            edges={edges}
-            onNodesChange={onNodesChange}
-            onEdgesChange={onEdgesChange}
-            onConnect={handleConnect}
-            nodeTypes={nodeTypes}
-            edgeTypes={edgeTypes}
-          >
-            <Controls />
-            <Background variant="dots" gap={12} size={1} />
-          </ReactFlow>
+                  <ReactFlow
+          nodes={nodes}
+          edges={edges.map((edge) => ({
+            ...edge,
+            style: {
+              stroke: selectedEdge && selectedEdge.id === edge.id ? 'red' : '#000', // Change color for selected edge
+              strokeWidth: selectedEdge && selectedEdge.id === edge.id ? 3 : 1, // Make the selected edge thicker
+            },
+          }))}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          onConnect={handleConnect}
+          onEdgeClick={handleEdgeClick} // Attach the edge click handler
+          nodeTypes={nodeTypes}
+          edgeTypes={edgeTypes}
+        >
+          <Controls />
+          <Background variant="dots" gap={12} size={1} />
+        </ReactFlow>
+
         </div>
       )}
     </div>
