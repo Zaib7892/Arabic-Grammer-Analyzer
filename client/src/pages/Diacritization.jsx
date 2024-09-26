@@ -3,30 +3,20 @@ import '../style/Diacritization.css';
 import { diacritizeArabicText } from '../diaApi'; // Adjust the path as necessary
 
 const Diacritization = () => {
-  const arabicTextSentences = [
-    "هذه الجملة الأولى",
-    "وهذه الجملة الثانية",
-    "ثم تأتي الجملة الثالثة",
-  ];
-
-  const [selectedSentenceIndex, setSelectedSentenceIndex] = useState(null);
-  const [selectedSentence, setSelectedSentence] = useState('');
+  const [inputText, setInputText] = useState('');
+  const [ResultSentence, setResultSentence] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const selectSentence = (index) => {
-    setSelectedSentenceIndex(index);
-    setSelectedSentence(arabicTextSentences[index]);
-    setIsEditing(false); // Ensure editing mode is turned off when a sentence is selected
-  };
+  
 
   const addDiacritics = async () => {
-    if (selectedSentenceIndex !== null) {
+    if (inputText !== null) {
       try {
         setLoading(true); // Start loading
-        const data = await diacritizeArabicText(arabicTextSentences[selectedSentenceIndex]);
+        const data = await diacritizeArabicText(inputText);
         console.log('API Response Data:', data);
-        setSelectedSentence(data.text);
+        setResultSentence(data.text);
       } catch (error) {
         console.error('Error adding diacritics', error);
       } finally {
@@ -35,14 +25,19 @@ const Diacritization = () => {
     }
   };
 
+  const handleTextChange = (event) => {
+    const text = event.target.value;
+
+    setInputText(text);
+  }
   const handleEdit = (event) => {
-    setSelectedSentence(event.target.value);
+    setResultSentence(event.target.value);
   };
 
   const saveEdit = () => {
     setIsEditing(false);
-    if (selectedSentenceIndex !== null) {
-      arabicTextSentences[selectedSentenceIndex] = selectedSentence;
+    if (ResultSentence !== null) {
+      inputText = ResultSentence;
     }
   };
 
@@ -53,23 +48,22 @@ const Diacritization = () => {
           {isEditing ? (
             <input
               type="text"
-              value={selectedSentence}
+              value={ResultSentence}
               onChange={handleEdit}
               onBlur={saveEdit}
               autoFocus
               className="edit-input"
             />
           ) : (
-            selectedSentence
+            ResultSentence
           )}
         </div>
-        <div className="sentences-list">
-          {arabicTextSentences.map((sentence, index) => (
-            <div key={index} onClick={() => selectSentence(index)}>
-              {index + 1}. {sentence}
-            </div>
-          ))}
-        </div>
+        <textarea
+        className="text-input"
+        placeholder="Enter your text here"
+        value={inputText}
+        onChange={handleTextChange}
+      />
       </div>
       <div className="buttons-container">
         <button className="add-diacritics-button" onClick={addDiacritics} disabled={loading}>

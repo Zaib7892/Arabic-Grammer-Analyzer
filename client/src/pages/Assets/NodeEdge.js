@@ -4,29 +4,50 @@ import { Handle, Position } from '@xyflow/react';
 const CircularNode = ({ data }) => {
   return (
     <div style={{
-      width: 50,
-      height: 30,
-      borderRadius: '20%',
+      width: 80, // Adjust width to make room for content and space
+      height: 50, // Adjust height as needed
+      borderRadius: '50%', // Circular shape
       backgroundColor: 'transparent',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       color: '#1D4B78',
+      position: 'relative', // Position relative for absolute handles
+      padding: '0 20px' // Space for the handles
     }}>
       {data.label}
       <Handle
         type="source"
         position={Position.Left}
-        style={{ background: '#555' }}
+        style={{ 
+          background: 'green',
+          width: 8,
+          height: 8,
+          borderRadius: '50%',
+          position: 'absolute', // Absolute positioning to the left
+          left: 0, // Align it to the left
+          top: '50%', // Vertically center
+          transform: 'translateY(-50%)', // Adjust for centering
+        }}
       />
       <Handle
         type="target"
         position={Position.Right}
-        style={{ background: '#555' }}
+        style={{  
+          background: 'darkred',
+          width: 8,
+          height: 8,
+          borderRadius: '50%',
+          position: 'absolute', // Absolute positioning to the right
+          right: 0, // Align it to the right
+          top: '50%', // Vertically center
+          transform: 'translateY(-50%)', // Adjust for centering
+        }}
       />
     </div>
   );
 };
+
 
 const RectangularNode = ({ data }) => {
   // Function to format the Arabic text to wrap every 4-5 words

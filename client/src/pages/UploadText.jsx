@@ -1,16 +1,30 @@
-import React, { useState } from 'react';
+import React, { useEffect,useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSession } from './Contexts/UploadContext';
 import '../style/UploadText.css'; // Import your CSS file
 
 function UploadText() {
-  const [inputText, setInputText] = useState('');
-  const [sentences, setSentences] = useState([]);
-  const [selectedSentence, setSelectedSentence] = useState('');
-  const [translatedText, setTranslatedText] = useState('');
-  const [wordCount, setWordCount] = useState(0);
-  const [language, setLanguage] = useState('');
-  const [showFields, setShowFields] = useState(false); // Track if "Proceed" button has been clicked
+  const { sessionData, setSessionData } = useSession();
   const navigate = useNavigate();
+
+  // Restore state when component mounts
+  useEffect(() => {
+    setInputText(sessionData.inputText);
+    setSentences(sessionData.sentences);
+    setSelectedSentence(sessionData.selectedSentence);
+    setTranslatedText(sessionData.translatedText);
+    setWordCount(sessionData.wordCount);
+    setLanguage(sessionData.language);
+    setShowFields(sessionData.showFields);
+  }, []);
+
+  const [inputText, setInputText] = useState(sessionData.inputText);
+  const [sentences, setSentences] = useState(sessionData.sentences);
+  const [selectedSentence, setSelectedSentence] = useState(sessionData.selectedSentence);
+  const [translatedText, setTranslatedText] = useState(sessionData.translatedText);
+  const [wordCount, setWordCount] = useState(sessionData.wordCount);
+  const [language, setLanguage] = useState(sessionData.language);
+  const [showFields, setShowFields] = useState(sessionData.showFields);
 
   // Function to separate sentences using regular expressions
   function segmentSentences(text) {
@@ -22,13 +36,28 @@ function UploadText() {
     const text = event.target.value;
 
     setInputText(text);
-    setSentences(segmentSentences(text));
+    const segmentedSentences = segmentSentences(text);
+    setSentences(segmentedSentences);
     setWordCount(text.split(/\s+/).filter(word => word.trim() !== '').length);
     detectLanguage(text);
+
+    // Update session data
+    setSessionData(prev => ({
+      ...prev,
+      inputText: text,
+      sentences: segmentedSentences,
+      wordCount: text.split(/\s+/).filter(word => word.trim() !== '').length,
+    }));
   };
 
   const selectSentence = (index) => {
     setSelectedSentence(sentences[index]);
+
+    // Update session data
+    setSessionData(prev => ({
+      ...prev,
+      selectedSentence: sentences[index],
+    }));
   };
 
   const handleTranslate = async () => {
@@ -42,6 +71,12 @@ function UploadText() {
       if (response.ok) {
         const data = await response.json();
         setTranslatedText(data.translatedText);
+
+        // Update session data
+        setSessionData(prev => ({
+          ...prev,
+          translatedText: data.translatedText,
+        }));
       } else {
         setTranslatedText('Error translating text');
       }
@@ -61,6 +96,12 @@ function UploadText() {
       if (response.ok) {
         const data = await response.json();
         setLanguage(data.language);
+
+        // Update session data
+        setSessionData(prev => ({
+          ...prev,
+          language: data.language,
+        }));
       } else {
         setLanguage('Unknown');
       }
@@ -71,6 +112,12 @@ function UploadText() {
 
   const handleProceed = () => {
     setShowFields(true); // Show additional fields when "Proceed" is clicked
+
+    // Update session data
+    setSessionData(prev => ({
+      ...prev,
+      showFields: true,
+    }));
   };
 
   const handleAnalyze = () => {

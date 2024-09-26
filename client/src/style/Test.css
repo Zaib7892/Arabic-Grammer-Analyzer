@@ -1,0 +1,43 @@
+.taketest {
+    margin-right: 100px;
+    min-width: 80px; 
+    background-color: #1d4b78;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.taketest:hover{
+    background-color: lightskyblue;
+    color: black;
+}
+
+.submit {
+    margin-right: 100px;
+    min-width: 80px; 
+    background-color: #1d4b78;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.submit:hover{
+    background-color: lightskyblue;
+    color: black;
+}
+.quit {
+    margin-right: 100px;
+    min-width: 80px; 
+    background-color: #1d4b78;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.quit:hover{
+    background-color: lightskyblue;
+    color: black;
+}

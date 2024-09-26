@@ -8,7 +8,9 @@ export const diacritizeArabicText = async (text) => {
     const response = await axios.post(url, {
       text: text,
       api_key: apiKey
-    });
+    }
+  
+  );
     return response.data;
   } catch (error) {
     console.error('Error making API request', error);
