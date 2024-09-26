@@ -18,6 +18,8 @@ import SemanticAnalysis from "./pages/SemanticAnalysis";
 import ViewFeedback from "./pages/ViewFeedback";
 import CreateTest from "./pages/CreateTest";
 import "./App.css";
+import { SessionProvider } from "./pages/Contexts/UploadContext";
+
 
 
 function App() {
@@ -57,7 +59,7 @@ function App() {
   }, []);
 
   return (
-    <>
+    <SessionProvider>
       {data ? (
         <>
           {isLoggedIn ? (
@@ -98,7 +100,7 @@ function App() {
           <CircularProgress />
         </Box>
       )}
-    </>
+    </SessionProvider>
   );
 }
 

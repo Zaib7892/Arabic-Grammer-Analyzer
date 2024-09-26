@@ -3,6 +3,7 @@ const router = new express.Router();
 const userdb = require("../models/userSchema");
 const Graph = require("../models/graphSchema");
 const GraphFeedback = require("../models/feedbackSchema");
+const Test = require("../models/testSchema");
 
 var bcrypt = require("bcryptjs");
 const authenticate = require("../middleware/authenticate");
@@ -182,7 +183,7 @@ router.get("/graphs", async (req, res) => {
         res.status(500).json({ error: "Failed to retrieve graphs" });
     }
 });
-
+//storing feedbacks
 router.post("/storefeedback", async (req, res) => {
     const { userId,graphName, feedback } = req.body;
 
@@ -207,6 +208,31 @@ router.post("/storefeedback", async (req, res) => {
     }
 });
 
+//storing tests
+router.post("/storetest",async (req,res) => {
+    const {userId,graphId,name,graph}=req.body;
+    if(!userId || !graphId){
+        res.status(422).json({error:"Graph Id and User Id required"});
+        return;
+    }
+
+    try {
+        const newTest = Test({
+            userId,
+            graphId,
+            name,
+            graph,
+        })
+    const saveTest = await newTest.save();
+    res.status(201).json({status:201,saveTest});
+    
+    } catch (error) {
+        res.status(422).json({error:"Error storing test"});
+        console.log("ERROR: ",error)
+    }
+
+});
+//retreiving feedbacks
 router.get('/feedbacks', async(req,res) =>{
     try {
         const feedbacks = await GraphFeedback.find({});
@@ -221,6 +247,23 @@ router.get('/feedbacks', async(req,res) =>{
         res.status(500).json({ error: "Failed to retrieve feedbacks" });
     }
 }) 
+
+//retreiving tests
+router.get('/tests', async (req, res) => {
+    try {
+        const tests = await Test.find();
+        if(tests.length==0){
+            return res.status(404).json({ error: "No Test found" });
+        }
+        res.status(200).json({ tests });
+    } catch (error) {
+        res.status(500).json({ error: 'Error retrieving tests', details: error.message });
+        console.error("ERROR:", error);
+    }
+});
+
+
+
 
 module.exports = router;
 

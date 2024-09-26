@@ -85,7 +85,8 @@ const StandardSolutions = () => {
             ) : (
                 graphs.map((graph, index) => (
                     <div key={index} className="solution" style={{ display: 'inline-block', marginRight: '10px' }}>
-                        <span>{graph.name}</span>
+                        {/* Display graph name and date with a class for styling */}
+                        <span className="date-display">{`${graph.name} (${new Date(graph.createdAt).toLocaleDateString()})`}</span>
                         {!selectedGraph || selectedGraph._id !== graph._id ? (
                             <button onClick={() => handleViewClick(graph)}>View</button>
                         ) : (
