@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import React, { useEffect,useState } from 'react';
-=======
-import React, { useState } from 'react'; 
->>>>>>> a1159393b53339baa0d8a9df21bb13c4a7728897
 import { useNavigate } from 'react-router-dom';
 import { useSession } from './Contexts/UploadContext';
 import '../style/UploadText.css'; // Import your CSS file

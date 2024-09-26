@@ -37,7 +37,7 @@ const Diacritization = () => {
   const saveEdit = () => {
     setIsEditing(false);
     if (ResultSentence !== null) {
-      inputText = ResultSentence;
+      setInputText(ResultSentence);
     }
   };
 
