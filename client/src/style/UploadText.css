@@ -1,104 +1,151 @@
 .text-analysis {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    direction: rtl;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  direction: rtl;
+  /*width: 100%;*/
+}
+
+.text-input {
+  width: 80%;
+  height: 100px;
+  margin-bottom: 20px;
+  direction: rtl; 
+  border-radius: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  resize: vertical; /* Allow resizing of the text area */
+}
+
+.results-container {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  direction: ltr; 
+}
+
+.sentences-list {
+  width: 45%;
+  height: auto;
+  background-color: #f0f0f0;
+  padding: 10px;
+  direction: rtl;
+  border-radius: 10px;
+  margin-right: 10px;
+}
+
+.sentences-list div {
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.sentences-list div:hover {
+  background-color: #e0e0e0;
+  cursor: pointer;
+}
+
+.selected-sentence {
+  width: 45%;
+  height: auto;
+  background-color: #ffffff;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  direction: rtl;
+}
+
+.start-button {
   
+  width: 200px;
+  background: linear-gradient(45deg, #1d4b78, #87CEEB);
+  border: none;
+  border-radius: 15px;
+  color: white;
+  cursor: pointer;
+  font-size: 1.2em;
+  padding: 15px 30px;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.start-button:hover {
+  background: linear-gradient(45deg, #87CEEB, #1d4b78);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+.start-button:active {
+  transform: translateY(2px);
+}
+
+.translation-section {
+  width: 80%;
+  height: auto;
+  margin-top: 60px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.translation-text {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+  direction: ltr;
+}
+.proceed-text-button{
+  margin-top: 0;
+}
+/* Media Queries for responsiveness */
+@media (max-width: 768px) {
   .text-input {
-    width: 80%;
-    height: 100px;
-    margin-bottom: 20px;
-    direction: rtl; 
-    border-radius: 10px;
+    width: 90%;
   }
   
   .results-container {
-    display: flex;
-    justify-content: space-between;
-    width: 80%;
-    direction: ltr; 
+    flex-direction: column;
+   
+    width: 90%;
   }
-  
+
+  .selected-sentence{
+    order: 2;
+    width: 100%;
+    margin: 0;
+    margin-bottom: 10px;
+  }
   .sentences-list {
+    order: 1;
+    width: 100%;
+    margin: 0;
+    margin-bottom: 10px;
+  }
+
+  .start-button {
     width: 50%;
-    margin-left: 10px;
-    background-color: #f0f0f0;
-    padding: 10px;
-    direction: rtl;
-    border-radius: 10px;
-  }
-  
-  .sentences-list div {
-    margin-bottom: 5px;
-    padding: 5px;
-  }
-  
-  .sentences-list div:hover {
-    background-color: #e0e0e0;
-    cursor: pointer;
-  }
-  
-  .selected-sentence {
-    width: 50%;
-    margin-right: 10px;
-    background-color: #ffffff;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    direction: rtl; 
-  }
-  
-  .analyze-text-button {
-    margin-top: 10px;
+    font-size: 1em;
     padding: 10px 20px;
-    background-color: #1d4b78;
-    color: white;
-    border: none;
-    border-radius: 5px;
+  }
 }
 
-.proceed-text-button {
-  margin-top: 10px;
-  padding: 10px 20px;
-  background-color: #1d4b78;
-  color: white;
-  border: none;
-  border-radius: 5px;
-}
-  .save-text-button:hover {
-    background-color: lightskyblue;
-    color: black;
+@media (max-width: 480px) {
+  .text-input {
+    height: 120px;
   }
 
-
-  .translate-button-uploadtext{
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #1d4b78;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    align-items: center;
-
+  .start-button {
+    padding: 8px 16px;
+    font-size: 0.9em;
   }
 
   .translation-section {
-    width: 80%;
-    max-width: 80%;
-    margin-top: 20px;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle depth effect */
-    background-color: #f9f9f9; /* Light background */
+    width: 90%;
   }
-  
-  .translation-text {
-    font-size: 16px;
-    line-height: 1.5; /* Improved readability */
-    text-align: left;
-    color: #333; /* Darker text for contrast */
-  }
+}
