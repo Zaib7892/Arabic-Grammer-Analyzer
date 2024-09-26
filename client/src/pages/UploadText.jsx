@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import React, { useEffect,useState } from 'react';
+=======
+import React, { useState } from 'react'; 
+>>>>>>> a1159393b53339baa0d8a9df21bb13c4a7728897
 import { useNavigate } from 'react-router-dom';
 import { useSession } from './Contexts/UploadContext';
 import '../style/UploadText.css'; // Import your CSS file
@@ -34,7 +38,6 @@ function UploadText() {
 
   const handleTextChange = (event) => {
     const text = event.target.value;
-
     setInputText(text);
     const segmentedSentences = segmentSentences(text);
     setSentences(segmentedSentences);
@@ -65,7 +68,7 @@ function UploadText() {
       const response = await fetch('http://localhost:8000/translate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: inputText, to: 'en' }), // Translate entire inputText to English ('en')
+        body: JSON.stringify({ text: inputText, to: 'en' }),
       });
 
       if (response.ok) {
@@ -133,7 +136,7 @@ function UploadText() {
         onChange={handleTextChange}
       />
       {!showFields && inputText && (
-        <button className="proceed-text-button" onClick={handleProceed}>Proceed</button>
+        <button className="start-button proceed-text-button" onClick={handleProceed}>Proceed</button>
       )}
       {showFields && (
         <>
@@ -147,19 +150,24 @@ function UploadText() {
               ))}
             </div>
           </div>
+          <div className="analyze-text-button-container">
+            
+          </div>
           <button
-            className="analyze-text-button"
+            className="start-button analyze-text-button"
             onClick={handleAnalyze}
-            disabled={!selectedSentence} // Disable button if no sentence is selected
+            disabled={!selectedSentence} 
           >
             Analyze Text
           </button>
-          <button className="translate-button-uploadtext" onClick={handleTranslate}>
-            Translate
-          </button>
+          
           <div className="translation-section">
             <div className="translation-text">{translatedText}</div>
           </div>
+
+          <button className="start-button translate-button-uploadtext" onClick={handleTranslate}>
+            Translate
+          </button>
         </>
       )}
     </div>
