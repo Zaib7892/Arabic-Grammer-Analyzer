@@ -149,14 +149,17 @@ function UploadText() {
           <div className="analyze-text-button-container">
             
           </div>
-          <button
-            className="start-button analyze-text-button"
-            onClick={handleAnalyze}
-            disabled={!selectedSentence} 
-          >
-            Analyze Text
-          </button>
-          
+
+          <div className="analyze-text-button-wrapper">
+              <button
+                className="start-button analyze-text-button"
+                onClick={handleAnalyze}
+                disabled={!selectedSentence}
+              >
+                Analyze Text
+              </button>
+            </div>
+
           <div className="translation-section">
             <div className="translation-text">{translatedText}</div>
           </div>

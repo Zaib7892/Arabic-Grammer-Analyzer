@@ -103,6 +103,22 @@
 .proceed-text-button{
   margin-top: 0;
 }
+
+
+
+.analyze-text-button-wrapper {
+  width: 80%;
+  display: flex;
+  justify-content: flex-end; /* Move the button to the left */
+  margin-top: 20px; /* Adjust this for vertical spacing */
+}
+
+.analyze-text-button {
+  margin-left: 13%; /* Adjust spacing from the left as needed */
+}
+
+
+
 /* Media Queries for responsiveness */
 @media (max-width: 768px) {
   .text-input {
@@ -111,7 +127,7 @@
   
   .results-container {
     flex-direction: column;
-   
+
     width: 90%;
   }
 
