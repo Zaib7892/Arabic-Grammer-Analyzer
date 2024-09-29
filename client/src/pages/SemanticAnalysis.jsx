@@ -99,7 +99,7 @@ const SemanticAnalysis = () => {
 
     sentences.forEach((sentence, index) => {
       const bracketMatch = sentence.match(/\((.*?)\)/);
-      
+
       if (bracketMatch) {
         const beforeBracket = sentence.split('(')[0].trim();
         const insideBracket = bracketMatch[1].trim();
@@ -180,7 +180,7 @@ const SemanticAnalysis = () => {
             placeholder="Translated text will appear here..."
             className="translation-textarea"
           />
-          <button onClick={handleTranslate} className="translate-button">
+          <button onClick={handleTranslate} className="start-button translate-button">
             Translate
           </button>
         </div>
@@ -192,7 +192,7 @@ const SemanticAnalysis = () => {
             placeholder="Enter Arabic text here..."
             className="arabic-textarea"
           />
-          <button onClick={createGraph} className="analyze-button">
+          <button onClick={createGraph} className="start-button analyze-button">
             Analyze
           </button>
           {sessionData.errorMessage && <p className="error-message">{sessionData.errorMessage}</p>}

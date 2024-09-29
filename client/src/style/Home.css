@@ -77,14 +77,18 @@
   .start-button {
     padding: 10px 20px;
     font-size: 1em;
+    width: 40%;
   }
+  
 }
 
-@media (min-width: 768px) {
+@media (max-width: 768px) {
   .main-content {
     flex-direction: row;
     justify-content: space-between;
   }
+  
+
 }
 
 /* For mobile devices (screens less than 600px) */
@@ -107,13 +111,14 @@
    /* padding: 8px 16px;*/
     font-size: 0.9em;
     padding: 2vw 4vw;
+    width: 40%;
   }
 }
 
 
 @media (max-width: 600px) {
   .start-button {
-    width: 100%; /* Makes the button full width on smaller screens */
+    width: 40%; /* Makes the button full width on smaller screens */
     padding: 12px 0;
   }
 

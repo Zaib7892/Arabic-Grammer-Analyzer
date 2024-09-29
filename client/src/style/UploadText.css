@@ -114,10 +114,77 @@
 }
 
 .analyze-text-button {
-  margin-left: 13%; /* Adjust spacing from the left as needed */
+  margin-left: 11.5%; /* Adjust spacing from the left as needed */
+  margin-top: 0;
+}
+
+@media (max-width: 1230px) {
+  .translate-button-uploadtext 
+  {
+    max-width: 65%;
+    
+  }
+  .analyze-text-button{
+    margin-left: 9%; 
+  }
+}
+
+@media (max-width: 1024px) {
+  .translate-button-uploadtext 
+  {
+    max-width: 65%;
+    
+  }
+  .analyze-text-button{
+    margin-left: 7.5%; 
+  }
 }
 
 
+@media (max-width: 930px) {
+  .translate-button-uploadtext 
+  {
+    max-width: 65%;
+    
+  }
+  .analyze-text-button{
+    margin-left: 6.5%; 
+  }
+  .proceed-text-button{
+    max-width: 40%;
+  }
+}
+
+
+@media (max-width: 850px) {
+  .translate-button-uploadtext 
+  {
+    max-width: 65%;
+    
+  }
+  .analyze-text-button{
+    margin-left: 4.5%; 
+  }
+  .proceed-text-button{
+    max-width: 40%;
+  }
+}
+
+
+
+@media (max-width: 780px) {
+  .translate-button-uploadtext 
+  {
+    max-width: 65%;
+    
+  }
+  .analyze-text-button{
+    margin-left: 3%; 
+  }
+  .proceed-text-button{
+    min-width: 30%;
+  }
+}
 
 /* Media Queries for responsiveness */
 @media (max-width: 768px) {
@@ -130,7 +197,14 @@
 
     width: 90%;
   }
-
+  .translate-button-uploadtext 
+  {
+    max-width: 65%;
+    
+  }
+  .analyze-text-button{
+    margin-left: 10%; 
+  }
   .selected-sentence{
     order: 2;
     width: 100%;
@@ -145,23 +219,44 @@
   }
 
   .start-button {
-    width: 50%;
+    width: 30%;
     font-size: 1em;
     padding: 10px 20px;
   }
+  .translation-section {
+    width: 100%;
+  }
+  .proceed-text-button{
+    max-width: 40%;
+  }
+  
 }
 
 @media (max-width: 480px) {
   .text-input {
     height: 120px;
+    
   }
-
+  .translate-button-uploadtext 
+  {
+    max-width: 75%;
+  }
+.analyze-text-button{
+      margin-left: 3.5%; 
+  }
+  
   .start-button {
     padding: 8px 16px;
     font-size: 0.9em;
+    width: 20%;
   }
 
   .translation-section {
-    width: 90%;
+    width: 100%;
   }
+  .proceed-text-button{
+    max-width: 45%;
+  }
+
 }
+
