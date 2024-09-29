@@ -146,16 +146,31 @@ const ProjectileEdge = ({ id, sourceX, sourceY, targetX, targetY, style = {}, ma
   const edgePath = `M ${sourceX},${sourceY} Q ${controlPointX},${controlPointY} ${targetX},${targetY}`;
 
   return (
-    <path
-      id={id}
-      style={style}
-      className="react-flow__edge-path"
-      d={edgePath}
-      markerEnd={markerEnd}
-    />
+    <>
+      <defs>
+        <marker
+          id="arrowhead"
+          markerWidth="10"
+          markerHeight="7"
+          refX="8"
+          refY="3.5"
+          orient="auto"
+          markerUnits="strokeWidth"
+        >
+          <path d="M0,0 L0,7 L10,3.5 z" fill="black" />
+        </marker>
+      </defs>
+
+      <path
+        id={id}
+        style={style}
+        className="react-flow__edge-path"
+        d={edgePath}
+        markerEnd="url(#arrowhead)"  // Set arrowhead at the end of the path
+      />
+    </>
   );
 };
-
 
 
 export { CircularNode, RectangularNode, HalfCircleEdge, ProjectileEdge };
