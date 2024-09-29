@@ -9,10 +9,11 @@ import {
   addEdge,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
-import { RectangularNode, ProjectileEdge } from './Assets/NodeEdge'; // Import the necessary components
+import { RectangularNode, ProjectileEdge } from './Assets/NodeEdge';
+import { useSession } from './Contexts/UploadContext'; // Import the session context
 
 const nodeTypes = {
-  rectangularNode: RectangularNode,  // Use the rectangular node type for semantic analysis
+  rectangularNode: RectangularNode,
 };
 
 const edgeTypes = {
@@ -20,45 +21,44 @@ const edgeTypes = {
 };
 
 const SemanticAnalysis = () => {
-  const [arabicText, setArabicText] = useState('');
-  const [translatedText, setTranslatedText] = useState('');
-  const [nodes, setNodes, onNodesChange] = useNodesState([]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-  const [showGraph, setShowGraph] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const { sessionData, setSessionData } = useSession(); // Use session data
   const [selectedEdge, setSelectedEdge] = useState(null);
 
+  // Update states from sessionData
+  const [nodes, setNodes, onNodesChange] = useNodesState(sessionData.nodes || []);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(sessionData.edges || []);
 
   const handleEdgeClick = (event, edge) => {
-    setSelectedEdge(edge); // Store the selected edge in the state
+    setSelectedEdge(edge);
   };
 
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.key === 'Delete' && selectedEdge) {
-        // Delete the selected edge
         setEdges((eds) => eds.filter((e) => e.id !== selectedEdge.id));
-        setSelectedEdge(null); // Clear the selected edge after deletion
+        setSelectedEdge(null);
       }
     };
+    window.addEventListener('keydown', handleKeyDown);
 
-  // Add the event listener when the component mounts
-  window.addEventListener('keydown', handleKeyDown);
-
-  // Clean up the event listener when the component unmounts
-  return () => {
-    window.removeEventListener('keydown', handleKeyDown);
-  };
-}, [selectedEdge]); // Re-run the effect when selectedEdge changes
-
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [selectedEdge]);
 
   const handleTextChange = (e) => {
-    setArabicText(e.target.value);
+    setSessionData({
+      ...sessionData,
+      arabicText: e.target.value,
+    });
   };
 
   const handleTranslate = async () => {
-    if (!arabicText.trim()) {
-      setErrorMessage('Please enter some Arabic text.');
+    if (!sessionData.arabicText.trim()) {
+      setSessionData({
+        ...sessionData,
+        errorMessage: 'Please enter some Arabic text.',
+      });
       return;
     }
 
@@ -66,57 +66,116 @@ const SemanticAnalysis = () => {
       const response = await fetch('http://localhost:8000/translate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: arabicText, to: 'en' }),
+        body: JSON.stringify({ text: sessionData.arabicText, to: 'en' }),
       });
 
       if (response.ok) {
         const data = await response.json();
-        setTranslatedText(data.translatedText);
-        setErrorMessage('');
+        setSessionData({
+          ...sessionData,
+          translatedTextSemantic: data.translatedText,
+          errorMessage: '',
+        });
       } else {
-        setErrorMessage('Failed to translate the text. Please try again.');
+        setSessionData({
+          ...sessionData,
+          errorMessage: 'Failed to translate the text. Please try again.',
+        });
       }
     } catch (error) {
-      setErrorMessage('An error occurred while connecting to the translation service.');
+      setSessionData({
+        ...sessionData,
+        errorMessage: 'An error occurred while connecting to the translation service.',
+      });
     }
   };
 
   const createGraph = () => {
-    // Split the Arabic text into sentences
-    const sentences = arabicText.split(/(?<=[.!؟])\s+/); // Simple sentence splitting for Arabic
+    const sentences = sessionData.arabicText.split(/(?<=[.!؟])\s+/);
+    const initialX = 1000;
+    const gap = 200;
+    const newNodes = [];
+    let currentX = initialX;
 
-    // Set the initial x position and calculate positions from right to left
-    const initialX = 1000; // Adjust this value to set how far right you want to start
-    const gap = 200; // Increased value for more spacing between nodes
+    sentences.forEach((sentence, index) => {
+      const bracketMatch = sentence.match(/\((.*?)\)/);
+      
+      if (bracketMatch) {
+        const beforeBracket = sentence.split('(')[0].trim();
+        const insideBracket = bracketMatch[1].trim();
+        const afterBracket = sentence.split(')')[1]?.trim();
 
-    const newNodes = sentences.map((sentence, index) => ({
-      id: `${index}`,
-      type: 'rectangularNode',  // Use the new rectangular node type      // Position nodes from right to left
-      position: { x: initialX - index * gap, y: 50 },
-      data: { label: sentence },
-      draggable: true,
-    }));
+        if (beforeBracket) {
+          newNodes.push({
+            id: `${index}-before`,
+            type: 'rectangularNode',
+            position: { x: currentX, y: 50 },
+            data: { label: beforeBracket },
+            draggable: true,
+          });
+          currentX -= gap;
+        }
 
+        newNodes.push({
+          id: `${index}-inside`,
+          type: 'rectangularNode',
+          position: { x: currentX, y: 50 },
+          data: { label: insideBracket },
+          draggable: true,
+        });
+        currentX -= gap;
+
+        if (afterBracket) {
+          newNodes.push({
+            id: `${index}-after`,
+            type: 'rectangularNode',
+            position: { x: currentX, y: 50 },
+            data: { label: afterBracket },
+            draggable: true,
+          });
+          currentX -= gap;
+        }
+      } else {
+        newNodes.push({
+          id: `${index}`,
+          type: 'rectangularNode',
+          position: { x: currentX, y: 50 },
+          data: { label: sentence },
+          draggable: true,
+        });
+        currentX -= gap;
+      }
+    });
 
     setNodes(newNodes);
     setEdges([]); // Reset edges when creating a new graph
-    setShowGraph(true);
+
+    // Update sessionData for nodes, edges, and graph visibility
+    setSessionData({
+      ...sessionData,
+      nodes: newNodes,
+      edges: [],
+      showGraph: true,
+    });
   };
 
   const handleConnect = (params) => {
-    setEdges((eds) =>
-      addEdge({ ...params, type: 'projectileEdge' }, eds) // Ensure type is set to 'projectileEdge'
-    );
+    const newEdges = addEdge({ ...params, type: 'projectileEdge' }, edges);
+    setEdges(newEdges);
+
+    // Update edges in session data
+    setSessionData({
+      ...sessionData,
+      edges: newEdges,
+    });
   };
-  
 
   return (
     <div className="semantic-analysis-container_Top_container">
       <div className="semantic-analysis-container">
-        {/* Left side: Translation Box */}
         <div className="translation-box">
           <textarea
-            value={translatedText}
+            value={sessionData.translatedTextSemantic}
             readOnly
             placeholder="Translated text will appear here..."
             className="translation-textarea"
@@ -126,10 +185,9 @@ const SemanticAnalysis = () => {
           </button>
         </div>
 
-        {/* Right side: Arabic Input Box */}
         <div className="arabic-input-box">
           <textarea
-            value={arabicText}
+            value={sessionData.arabicText}
             onChange={handleTextChange}
             placeholder="Enter Arabic text here..."
             className="arabic-textarea"
@@ -137,32 +195,24 @@ const SemanticAnalysis = () => {
           <button onClick={createGraph} className="analyze-button">
             Analyze
           </button>
-          {errorMessage && <p className="error-message">{errorMessage}</p>}
+          {sessionData.errorMessage && <p className="error-message">{sessionData.errorMessage}</p>}
         </div>
       </div>
 
-      {showGraph && (
+      {sessionData.showGraph && (
         <div style={{ width: '100%', height: '400px', marginTop: '20px' }}>
-                  <ReactFlow
-          nodes={nodes}
-          edges={edges.map((edge) => ({
-            ...edge,
-            style: {
-              stroke: selectedEdge && selectedEdge.id === edge.id ? 'red' : '#000', // Change color for selected edge
-              strokeWidth: selectedEdge && selectedEdge.id === edge.id ? 3 : 1, // Make the selected edge thicker
-            },
-          }))}
-          onNodesChange={onNodesChange}
-          onEdgesChange={onEdgesChange}
-          onConnect={handleConnect}
-          onEdgeClick={handleEdgeClick} // Attach the edge click handler
-          nodeTypes={nodeTypes}
-          edgeTypes={edgeTypes}
-        >
-          <Controls />
-          <Background variant="dots" gap={12} size={1} />
-        </ReactFlow>
-
+          <ReactFlow
+            nodes={nodes}
+            edges={edges}
+            onNodesChange={onNodesChange}
+            onEdgesChange={onEdgesChange}
+            onConnect={handleConnect}
+            nodeTypes={nodeTypes}
+            edgeTypes={edgeTypes}
+          >
+            <Controls />
+            <Background variant="dots" gap={12} size={1} />
+          </ReactFlow>
         </div>
       )}
     </div>

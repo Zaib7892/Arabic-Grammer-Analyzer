@@ -12,6 +12,13 @@ export const SessionProvider = ({ children }) => {
     wordCount: 0,
     language: '',
     showFields: false,
+
+    // Semantic Analysis Module related data
+    arabicText: '',
+    translatedTextSemantic: '',
+    nodes: [],
+    edges: [],
+    showGraph: false,
   });
 
   return (
