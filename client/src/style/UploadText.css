@@ -14,9 +14,11 @@
   direction: rtl; 
   border-radius: 10px;
   padding: 10px;
+  border-radius: 15px;
   border: 1px solid #ccc;
   font-size: 16px;
   resize: vertical; /* Allow resizing of the text area */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Consistent box-shadow */
 }
 
 .results-container {
@@ -32,8 +34,10 @@
   background-color: #f0f0f0;
   padding: 10px;
   direction: rtl;
-  border-radius: 10px;
-  margin-right: 10px;
+  border-radius: 15px;
+  
+  resize: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Consistent box-shadow */
 }
 
 .sentences-list div {
@@ -55,8 +59,11 @@
   background-color: #ffffff;
   padding: 10px;
   border: 1px solid #ccc;
-  border-radius: 10px;
+  border-radius: 15px;
   direction: rtl;
+  resize: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Consistent box-shadow */
+  
 }
 
 .start-button {
@@ -69,6 +76,7 @@
   cursor: pointer;
   font-size: 1.2em;
   padding: 15px 30px;
+  
   transition: all 0.3s ease-in-out;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -87,11 +95,12 @@
   width: 80%;
   height: auto;
   margin-top: 60px;
-  padding: 15px;
+  padding: 20px;
   border: 1px solid #ddd;
-  border-radius: 8px;
+  border-radius: 15px;
   background-color: #f9f9f9;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 28px;
 }
 
 .translation-text {
@@ -115,7 +124,7 @@
 
 .analyze-text-button {
   margin-left: 11.5%; /* Adjust spacing from the left as needed */
-  margin-top: 0;
+  
 }
 
 @media (max-width: 1230px) {
@@ -199,11 +208,11 @@
   }
   .translate-button-uploadtext 
   {
-    max-width: 65%;
+    max-width: 58%;
     
   }
   .analyze-text-button{
-    margin-left: 10%; 
+    margin-left: 15%; 
   }
   .selected-sentence{
     order: 2;
@@ -239,10 +248,10 @@
   }
   .translate-button-uploadtext 
   {
-    max-width: 75%;
+    max-width: 67%;
   }
 .analyze-text-button{
-      margin-left: 3.5%; 
+      margin-left: 8%; 
   }
   
   .start-button {

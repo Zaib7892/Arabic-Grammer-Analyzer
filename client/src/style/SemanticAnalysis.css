@@ -88,7 +88,7 @@
   }
 
   .start-button {
-    width: 80%; /* Button stretches to 80% of screen width */
+    width: 70%; /* Button stretches to 80% of screen width */
     padding: 10px 20px; /* Smaller padding for mobile screens */
     font-size: 1em; /* Reduce font size */
   }
@@ -103,7 +103,7 @@
   }
 
   .start-button {
-    width: 90%; /* Button stretches even more on smaller screens */
+    width: 80%; /* Button stretches even more on smaller screens */
     font-size: 0.9em; /* Smaller font size */
     padding: 8px 16px; /* Smaller padding for mobile */
   }

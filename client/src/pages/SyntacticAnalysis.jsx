@@ -11,7 +11,7 @@ import {
 } from '@xyflow/react';
 
 import '@xyflow/react/dist/style.css';
-import '../style/Diacritization.css';
+/*import '../style/Diacritization.css';*/
 import '../style/SyntacticAnalysis.css';
 import { CircularNode, HalfCircleEdge } from './Assets/NodeEdge';
 

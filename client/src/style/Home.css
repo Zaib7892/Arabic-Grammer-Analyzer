@@ -88,7 +88,13 @@
     justify-content: space-between;
   }
   
+  
 
+}
+@media(max-width:764){
+  .start-button{
+    max-width: 25%;
+  }
 }
 
 /* For mobile devices (screens less than 600px) */

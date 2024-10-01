@@ -1,62 +1,121 @@
+ 
+  
   .trans-button {
-    margin-top: 10px;
-    padding: 10px 20px;
-    background-color: #1d4b78;
-    color: white;
+    width: 200px;
+    background: linear-gradient(45deg, #1d4b78, #87CEEB);
     border: none;
-    border-radius: 5px;
+    border-radius: 15px;
+    color: white;
     cursor: pointer;
+    justify-content:center;
+    margin-top: 3%;
+    font-size: 1.2em;
+    padding: 15px 30px;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
   
   .trans-button:hover {
-    background-color: lightskyblue;
-    color: black;
+    background: linear-gradient(45deg, #87CEEB, #1d4b78);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
   }
+  .trans-button:active {
+    transform: translateY(2px);
+  }
+
+
   .analyz-button {
-    margin-top: 10px;
-    padding: 10px 20px;
-    background-color: #1d4b78;
-    color: white;
+    width: 200px;
+    background: linear-gradient(45deg, #1d4b78, #87CEEB);
     border: none;
-    border-radius: 5px;
+    border-radius: 15px;
+    color: white;
     cursor: pointer;
+    font-size: 1.2em;
+    padding: 15px 30px;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    justify-content:center;
+    margin-top: 3%;
   }
   
   .analyz-button:hover {
-    background-color: lightskyblue;
-    color: black;
+    background: linear-gradient(45deg, #87CEEB, #1d4b78);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
   }
-  .buttons-container {
-    width: 40%;
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
+  .analyz-button:active {
+    transform: translateY(2px);
+  }
+ 
+ 
+  .selected-sentence {
+    width: 45%;
+    height: auto;
+    background-color: #ffffff;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    direction: rtl;
+    resize: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Consistent box-shadow */
+    
+  }
+
+
+  .translated-sentence {
+    width: 45%;
+    height: auto;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    background-color: #f9f9f9;
+    resize: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    
   }
   
-  .translate-button, .analyze-button {
-    padding: 10px 20px;
+  .translated-sentence {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+    direction: ltr;
   }
+  /*.translate-button, .analyze-button {
+    padding: 10px 20px;
+  }*/
   .export-button {
     margin-top: 10px;
-    padding: 10px 20px;
-    background-color: #1d4b78;
-    color: white;
+    width: 200px;
+    background: linear-gradient(45deg, #1d4b78, #87CEEB);
     border: none;
-    border-radius: 5px;
+    border-radius: 15px;
+    color: white;
     cursor: pointer;
-    margin-right: 150px;
+   
+    font-size: 1.1em;
+    padding: 15px 30px;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    justify-content: center;
+   
   }
   
   .export-button:hover {
-    background-color: lightskyblue;
-    color: black;
+    background: linear-gradient(45deg, #87CEEB, #1d4b78);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
   }
 
-.translated-sentence{
+  .export-button:active {
+    transform: translateY(2px);
+  }
+/*.translated-sentence{
   border: 1px solid #ddd;
   border-radius: 10px;
   width: 500px;
-}
+}*/
 
 .upload-button{
   margin-top: 40px;
@@ -71,3 +130,22 @@
   background-color: lightskyblue;
   color: black;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
