@@ -1,50 +1,128 @@
-.edit-input {
-  font-size: 1.3em; 
-  width: auto;
+/* Common container for diacritization input and result areas */
+.diacritization-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px;
+  gap: 20px;
 }
 
-.buttons-container button {
-  margin-right: 0px; 
+/* Input area styling */
+.input-box,
+.result-box {
+  width: 45%;
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  justify-content: center; 
 }
-.add-diacritics-button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  background-color: #1d4b78;
-  color: white;
+
+/* Textarea and input styling */
+.input{
+  width: 100%;
+  height: 200px;
+  margin-bottom: 10px;
+  padding: 15px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  resize: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.edit-input{
+  width: 100%;
+  height: 200px;
+  margin-bottom: 10px;
+  padding: 15px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  resize: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Result display area styling */
+.result-sentence {
+  width: 100%;
+  margin-bottom: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  resize: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #f0f0f0;
+  height: auto;
+  min-height: 200px;
+  padding: 15px;
+  text-align: center;
+  font-size: 1.3em;
+}
+
+/* Button styling (matching your previous page) */
+.start-button {
+  width: 200px;
+  background: linear-gradient(45deg, #1d4b78, #87CEEB);
   border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.add-diacritics-button:hover {
-  background-color: lightskyblue;
-  color: black;
-}
-.edit-diacritics-button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  background-color: #1d4b78;
+  border-radius: 15px;
   color: white;
-  border: none;
-  border-radius: 5px;
   cursor: pointer;
-}
-
-.edit-diacritics-button:hover {
-  background-color: lightskyblue;
-  color: black;
-}
-.save-text-button{
+  font-size: 1.2em;
+  padding: 15px 30px;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin-top: 20px;
-  padding: 10px 20px;
-  background-color: #1d4b78;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
 }
 
-.save-text-button:hover {
-  background-color: lightskyblue;
-  color: black;
+.start-button:hover {
+  background: linear-gradient(45deg, #87CEEB, #1d4b78);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+.start-button:active {
+  transform: translateY(2px);
+}
+
+/* Responsive Adjustments for Mobile and Small Screens */
+@media (max-width: 768px) {
+  /* Stack the containers vertically on smaller screens */
+  .diacritization-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  /* Input and result boxes take full width on smaller screens */
+  .input-box,
+  .result-box {
+    width: 100%;
+  }
+
+  .input,
+  .edit-input,
+  .result-sentence {
+    height: 150px; /* Adjust height to fit smaller screens */
+  }
+
+  .start-button {
+    width: 80%;
+    padding: 10px 20px;
+    font-size: 1em;
+  }
+}
+
+/* Further adjustments for very small screens (like mobile phones) */
+@media (max-width: 480px) {
+  .input,
+  .edit-input,
+  .result-sentence {
+    font-size: 14px;
+    height: 120px; /* Further reduce height for small screens */
+  }
+
+  .start-button {
+    width: 90%;
+    font-size: 0.9em;
+    padding: 8px 16px;
+  }
 }

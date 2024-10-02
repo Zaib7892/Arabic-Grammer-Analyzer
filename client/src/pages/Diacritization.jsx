@@ -8,14 +8,11 @@ const Diacritization = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  
-
   const addDiacritics = async () => {
     if (inputText !== null) {
       try {
         setLoading(true); // Start loading
         const data = await diacritizeArabicText(inputText);
-        console.log('API Response Data:', data);
         setResultSentence(data.text);
       } catch (error) {
         console.error('Error adding diacritics', error);
@@ -26,10 +23,9 @@ const Diacritization = () => {
   };
 
   const handleTextChange = (event) => {
-    const text = event.target.value;
+    setInputText(event.target.value);
+  };
 
-    setInputText(text);
-  }
   const handleEdit = (event) => {
     setResultSentence(event.target.value);
   };
@@ -37,44 +33,51 @@ const Diacritization = () => {
   const saveEdit = () => {
     setIsEditing(false);
     if (ResultSentence !== null) {
-      setInputText(ResultSentence);
+      setResultSentence(ResultSentence);
     }
   };
 
   return (
-    <div className="text-analysis">
-      <div className="results-container">
-        <div className="selected-sentence">
-          {isEditing ? (
-            <input
-              type="text"
-              value={ResultSentence}
-              onChange={handleEdit}
-              onBlur={saveEdit}
-              autoFocus
-              className="edit-input"
-            />
-          ) : (
-            ResultSentence
-          )}
-        </div>
-        <textarea
-        className="text-input"
-        placeholder="Enter your text here"
-        value={inputText}
-        onChange={handleTextChange}
-      />
-      </div>
-      <div className="buttons-container">
-        <button className="add-diacritics-button" onClick={addDiacritics} disabled={loading}>
-          {loading ? 'Adding Diacritics...' : 'Add Diacritics'}
-        </button>
-        <button className="edit-diacritics-button" onClick={() => setIsEditing(true)}>
+    <div className="diacritization-container">
+            {/* Result and Edit Area */}
+            <div className="result-box">
+        {isEditing ? (
+          <textarea
+            type="text"
+            value={ResultSentence}
+            onChange={handleEdit}
+            onBlur={saveEdit}
+            autoFocus
+            className="edit-input"
+          />
+        ) : (
+          <div className="result-sentence">{ResultSentence}</div>
+        )}
+        <button
+          onClick={() => setIsEditing(true)}
+          className="start-button edit-diacritics-button"
+        >
           Edit Diacritics
+        </button>
+      </div>
+      {/* Input Area */}
+      <div className="input-box">
+        <textarea
+          value={inputText}
+          onChange={handleTextChange}
+          placeholder="Enter Arabic text here..."
+          className="input"
+        />
+        <button
+          onClick={addDiacritics}
+          className="start-button add-diacritics-button"
+          disabled={loading}
+        >
+          {loading ? 'Adding Diacritics...' : 'Add Diacritics'}
         </button>
       </div>
     </div>
   );
-}
+};
 
 export default Diacritization;
