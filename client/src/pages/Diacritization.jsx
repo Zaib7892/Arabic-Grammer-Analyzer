@@ -1,49 +1,43 @@
 import React, { useState } from 'react';
 import '../style/Diacritization.css';
 import { diacritizeArabicText } from '../diaApi'; // Adjust the path as necessary
+import { useSession } from './Contexts/UploadContext'; // Adjust the path to your context provider
 
 const Diacritization = () => {
-  const [inputText, setInputText] = useState('');
-  const [ResultSentence, setResultSentence] = useState('');
-  const [isEditing, setIsEditing] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const { sessionData, setSessionData } = useSession();
+  const { input_Text: input_Text, ResultSentence, isEditing, loading } = sessionData;
 
   const addDiacritics = async () => {
-    if (inputText !== null) {
+    if (input_Text !== null) {
       try {
-        setLoading(true); // Start loading
-        const data = await diacritizeArabicText(inputText);
-        setResultSentence(data.text);
+        setSessionData({ ...sessionData, loading: true }); // Start loading
+        const data = await diacritizeArabicText(input_Text);
+        setSessionData({ ...sessionData, ResultSentence: data.text, loading: false });
       } catch (error) {
         console.error('Error adding diacritics', error);
-      } finally {
-        setLoading(false); // Stop loading
+        setSessionData({ ...sessionData, loading: false });
       }
     }
   };
 
   const handleTextChange = (event) => {
-    setInputText(event.target.value);
+    setSessionData({ ...sessionData, input_Text: event.target.value });
   };
 
   const handleEdit = (event) => {
-    setResultSentence(event.target.value);
+    setSessionData({ ...sessionData, ResultSentence: event.target.value });
   };
 
   const saveEdit = () => {
-    setIsEditing(false);
-    if (ResultSentence !== null) {
-      setResultSentence(ResultSentence);
-    }
+    setSessionData({ ...sessionData, isEditing: false });
   };
 
   return (
     <div className="diacritization-container">
-            {/* Result and Edit Area */}
-            <div className="result-box">
+      {/* Result and Edit Area */}
+      <div className="result-box">
         {isEditing ? (
           <textarea
-            type="text"
             value={ResultSentence}
             onChange={handleEdit}
             onBlur={saveEdit}
@@ -54,7 +48,7 @@ const Diacritization = () => {
           <div className="result-sentence">{ResultSentence}</div>
         )}
         <button
-          onClick={() => setIsEditing(true)}
+          onClick={() => setSessionData({ ...sessionData, isEditing: true })}
           className="start-button edit-diacritics-button"
         >
           Edit Diacritics
@@ -63,7 +57,7 @@ const Diacritization = () => {
       {/* Input Area */}
       <div className="input-box">
         <textarea
-          value={inputText}
+          value={input_Text}
           onChange={handleTextChange}
           placeholder="Enter Arabic text here..."
           className="input"

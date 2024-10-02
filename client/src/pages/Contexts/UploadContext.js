@@ -1,4 +1,3 @@
-// SessionContext.js
 import React, { createContext, useContext, useState } from 'react';
 
 const SessionContext = createContext();
@@ -19,6 +18,11 @@ export const SessionProvider = ({ children }) => {
     nodes: [],
     edges: [],
     showGraph: false,
+
+    // Diacritization Module related data
+    diacritizedText: '',
+    isEditingDiacritics: false,
+    loadingDiacritics: false,
   });
 
   return (
