@@ -45,9 +45,12 @@ const CreateTest = () => {
     };
 
     const handleCloseClick = () => {
-        setSelectedGraph(null);
-        setNodes([]);
-        setEdges([]);
+        const confirmQuit = window.confirm('Are you sure you want to quit the test?');
+        if (confirmQuit) {
+            setSelectedGraph(null);
+            setNodes([]);
+            setEdges([]);
+        }
     };
 
     // Add onConnect for adding new edges
@@ -103,13 +106,24 @@ const CreateTest = () => {
 
         return (
             <div style={{ width: '100%', height: '400px', marginTop: '20px' }}>
+                <div style={{ textAlign: 'center',
+                     fontSize: '24px',
+                     fontWeight: 'bold', 
+                     marginBottom: '10px', 
+                     border:'1px solid #ccc',
+                     color:'#1d4b78',
+                     padding: '10px', 
+                     borderRadius: '15px',
+                     boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', }}>
+                    {selectedGraph.name}
+                </div>
                 <ReactFlow
                     nodes={nodes}
                     edges={edges}
                     onNodesChange={onNodesChange}
                     onEdgesChange={onEdgesChange}
                     onConnect={onConnect}
-                    onEdgeClick={onEdgeClick}  // Add edge click callback
+                    onEdgeClick={onEdgeClick}  
                     nodeTypes={{ circularNode: CircularNode }}
                     edgeTypes={{ halfCircle: HalfCircleEdge }}
                     fitView
@@ -146,10 +160,13 @@ const CreateTest = () => {
             ) : (
                 // Render the full list of graphs if no graph is selected
                 graphs.map((graph) => (
-                    <div key={graph._id} className="solution" style={{ display: 'inline-block', marginRight: '10px' }}>
-                        {/* Display graph name and date */}
-                        <span>{`${graph.name} (${new Date(graph.createdAt).toLocaleDateString()})`}</span>
-                        <button onClick={() => handleViewClick(graph)}>Take Test</button>
+                    <div key={graph._id} className="graphs">
+                        <button className='taketest' onClick={() => handleViewClick(graph)}>Take Test</button>
+                        <div className="graph-info">
+                            <span className="graph-name">{graph.name}</span>
+                            <div className="date">{new Date(graph.createdAt).toLocaleDateString()}</div>
+                        </div>
+                        
                     </div>
                 ))
             )}

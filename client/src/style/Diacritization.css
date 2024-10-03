@@ -83,16 +83,21 @@
   transform: translateY(2px);
 }
 
-/* Responsive Adjustments for Mobile and Small Screens */
 @media (max-width: 768px) {
-  /* Stack the containers vertically on smaller screens */
   .diacritization-container {
     flex-direction: column;
     align-items: center;
     gap: 20px;
   }
 
-  /* Input and result boxes take full width on smaller screens */
+  .input-box {
+    order: -1; 
+  }
+
+  .result-box {
+    order: 1;
+  }
+
   .input-box,
   .result-box {
     width: 100%;
@@ -101,7 +106,7 @@
   .input,
   .edit-input,
   .result-sentence {
-    height: 150px; /* Adjust height to fit smaller screens */
+    height: auto;
   }
 
   .start-button {
@@ -111,13 +116,16 @@
   }
 }
 
-/* Further adjustments for very small screens (like mobile phones) */
 @media (max-width: 480px) {
   .input,
-  .edit-input,
-  .result-sentence {
+  .edit-input {
     font-size: 14px;
-    height: 120px; /* Further reduce height for small screens */
+    height: 120px; 
+  }
+
+  .result-sentence{
+    font-size: 14px;
+    height: auto; 
   }
 
   .start-button {
