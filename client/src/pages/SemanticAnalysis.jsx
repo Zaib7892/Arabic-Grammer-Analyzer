@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import '../style/SemanticAnalysis.css';
 import {
   ReactFlow,
@@ -11,6 +11,8 @@ import {
 import '@xyflow/react/dist/style.css';
 import { RectangularNode, ProjectileEdge } from './Assets/NodeEdge';
 import { useSession } from './Contexts/UploadContext'; // Import the session context
+import {useNavigate } from 'react-router-dom';
+import { LoginContext } from '../components/ContextProvider/Context';
 
 const nodeTypes = {
   rectangularNode: RectangularNode,
@@ -20,13 +22,19 @@ const edgeTypes = {
   projectileEdge: ProjectileEdge,
 };
 
+
 const SemanticAnalysis = () => {
+  const navigate = useNavigate();
   const { sessionData, setSessionData } = useSession(); // Use session data
   const [selectedEdge, setSelectedEdge] = useState(null);
+  const {logindata,setLoginData} = useContext(LoginContext);
 
   // Update states from sessionData
   const [nodes, setNodes, onNodesChange] = useNodesState(sessionData.nodes || []);
   const [edges, setEdges, onEdgesChange] = useEdgesState(sessionData.edges || []);
+
+  //login context for user id
+ 
 
   const handleEdgeClick = (event, edge) => {
     setSelectedEdge(edge);
@@ -169,6 +177,37 @@ const SemanticAnalysis = () => {
       edges: newEdges,
     });
   };
+// for data storing to database
+const saveGraphToDatabase = async () => {
+  const graphSemData = {
+    userId:logindata.ValidUserOne._id, //Ensure this is part of your session data
+    arabicText: sessionData.arabicText,
+    nodes: nodes,
+    edges: edges,
+  };
+
+  try {
+    const response = await fetch('/savesemGraph', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(graphSemData),
+    });
+
+    if (response.ok) {
+      alert('Graph uploaded successfully!'); // Graph saved successfully!
+    } else {
+      alert('Error uploading graph');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
+// fetching anlaysis for loggedIn user
+const fetchUserGraphs = () => {
+  navigate('/semanticanalysis/previousanalysis');
+};
 
   return (
     <div className="semantic-analysis-container_Top_container">
@@ -197,6 +236,7 @@ const SemanticAnalysis = () => {
           </button>
           {sessionData.errorMessage && <p className="error-message">{sessionData.errorMessage}</p>}
         </div>
+        <button onClick={fetchUserGraphs}>See Previous Analysis</button>
       </div>
 
       {sessionData.showGraph && (
@@ -213,6 +253,7 @@ const SemanticAnalysis = () => {
             <Controls />
             <Background variant="dots" gap={12} size={1} />
           </ReactFlow>
+          <button onClick={saveGraphToDatabase}>Save Analysis</button>
         </div>
       )}
     </div>

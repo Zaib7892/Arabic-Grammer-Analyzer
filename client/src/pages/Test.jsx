@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { ReactFlow, Background, useNodesState, useEdgesState, addEdge } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
-import { CircularNode, HalfCircleEdge } from './Assets/NodeEdge'; // Assuming you have custom nodes/edges
+import { CircularNode, HalfCircleEdge } from './Assets/NodeEdge';
 import '../style/Test.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
