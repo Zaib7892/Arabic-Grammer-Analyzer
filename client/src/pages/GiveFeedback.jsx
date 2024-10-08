@@ -62,11 +62,9 @@ const GiveFeedback = () => {
 
     return (
         <div className="feedback-container">
-            <div>
-                <button className="back-button" onClick={handleBack}>
-                    <TiArrowBackOutline size={24} />
-                </button>
-            </div>
+            <button className="backbtn" onClick={handleBack}>
+                Back
+            </button>
             <div className="feedback-heading">
                 <h2>Give Feedback </h2>
             </div>

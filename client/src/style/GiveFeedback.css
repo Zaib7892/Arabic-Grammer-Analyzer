@@ -1,48 +1,83 @@
-/* Container */
-.feedback-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  
-  /* Back button */
-  .back-button {
-    top: 10px;
-    left: 10px;
-    border: none;
-    background: none;
-    cursor: pointer;
+/* GiveFeedback.css */
 
-  }
-  
-  /* Heading */
-  .feedback-heading {
-    text-align: center;
-    margin-top: 50px;
-    font-size: 24px;
-  }
-  
-  /* Textarea */
-  .feedback-textarea {
-    width: 110%;
-    height: 300px;
-    padding: 10px;
-    font-size: 16px;
-    margin-top: 20px;
-  }
-  
-  .submit-button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #1d4b78;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .submit-button:hover {
-    background-color: lightskyblue;
-    color: black;
-  }
-  
+.feedback-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px; /* Increased padding */
+  max-width: 800px; /* Increased max width */
+  height: 400px;
+  margin: auto;
+  background-color: #f9f9f9; /* Light background for contrast */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.feedback-heading h2 {
+  font-size: 24px;
+  color: #333; /* Darker text for better readability */
+  margin-bottom: 20px;
+}
+
+.backbtn {
+  background: linear-gradient(45deg, #1d4b78, #87CEEB);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  align-self: flex-start; /* Align back button to the left */
+}
+
+.backbtn:hover {
+  background: linear-gradient(45deg, #87CEEB, #1d4b78);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+.feedback-textarea {
+  width: 100%; /* Full width */
+  height: 200px; /* Increased height */
+  border: 1px solid #ccc; /* Light border */
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 16px;
+  resize: none; /* Prevent resizing */
+  transition: border-color 0.3s; /* Smooth transition for border color */
+}
+
+.feedback-textarea:focus {
+  border-color: #007bff; /* Change border color on focus */
+  outline: none; /* Remove default outline */
+}
+
+.feedback-textarea-error {
+  border-color: #dc3545; /* Bootstrap danger color for error */
+}
+
+.submit-button {
+  margin-top: 30px;
+  background: linear-gradient(45deg, #1d4b78, #87CEEB);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.submit-button:hover {
+  background: linear-gradient(45deg, #87CEEB, #1d4b78);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Toast Container Styling */
+.Toastify__toast-container {
+  z-index: 9999; /* Ensure it appears above other elements */
+}

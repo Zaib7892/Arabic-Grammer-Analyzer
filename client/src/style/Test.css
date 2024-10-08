@@ -1,31 +1,3 @@
-.submit {
-    margin-right: 100px;
-    min-width: 80px; 
-    background-color: #1d4b78;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-.submit:hover{
-    background-color: lightskyblue;
-    color: black;
-}
-.quit {
-    margin-right: 100px;
-    min-width: 80px; 
-    background-color: #1d4b78;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-.quit:hover{
-    background-color: lightskyblue;
-    color: black;
-}
 .graphs {
     display: flex;
     align-items: center;
@@ -57,8 +29,16 @@
     margin-top: 5px;
 }
 
-.taketest,
+.submit,
+.quit,
 .back {
+    min-width: 100px;
+}
+
+.taketest,
+.back,
+.submit,
+.quit {
     margin-left: 20px;
     background: linear-gradient(45deg, #1d4b78, #87CEEB);
     border: none;
@@ -68,10 +48,15 @@
     padding: 8px 16px;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.taketest,.back:hover {
+.taketest,.back,.quit:hover {
+    background: linear-gradient(45deg, #87CEEB, #1d4b78);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+}
+.submit:hover{
     background: linear-gradient(45deg, #87CEEB, #1d4b78);
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
     transform: translateY(-2px);
