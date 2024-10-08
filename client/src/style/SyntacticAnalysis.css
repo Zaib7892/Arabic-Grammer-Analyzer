@@ -101,18 +101,26 @@
 }
 
 .upload-button {
-  margin-top: 40px;
-  padding: 10px 20px;
-  background-color: #1d4b78;
-  color: white;
+  margin-top: 10px;
+  width: 200px;
+  background: linear-gradient(45deg, #1d4b78, #87CEEB);
   border: none;
-  border-radius: 5px;
+  border-radius: 15px;
+  color: white;
   cursor: pointer;
+  font-size: 1.1em;
+  padding: 15px 30px;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .upload-button:hover {
-  background-color: lightskyblue;
-  color: black;
+  background: linear-gradient(45deg, #87CEEB, #1d4b78);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+.upload-button:active {
+  transform: translateY(2px);
 }
 
 .button-container {
@@ -125,7 +133,12 @@
   margin-right: auto;
 }
 
-
+.buttonscontainer{
+  display: flex;
+  justify-content: space-between;
+  width: 30%;
+  margin-top: 20px;
+}
 .node-legend {
   display: flex;
   justify-content: center;
@@ -156,3 +169,9 @@
   background-color: darkred;
 }
 
+.note-text {
+  text-align: center;
+  margin-top: 5px;
+  color: #666;
+  font-size: 14px;
+}

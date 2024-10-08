@@ -1,30 +1,92 @@
+/* Main feedback container */
 .feedback-container {
-    margin-top: 30px;
-    width:auto;
-    border-radius: 5px;
+    margin: 30px auto;
+    width: 90%;
+    max-width: 800px; /* Adjusts the max width for better centering */
+    padding: 30px;
+    background: #f9f9f9;
+    
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.feedback-item {
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    width: 800px;
-}
-
+/* Feedback header */
 .feedback-header {
-    font-size: 20px;
+    font-size: 28px;
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+    color: #1d4b78;
+    text-align: center;
+    width: 100%;
 }
 
-.sentence {
-    font-size: 16px;
-    margin-bottom: 5px;
+/* Feedback content inside the main container */
+.feedback-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    
+    gap: 20px;
 }
 
+/* Individual feedback item */
+.feedback-item {
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    border: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.07);
+    width: 100%; /* Ensure the item fills the container */
+    box-sizing: border-box;
+}
+
+/* Add hover effect to feedback items */
+.feedback-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Text styling */
+.sentence,
 .feedback {
-    font-size: 14px;
+    font-size: 16px;
+    margin: 10px 0;
+    line-height: 1.5;
     color: #333;
-    margin-bottom: 5px;
+    word-wrap: break-word;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .feedback-container {
+        width: 95%;
+        padding: 20px;
+    }
+
+    .feedback-header {
+        font-size: 20px;
+    }
+
+    .feedback-item {
+        padding: 10px;
+    }
+
+    .sentence,
+    .feedback {
+        font-size: 14px;
+    }
+}
+
+/* Further adjustments for very small screens (mobile) */
+@media (max-width: 480px) {
+    .sentence,
+    .feedback {
+        font-size: 14px;
+    }
 }
