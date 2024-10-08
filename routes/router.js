@@ -304,6 +304,31 @@ router.get('/getUserGraphs', async (req, res) => {
     }
   });
 
+  router.put('/updateSemGraph/:graphId', async (req, res) => {
+    const { graphId } = req.params;
+    const { edges } = req.body;
+
+    try {
+        // Find the graph by its ID
+        const semg_raph = await semGraph.findById(graphId);
+
+        if (!semg_raph) {
+            return res.status(404).json({ message: 'Graph not found' });
+        }
+
+        // Update the edges
+        semg_raph.edges = edges;
+
+        // Save the updated graph
+        const updatedGraph = await semg_raph.save();
+
+        res.status(200).json(updatedGraph);
+    } catch (error) {
+        console.error('Error updating graph:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+});
+
 module.exports = router;
 
 

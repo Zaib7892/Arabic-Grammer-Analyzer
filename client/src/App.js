@@ -16,7 +16,6 @@ import Test from "./pages/Test";
 import GiveFeedback from "./pages/GiveFeedback";
 import SemanticAnalysis from "./pages/SemanticAnalysis";
 import ViewFeedback from "./pages/ViewFeedback";
-import CreateTest from "./pages/CreateTest";
 import "./App.css";
 import { SessionProvider } from "./pages/Contexts/UploadContext";
 import SemanticSolutions from "./pages/SemanticSolutions";
@@ -78,7 +77,6 @@ function App() {
                   <Route path="/test" element={<Test />} />
                   <Route path="/standardsolutions/givefeedback" element={<GiveFeedback />} />
                   <Route path="/viewfeedback" element={<ViewFeedback />} />
-                  <Route path="/createtest" element={<CreateTest />} />
                 </Routes>
               </SideBar>
             </>

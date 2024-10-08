@@ -87,15 +87,6 @@ const Header = () => {
               <>
                 <MenuItem
                   onClick={() => {
-                    goDash();
-                    handleClose();
-                  }}
-                  disabled // Add the disabled attribute
-                >
-                  Profile
-                </MenuItem>
-                <MenuItem
-                  onClick={() => {
                     logoutuser();
                     handleClose();
                   }}

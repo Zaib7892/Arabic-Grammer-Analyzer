@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import '../style/SemanticAnalysis.css';
 import {
   ReactFlow,
@@ -11,7 +11,7 @@ import {
 import '@xyflow/react/dist/style.css';
 import { RectangularNode, ProjectileEdge } from './Assets/NodeEdge';
 import { useSession } from './Contexts/UploadContext'; // Import the session context
-import {useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { LoginContext } from '../components/ContextProvider/Context';
 
 const nodeTypes = {
@@ -22,23 +22,24 @@ const edgeTypes = {
   projectileEdge: ProjectileEdge,
 };
 
-
 const SemanticAnalysis = () => {
   const navigate = useNavigate();
   const { sessionData, setSessionData } = useSession(); // Use session data
   const [selectedEdge, setSelectedEdge] = useState(null);
-  const {logindata,setLoginData} = useContext(LoginContext);
+  const { logindata, setLoginData } = useContext(LoginContext);
 
   // Update states from sessionData
   const [nodes, setNodes, onNodesChange] = useNodesState(sessionData.nodes || []);
   const [edges, setEdges, onEdgesChange] = useEdgesState(sessionData.edges || []);
 
-  //login context for user id
- 
-
-  const handleEdgeClick = (event, edge) => {
-    setSelectedEdge(edge);
-  };
+  // Handle edge click with useCallback to delete the clicked edge
+  const handleEdgeClick = useCallback(
+    (event, edge) => {
+      event.stopPropagation();
+      setEdges((eds) => eds.filter((e) => e.id !== edge.id)); // Remove the clicked edge
+    },
+    [setEdges]
+  );
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -52,7 +53,7 @@ const SemanticAnalysis = () => {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [selectedEdge]);
+  }, [selectedEdge, setEdges]);
 
   const handleTextChange = (e) => {
     setSessionData({
@@ -177,37 +178,39 @@ const SemanticAnalysis = () => {
       edges: newEdges,
     });
   };
-// for data storing to database
-const saveGraphToDatabase = async () => {
-  const graphSemData = {
-    userId:logindata.ValidUserOne._id, //Ensure this is part of your session data
-    arabicText: sessionData.arabicText,
-    nodes: nodes,
-    edges: edges,
+
+  // for data storing to database
+  const saveGraphToDatabase = async () => {
+    const graphSemData = {
+      userId: logindata.ValidUserOne._id, //Ensure this is part of your session data
+      arabicText: sessionData.arabicText,
+      nodes: nodes,
+      edges: edges,
+    };
+
+    try {
+      const response = await fetch('/savesemGraph', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(graphSemData),
+      });
+
+      if (response.ok) {
+        alert('Graph uploaded successfully!'); // Graph saved successfully!
+      } else {
+        alert('Error uploading graph');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
-  try {
-    const response = await fetch('/savesemGraph', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(graphSemData),
-    });
-
-    if (response.ok) {
-      alert('Graph uploaded successfully!'); // Graph saved successfully!
-    } else {
-      alert('Error uploading graph');
-    }
-  } catch (error) {
-    console.error('Error:', error);
-  }
-};
-// fetching anlaysis for loggedIn user
-const fetchUserGraphs = () => {
-  navigate('/semanticanalysis/previousanalysis');
-};
+  // fetching analysis for loggedIn user
+  const fetchUserGraphs = () => {
+    navigate('/semanticanalysis/previousanalysis');
+  };
 
   return (
     <div className="semantic-analysis-container_Top_container">
@@ -247,6 +250,7 @@ const fetchUserGraphs = () => {
             onNodesChange={onNodesChange}
             onEdgesChange={onEdgesChange}
             onConnect={handleConnect}
+            onEdgeClick={handleEdgeClick} // Add the onEdgeClick handler
             nodeTypes={nodeTypes}
             edgeTypes={edgeTypes}
           >

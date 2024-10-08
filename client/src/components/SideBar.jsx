@@ -1,6 +1,5 @@
 import { RiFeedbackFill } from "react-icons/ri";
 import { FaClipboardQuestion } from "react-icons/fa6";
-import { IoIosCreate } from "react-icons/io";
 import { SiGraphql } from "react-icons/si";
 import React, { useContext, useState } from 'react';
 import { FaHome, FaBars, FaDochub } from 'react-icons/fa';
@@ -44,7 +43,6 @@ const SideBar = ({ children }) => {
         }
     ];
 
-    // Conditionally add "Test" for type = 'u'
     if (logindata.ValidUserOne?.type === 'u') {
         menuItems.push({
             path: "/test",
@@ -53,17 +51,11 @@ const SideBar = ({ children }) => {
         });
     }
 
-    // Conditionally add "Feedback" and "Create Test" for type = 'a'
     if (logindata.ValidUserOne?.type === 'a') {
         menuItems.push({
             path: "/viewfeedback",
-            name: "Feedback",
-            icon: <RiFeedbackFill />
-        });
-        menuItems.push({
-            path: "/createtest",
-            name: "Create Test",
-            icon: <IoIosCreate />
+            name: "Feedbacks",
+            icon: <RiFeedbackFill/>
         });
     }
 
