@@ -14,11 +14,10 @@
   display: flex;
   flex-direction: column;
   align-items: center; 
-  justify-content: center; 
 }
 
 /* Textarea and input styling */
-.input{
+.input {
   width: 100%;
   height: 200px;
   margin-bottom: 10px;
@@ -27,18 +26,32 @@
   border: 1px solid #ccc;
   border-radius: 15px;
   resize: none;
+  direction: rtl;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-.edit-input{
+
+.edit-input {
   width: 100%;
   height: 200px;
-  margin-bottom: 10px;
-  padding: 15px;
+  padding: 10px;
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 15px;
+  direction: rtl;
   resize: none;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+/* Container for edit mode or display mode */
+.edit-container {
+  position: relative;
+  width: 100%;
+}
+.error-message {
+  color: red;
+  margin-top: 10px;
+  font-size: 14px;
 }
 
 /* Result display area styling */
@@ -51,11 +64,25 @@
   resize: none;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   background-color: #f0f0f0;
-  height: auto;
   min-height: 200px;
-  padding: 15px;
+  padding: 10px;
   text-align: center;
-  font-size: 1.3em;
+  font-size: 1em;
+  position: relative;
+}
+
+/* Copy icon styling */
+.copy-icon {
+  position: absolute;
+  top: 10px;
+  left: 10px; /* Set the icon to the left side */
+  cursor: pointer;
+  font-size: 1.2em;
+  color: #1d4b78;
+}
+
+.copy-icon:hover {
+  color: #87CEEB;
 }
 
 /* Button styling (matching your previous page) */
@@ -66,7 +93,7 @@
   border-radius: 15px;
   color: white;
   cursor: pointer;
-  font-size: 1.2em;
+  font-size: 1em;
   padding: 15px 30px;
   transition: all 0.3s ease-in-out;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -88,14 +115,6 @@
     flex-direction: column;
     align-items: center;
     gap: 20px;
-  }
-
-  .input-box {
-    order: -1; 
-  }
-
-  .result-box {
-    order: 1;
   }
 
   .input-box,
@@ -123,7 +142,7 @@
     height: 120px; 
   }
 
-  .result-sentence{
+  .result-sentence {
     font-size: 14px;
     height: auto; 
   }

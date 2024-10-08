@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useCallback } from 'react';
+import React, { useState, useCallback, useContext } from 'react';
 import '../style/SemanticAnalysis.css';
 import {
   ReactFlow,
@@ -10,7 +10,7 @@ import {
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { RectangularNode, ProjectileEdge } from './Assets/NodeEdge';
-import { useSession } from './Contexts/UploadContext'; // Import the session context
+import { useSession } from './Contexts/UploadContext';
 import { useNavigate } from 'react-router-dom';
 import { LoginContext } from '../components/ContextProvider/Context';
 
@@ -24,42 +24,48 @@ const edgeTypes = {
 
 const SemanticAnalysis = () => {
   const navigate = useNavigate();
-  const { sessionData, setSessionData } = useSession(); // Use session data
+  const { sessionData, setSessionData } = useSession();
   const [selectedEdge, setSelectedEdge] = useState(null);
-  const { logindata, setLoginData } = useContext(LoginContext);
+  const { logindata } = useContext(LoginContext);
 
-  // Update states from sessionData
   const [nodes, setNodes, onNodesChange] = useNodesState(sessionData.nodes || []);
   const [edges, setEdges, onEdgesChange] = useEdgesState(sessionData.edges || []);
 
-  // Handle edge click with useCallback to delete the clicked edge
   const handleEdgeClick = useCallback(
     (event, edge) => {
       event.stopPropagation();
-      setEdges((eds) => eds.filter((e) => e.id !== edge.id)); // Remove the clicked edge
+      setEdges((eds) => eds.filter((e) => e.id !== edge.id));
     },
     [setEdges]
   );
 
-  useEffect(() => {
-    const handleKeyDown = (event) => {
-      if (event.key === 'Delete' && selectedEdge) {
-        setEdges((eds) => eds.filter((e) => e.id !== selectedEdge.id));
-        setSelectedEdge(null);
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [selectedEdge, setEdges]);
-
   const handleTextChange = (e) => {
-    setSessionData({
-      ...sessionData,
-      arabicText: e.target.value,
-    });
+    const arabicText = e.target.value;
+    if (arabicText.trim()) {
+      const isArabic = /^[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF\s.,؛؟]+$/;
+      if (!isArabic.test(arabicText)) {
+        setSessionData({
+          ...sessionData,
+          arabicText: arabicText,
+          errorMessage: 'The data is not correct. Please enter Arabic text.',
+          isArabic: false,
+        });
+      } else {
+        setSessionData({
+          ...sessionData,
+          arabicText: arabicText,
+          errorMessage: '',
+          isArabic: true,
+        });
+      }
+    } else {
+      setSessionData({
+        ...sessionData,
+        arabicText: arabicText,
+        errorMessage: '',
+        isArabic: false,
+      });
+    }
   };
 
   const handleTranslate = async () => {
@@ -100,6 +106,14 @@ const SemanticAnalysis = () => {
   };
 
   const createGraph = () => {
+    if (!sessionData.isArabic) {
+      setSessionData({
+        ...sessionData,
+        errorMessage: 'Please enter valid Arabic text before analyzing.',
+      });
+      return;
+    }
+
     const sentences = sessionData.arabicText.split(/(?<=[.!؟])\s+/);
     const initialX = 1000;
     const gap = 200;
@@ -157,9 +171,8 @@ const SemanticAnalysis = () => {
     });
 
     setNodes(newNodes);
-    setEdges([]); // Reset edges when creating a new graph
+    setEdges([]);
 
-    // Update sessionData for nodes, edges, and graph visibility
     setSessionData({
       ...sessionData,
       nodes: newNodes,
@@ -172,17 +185,15 @@ const SemanticAnalysis = () => {
     const newEdges = addEdge({ ...params, type: 'projectileEdge' }, edges);
     setEdges(newEdges);
 
-    // Update edges in session data
     setSessionData({
       ...sessionData,
       edges: newEdges,
     });
   };
 
-  // for data storing to database
   const saveGraphToDatabase = async () => {
     const graphSemData = {
-      userId: logindata.ValidUserOne._id, //Ensure this is part of your session data
+      userId: logindata.ValidUserOne._id,
       arabicText: sessionData.arabicText,
       nodes: nodes,
       edges: edges,
@@ -198,7 +209,7 @@ const SemanticAnalysis = () => {
       });
 
       if (response.ok) {
-        alert('Graph uploaded successfully!'); // Graph saved successfully!
+        alert('Graph uploaded successfully!');
       } else {
         alert('Error uploading graph');
       }
@@ -207,7 +218,6 @@ const SemanticAnalysis = () => {
     }
   };
 
-  // fetching analysis for loggedIn user
   const fetchUserGraphs = () => {
     navigate('/semanticanalysis/previousanalysis');
   };
@@ -219,7 +229,7 @@ const SemanticAnalysis = () => {
           <textarea
             value={sessionData.translatedTextSemantic}
             readOnly
-            placeholder="Translated text will appear here..."
+            placeholder="ترجمہ ..."
             className="translation-textarea"
           />
           <button onClick={handleTranslate} className="start-button translate-button">
@@ -231,34 +241,58 @@ const SemanticAnalysis = () => {
           <textarea
             value={sessionData.arabicText}
             onChange={handleTextChange}
-            placeholder="Enter Arabic text here..."
+            placeholder="اپنا متن یہاں لکھیں...."
             className="arabic-textarea"
           />
-          <button onClick={createGraph} className="start-button analyze-button">
+          <button
+            onClick={createGraph}
+            className="start-button analyze-button"
+            disabled={!sessionData.isArabic}
+          >
             Analyze
           </button>
           {sessionData.errorMessage && <p className="error-message">{sessionData.errorMessage}</p>}
         </div>
-        <button onClick={fetchUserGraphs}>See Previous Analysis</button>
       </div>
 
       {sessionData.showGraph && (
-        <div style={{ width: '100%', height: '400px', marginTop: '20px' }}>
-          <ReactFlow
-            nodes={nodes}
-            edges={edges}
-            onNodesChange={onNodesChange}
-            onEdgesChange={onEdgesChange}
-            onConnect={handleConnect}
-            onEdgeClick={handleEdgeClick} // Add the onEdgeClick handler
-            nodeTypes={nodeTypes}
-            edgeTypes={edgeTypes}
-          >
-            <Controls />
-            <Background variant="dots" gap={12} size={1} />
-          </ReactFlow>
-          <button onClick={saveGraphToDatabase}>Save Analysis</button>
-        </div>
+        <>
+          {/* Node Color Legend */}
+          <div className="node-legend">
+            <div className="legend-item">
+               <span className="legend-color target-color"></span> Target
+            </div>
+            <div className="legend-item">
+               <span className="legend-color source-color"></span> Source
+            </div>
+          </div>
+          <p className="legend-note">You can draw relations from source to target if needed</p>
+
+          
+          <div style={{ width: '100%', height: '400px', marginTop: '20px' }}>
+            <ReactFlow
+              nodes={nodes}
+              edges={edges}
+              onNodesChange={onNodesChange}
+              onEdgesChange={onEdgesChange}
+              onConnect={handleConnect}
+              onEdgeClick={handleEdgeClick}
+              nodeTypes={nodeTypes}
+              edgeTypes={edgeTypes}
+            >
+              <Controls />
+              <Background variant="dots" gap={12} size={1} />
+            </ReactFlow>
+          </div>
+          <div className="button-group">
+            <button onClick={fetchUserGraphs} className="start-button view-analysis-button">
+              View Analysis
+            </button>
+            <button onClick={saveGraphToDatabase} className="start-button save-analysis-button">
+              Save Analysis
+            </button>
+          </div>
+        </>
       )}
     </div>
   );

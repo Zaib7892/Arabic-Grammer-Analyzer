@@ -1,151 +1,158 @@
- 
+.selected-sentence {
+  width: 45%;
+  height: auto;
+  background-color: #ffffff;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  direction: rtl;
+  resize: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Consistent box-shadow */
   
-  .trans-button {
-    width: 200px;
-    background: linear-gradient(45deg, #1d4b78, #87CEEB);
-    border: none;
-    border-radius: 15px;
-    color: white;
-    cursor: pointer;
-    justify-content:center;
-    margin-top: 3%;
-    font-size: 1.2em;
-    padding: 15px 30px;
-    transition: all 0.3s ease-in-out;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .trans-button:hover {
-    background: linear-gradient(45deg, #87CEEB, #1d4b78);
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
-    transform: translateY(-2px);
-  }
-  .trans-button:active {
-    transform: translateY(2px);
-  }
-
-
-  .analyz-button {
-    width: 200px;
-    background: linear-gradient(45deg, #1d4b78, #87CEEB);
-    border: none;
-    border-radius: 15px;
-    color: white;
-    cursor: pointer;
-    font-size: 1.2em;
-    padding: 15px 30px;
-    transition: all 0.3s ease-in-out;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    justify-content:center;
-    margin-top: 3%;
-  }
-  
-  .analyz-button:hover {
-    background: linear-gradient(45deg, #87CEEB, #1d4b78);
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
-    transform: translateY(-2px);
-  }
-  .analyz-button:active {
-    transform: translateY(2px);
-  }
- 
- 
-  .selected-sentence {
-    width: 45%;
-    height: auto;
-    background-color: #ffffff;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 15px;
-    direction: rtl;
-    resize: none;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Consistent box-shadow */
-    
-  }
-
-
-  .translated-sentence {
-    width: 45%;
-    height: auto;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 15px;
-    background-color: #f9f9f9;
-    resize: none;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    
-  }
-  
-  .translated-sentence {
-    font-size: 16px;
-    line-height: 1.5;
-    color: #333;
-    direction: ltr;
-  }
-  /*.translate-button, .analyze-button {
-    padding: 10px 20px;
-  }*/
-  .export-button {
-    margin-top: 10px;
-    width: 200px;
-    background: linear-gradient(45deg, #1d4b78, #87CEEB);
-    border: none;
-    border-radius: 15px;
-    color: white;
-    cursor: pointer;
-   
-    font-size: 1.1em;
-    padding: 15px 30px;
-    transition: all 0.3s ease-in-out;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    justify-content: center;
-   
-  }
-  
-  .export-button:hover {
-    background: linear-gradient(45deg, #87CEEB, #1d4b78);
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
-    transform: translateY(-2px);
-  }
-
-  .export-button:active {
-    transform: translateY(2px);
-  }
-/*.translated-sentence{
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  width: 500px;
-}*/
-
-.upload-button{
-  margin-top: 40px;
-    padding: 10px 20px;
-    background-color: #1d4b78;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
 }
+
+.translated-sentence {
+  width: 45%;
+  height: auto;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 15px;
+  background-color: #f9f9f9;
+  resize: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+  direction: ltr;
+ 
+}
+
+.trans-button {
+  width: 200px;
+  background: linear-gradient(45deg, #1d4b78, #87CEEB);
+  border: none;
+  border-radius: 15px;
+  color: white;
+  cursor: pointer;
+  font-size: 1.2em;
+  padding: 15px 30px;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-top: 3%; /* Adjust margin as needed */
+}
+
+.trans-button:hover {
+  background: linear-gradient(45deg, #87CEEB, #1d4b78);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+.trans-button:active {
+  transform: translateY(2px);
+}
+
+.analyz-button {
+  width: 200px;
+  background: linear-gradient(45deg, #1d4b78, #87CEEB);
+  border: none;
+  border-radius: 15px;
+  color: white;
+  cursor: pointer;
+  font-size: 1.2em;
+  padding: 15px 30px;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-top: 3%; /* Adjust margin as needed */
+}
+
+.analyz-button:hover {
+  background: linear-gradient(45deg, #87CEEB, #1d4b78);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+.analyz-button:active {
+  transform: translateY(2px);
+}
+
+.export-button {
+  margin-top: 10px;
+  width: 200px;
+  background: linear-gradient(45deg, #1d4b78, #87CEEB);
+  border: none;
+  border-radius: 15px;
+  color: white;
+  cursor: pointer;
+  font-size: 1.1em;
+  padding: 15px 30px;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+ 
+}
+
+.export-button:hover {
+  background: linear-gradient(45deg, #87CEEB, #1d4b78);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+.export-button:active {
+  transform: translateY(2px);
+}
+
+.upload-button {
+  margin-top: 40px;
+  padding: 10px 20px;
+  background-color: #1d4b78;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 .upload-button:hover {
   background-color: lightskyblue;
   color: black;
 }
 
+.button-container {
+  display: flex;
+  justify-content: space-between; /* Distribute the buttons evenly */
+  align-items: center;
+  margin-top: 20px; /* Adjust margin if needed */
+  width: 60%; /* Set a width to keep it centered with respect to the above containers */
+  margin-left: auto;
+  margin-right: auto;
+}
 
 
+.node-legend {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+  gap: 20px;
+  font-size: 14px;
+}
 
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
 
+.legend-bullet {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
 
+.source-color {
+  background-color: green;
+}
 
-
-
-
-
-
-
-
-
-
-
-
+.target-color {
+  background-color: darkred;
+}
 

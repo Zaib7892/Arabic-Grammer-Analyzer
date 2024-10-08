@@ -91,11 +91,7 @@
   
 
 }
-@media(max-width:764){
-  .start-button{
-    max-width: 25%;
-  }
-}
+
 
 /* For mobile devices (screens less than 600px) */
 @media (max-width: 600px) {
