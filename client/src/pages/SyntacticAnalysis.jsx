@@ -196,7 +196,7 @@ const SyntacticAnalysis = () => {
               <Background variant="dots" gap={12} size={1} />
             </ReactFlow>
           </div>
-          <div className="buttons-container" style={{ marginTop: '10px' }}>
+          <div className="buttonscontainer" style={{ marginTop: '10px' }}>
           <button className="export-button" onClick={downloadGraph}>
             Download Graph
           </button>

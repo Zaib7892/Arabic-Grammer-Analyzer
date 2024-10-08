@@ -7,22 +7,25 @@
 }
 .container {
   display: flex;
+  min-height: 100vh;
+  height: auto;
 
 }
 main{
   width: 100%;
   padding: 20px;
+  overflow-y: auto;
 
 }
 .sidebar {
   background: #1d4b78;
   color: white;
-  /* height: 100vh; */  /* Remove this line */
-  min-height: 100vh;   /* Add this line */
+  min-height: 100vh;
+  height: auto;
   width: 300px;
   transition: all 0.5s;
-  position: sticky;    /* Add this line to keep the sidebar in view */
-  top: 0;             /* Add this line to start sidebar at the top */
+  position: sticky;    
+  top: 0;             
 }
 .top_section{
   display: flex;

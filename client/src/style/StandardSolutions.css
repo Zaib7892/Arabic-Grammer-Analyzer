@@ -21,6 +21,7 @@
 }
 
 .solution button {
+    margin-top: 10px;
     margin-right: 100px;
     min-width: 80px; 
     background-color: #1d4b78;

@@ -43,21 +43,22 @@
     display: flex;
     flex-direction: column; 
     margin-left: 20px; 
+    text-align: right;
 }
 
 .graph-name {
     font-weight: bold;
-    color:#1d4b78
+    color:#1d4b78;
 }
 
 .date {
     font-size: 12px;
     color: #666;
     margin-top: 5px;
-    text-align: right;
 }
 
-.taketest {
+.taketest,
+.back {
     margin-left: 20px;
     background: linear-gradient(45deg, #1d4b78, #87CEEB);
     border: none;
@@ -70,8 +71,151 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.taketest:hover {
+.taketest,.back:hover {
     background: linear-gradient(45deg, #87CEEB, #1d4b78);
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
     transform: translateY(-2px);
+}
+.result-details {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-top: 20px;
+}
+
+.result-details h3 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.result-details p {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.accuracy-bar {
+    margin-top: 20px;
+}
+
+.accuracy-bar p {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.progress-wrapper {
+    position: relative;
+    height: 30px;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.progress-bar {
+    height: 100%;
+    border-radius: 20px;
+}
+
+.progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 16px;
+    color: black;
+    font-weight: bold;
+}
+
+.high-accuracy {
+    color: green;
+}
+
+.progress-bar .MuiLinearProgress-barColorPrimary {
+    background-color: #1d4b78; /* Change the bar color */
+}
+
+.progress-bar .MuiLinearProgress-colorPrimary {
+    background-color: #ddd; /* Background of the progress bar */
+}
+.legend {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px; /* Adjust the spacing from the graph */
+}
+
+.legend-item {
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.legend-bullet {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+}
+@media only screen and (max-width: 768px) {
+    /* Graph and button containers */
+    .graphs {
+        flex-direction: column;
+        margin-right: 0;
+        padding: 8px;
+        margin-bottom: 15px;
+    }
+
+    .graph-info {
+        margin-left: 0;
+        margin-top: 10px;
+        text-align: center;
+    }
+
+    .taketest, .back {
+        width: 100%; /* Full width on small screens */
+        margin-top: 10px;
+        padding: 10px 0;
+    }
+
+    .result-details {
+        padding: 15px;
+    }
+
+    .progress-wrapper {
+        width: 90%; /* Reduce the width for smaller screens */
+    }
+
+    /* Adjust legend for mobile view */
+    .legend {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .legend-item {
+        margin-bottom: 10px; /* Add space between items */
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    /* Further adjust for very small screens */
+    .taketest, .back {
+        font-size: 14px; /* Reduce font size for small screens */
+    }
+
+    .result-details h3 {
+        font-size: 20px; /* Reduce heading size */
+    }
+
+    .result-details p, .accuracy-bar p {
+        font-size: 16px; /* Adjust paragraph text size */
+    }
+
+    .progress-wrapper {
+        width: 100%;
+    }
 }
