@@ -229,7 +229,7 @@ const SemanticAnalysis = () => {
           <textarea
             value={sessionData.translatedTextSemantic}
             readOnly
-            placeholder="ترجمہ ..."
+            placeholder="Translated text here..."
             className="translation-textarea"
           />
           <button onClick={handleTranslate} className="start-button translate-button">
