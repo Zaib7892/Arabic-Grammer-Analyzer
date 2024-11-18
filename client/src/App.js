@@ -16,9 +16,9 @@ import Test from "./pages/Test";
 import GiveFeedback from "./pages/GiveFeedback";
 import SemanticAnalysis from "./pages/SemanticAnalysis";
 import ViewFeedback from "./pages/ViewFeedback";
-import CreateTest from "./pages/CreateTest";
 import "./App.css";
 import { SessionProvider } from "./pages/Contexts/UploadContext";
+import SemanticSolutions from "./pages/SemanticSolutions";
 
 
 
@@ -72,11 +72,11 @@ function App() {
                   <Route path="/diacritization" element={<Diacritization />} />
                   <Route path="/syntacticanalysis" element={<SyntacticAnalysis />} />
                   <Route path="/semanticanalysis" element={<SemanticAnalysis />} />
+                  <Route path="/semanticanalysis/previousanalysis" element={<SemanticSolutions/>}/>
                   <Route path="/standardsolutions" element={<StandardSolutions />} />
                   <Route path="/test" element={<Test />} />
                   <Route path="/standardsolutions/givefeedback" element={<GiveFeedback />} />
                   <Route path="/viewfeedback" element={<ViewFeedback />} />
-                  <Route path="/createtest" element={<CreateTest />} />
                 </Routes>
               </SideBar>
             </>

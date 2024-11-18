@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSession } from './Contexts/UploadContext';
 import '../style/UploadText.css'; // Import your CSS file
@@ -25,6 +25,7 @@ function UploadText() {
   const [wordCount, setWordCount] = useState(sessionData.wordCount);
   const [language, setLanguage] = useState(sessionData.language);
   const [showFields, setShowFields] = useState(sessionData.showFields);
+  const [errorMessage, setErrorMessage] = useState(''); // For displaying errors
 
   // Function to separate sentences using regular expressions
   function segmentSentences(text) {
@@ -35,6 +36,17 @@ function UploadText() {
   const handleTextChange = (event) => {
     const text = event.target.value;
     setInputText(text);
+
+    // Arabic text validation using a regular expression
+    const arabicRegex = /[\u0600-\u06FF]/;
+    if (!arabicRegex.test(text)) {
+      setErrorMessage('Please enter text in Arabic.');
+      setShowFields(false); // Hide further processing options
+      return; // Do not proceed further
+    } else {
+      setErrorMessage(''); // Clear error message if text is Arabic
+    }
+
     const segmentedSentences = segmentSentences(text);
     setSentences(segmentedSentences);
     setWordCount(text.split(/\s+/).filter(word => word.trim() !== '').length);
@@ -127,11 +139,12 @@ function UploadText() {
     <div className="text-analysis">
       <textarea
         className="text-input"
-        placeholder="Enter your text here"
+        placeholder="اپنا متن یہاں لکھیں...."
         value={inputText}
         onChange={handleTextChange}
       />
-      {!showFields && inputText && (
+      {errorMessage && <div className="error-message">{errorMessage}</div>}
+      {!showFields && inputText && !errorMessage && (
         <button className="start-button proceed-text-button" onClick={handleProceed}>Proceed</button>
       )}
       {showFields && (
@@ -146,19 +159,15 @@ function UploadText() {
               ))}
             </div>
           </div>
-          <div className="analyze-text-button-container">
-            
-          </div>
-
           <div className="analyze-text-button-wrapper">
-              <button
-                className="start-button analyze-text-button"
-                onClick={handleAnalyze}
-                disabled={!selectedSentence}
-              >
-                Analyze Text
-              </button>
-            </div>
+            <button
+              className="start-button analyze-text-button"
+              onClick={handleAnalyze}
+              disabled={!selectedSentence}
+            >
+              Analyze Text
+            </button>
+          </div>
 
           <div className="translation-section">
             <div className="translation-text">{translatedText}</div>

@@ -4,7 +4,7 @@ const userdb = require("../models/userSchema");
 const Graph = require("../models/graphSchema");
 const GraphFeedback = require("../models/feedbackSchema");
 const Test = require("../models/testSchema");
-
+const semGraph = require("../models/semGraph");
 var bcrypt = require("bcryptjs");
 const authenticate = require("../middleware/authenticate");
 
@@ -261,9 +261,73 @@ router.get('/tests', async (req, res) => {
         console.error("ERROR:", error);
     }
 });
+ // storing semantic analysis
+ router.post('/savesemGraph', async (req, res) => {
+    const { userId, arabicText, nodes, edges } = req.body;
+    try {
+      const newGraph = new semGraph({
+        userId,
+        arabicText,
+        nodes,
+        edges,
+      });
+  
+      await newGraph.save();
+      res.status(201).json({ message: 'Graph saved successfully!' });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to save graph' });
+    }
+  });
+// fetching semantic graphs for loggedIn user
+router.get('/getUserGraphs', async (req, res) => {
+    try {
 
+      const userId = req.query.userId;
+      // Validate that userId is provided
+      if (!userId) {
+        return res.status(400).json({ message: 'User ID is required' });
+      }
+  
+      // Find graphs associated with the given userId
+      const userGraphs = await semGraph.find({ userId });
+  
+      // Check if graphs exist for the user
+      if (userGraphs.length === 0) {
+        return res.status(404).json({ message: 'No graphs found for this user' });
+      }
+      
+      // Send the graphs back to the client
+      res.status(200).json(userGraphs);
+    } catch (error) {
+      console.error('Error fetching graphs:', error);
+      res.status(500).json({ message: 'Server error while fetching graphs' });
+    }
+  });
 
+  router.put('/updateSemGraph/:graphId', async (req, res) => {
+    const { graphId } = req.params;
+    const { edges } = req.body;
 
+    try {
+        // Find the graph by its ID
+        const semg_raph = await semGraph.findById(graphId);
+
+        if (!semg_raph) {
+            return res.status(404).json({ message: 'Graph not found' });
+        }
+
+        // Update the edges
+        semg_raph.edges = edges;
+
+        // Save the updated graph
+        const updatedGraph = await semg_raph.save();
+
+        res.status(200).json(updatedGraph);
+    } catch (error) {
+        console.error('Error updating graph:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+});
 
 module.exports = router;
 

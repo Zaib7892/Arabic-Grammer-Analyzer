@@ -45,7 +45,7 @@ const ViewFeedback = () => {
           <CircularProgress />
         </Box>
       ) : (
-        <>
+        <div className="feedback-content">
           <h2 className="feedback-header">Feedbacks on Grammatical Analysis</h2>
           {feedbackData.length > 0 ? (
             feedbackData.map((feedback, index) => (
@@ -59,9 +59,9 @@ const ViewFeedback = () => {
               </div>
             ))
           ) : (
-            <p>No feedback available.</p>
+            <p className="no-feedback">No feedback available.</p>
           )}
-        </>
+        </div>
       )}
     </div>
   );

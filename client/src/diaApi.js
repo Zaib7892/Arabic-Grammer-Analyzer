@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const apiKey = 'rXSJKZDUvgsloKbRQL'; // Replace with your actual API key
+const apiKey = 'rXSJKZDUvgsloKbRQL'; 
 const url = 'https://farasa.qcri.org/webapi/diacritize/';
 
 export const diacritizeArabicText = async (text) => {

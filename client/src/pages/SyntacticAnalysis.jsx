@@ -11,7 +11,6 @@ import {
 } from '@xyflow/react';
 
 import '@xyflow/react/dist/style.css';
-/*import '../style/Diacritization.css';*/
 import '../style/SyntacticAnalysis.css';
 import { CircularNode, HalfCircleEdge } from './Assets/NodeEdge';
 
@@ -32,8 +31,12 @@ const SyntacticAnalysis = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [showGraph, setShowGraph] = useState(false);
+<<<<<<< HEAD
   const {logindata,setLoginData} = useContext(LoginContext);
   
+=======
+  const { logindata, setLoginData } = useContext(LoginContext);
+>>>>>>> 4a06e3814e7229a50da6e5140c36c22762124d0e
 
   useEffect(() => {
     if (selectedSentence) {
@@ -85,6 +88,7 @@ const SyntacticAnalysis = () => {
 
   const createGraph = (data) => {
     const width = 1000;
+<<<<<<< HEAD
   
     const newNodes = data.map((token, index) => {
       let nodeLabel = '';
@@ -124,6 +128,17 @@ const SyntacticAnalysis = () => {
       };
     });
   
+=======
+
+    const newNodes = data.map((token, index) => ({
+      id: `${index}`,
+      type: 'circularNode',
+      position: { x: width - index * 100, y: 50 },
+      data: { label: `${token.text} (${token.pos})` },
+      draggable: false,
+    }));
+
+>>>>>>> 4a06e3814e7229a50da6e5140c36c22762124d0e
     const newEdges = data.map((token, index) => {
       const headIndex = data.findIndex(t => t.text === token.head);
       return {
@@ -164,15 +179,13 @@ const SyntacticAnalysis = () => {
     link.download = 'graph.json';
     link.click();
   };
-  const uploadGraph = async () =>{
+
+  const uploadGraph = async () => {
     try {
       const graphData = {
-        userId: logindata.ValidUserOne._id, // Get user ID from login context
-        name: selectedSentence, // Use the selected sentence as the graph name
-        graphData: {
-          nodes,
-          edges
-        }
+        userId: logindata.ValidUserOne._id,
+        name: selectedSentence,
+        graphData: { nodes, edges }
       };
 
       const response = await fetch('/storegraph', {
@@ -186,13 +199,11 @@ const SyntacticAnalysis = () => {
       } else {
         alert('Error uploading graph');
       }
-    } 
-    catch (error) {
+    } catch (error) {
       console.error('Error uploading graph:', error);
       alert('Error communicating with the server');
     }
   };
-
   return (
     <div className="text-analysis">
       <div className="results-container">
@@ -203,7 +214,7 @@ const SyntacticAnalysis = () => {
           {translatedSentence && <p>{translatedSentence}</p>}
         </div>
       </div>
-      <div className="buttons-container">
+      <div className="button-container">
         <button className="trans-button" onClick={translateSentence}>
           Translate
         </button>
@@ -220,6 +231,18 @@ const SyntacticAnalysis = () => {
 
       {showGraph && (
         <>
+          {/* Node Color Legend */}
+          <div className="node-legend">
+            <div className="legend-item">
+              <span className="legend-bullet source-color"></span> Source
+            </div>
+            <div className="legend-item">
+              <span className="legend-bullet target-color"></span> Target
+            </div>
+          </div>
+          <p className="note-text">
+            Note: You can draw relations from source to target if needed
+          </p>
           <div style={{ width: '100%', height: '400px', marginTop: '20px' }}>
             <ReactFlow
               nodes={nodes}
@@ -235,17 +258,16 @@ const SyntacticAnalysis = () => {
               <Background variant="dots" gap={12} size={1} />
             </ReactFlow>
           </div>
-          <div className="buttons-container" style={{ marginTop: '10px' }}>
-          <button className="export-button" onClick={downloadGraph}>
-            Download Graph
-          </button>
-          { logindata.ValidUserOne?.type === 'a' && (
-          <button className="upload-button" onClick={uploadGraph}>
-            Upload Solution
-          </button>
-          )}
-        </div>
-        
+          <div className="buttonscontainer" >
+            <button className="export-button" onClick={downloadGraph}>
+              Download Graph
+            </button>
+            {logindata.ValidUserOne?.type === 'a' && (
+              <button className="upload-button" onClick={uploadGraph}>
+                Upload Solution
+              </button>
+            )}
+          </div>
         </>
       )}
     </div>
