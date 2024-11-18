@@ -1,19 +1,5 @@
  
   
-  .trans-button {
-    width: 200px;
-    background: linear-gradient(45deg, #1d4b78, #87CEEB);
-    border: none;
-    border-radius: 15px;
-    color: white;
-    cursor: pointer;
-    justify-content:center;
-    margin-top: 3%;
-    font-size: 1.2em;
-    padding: 15px 30px;
-    transition: all 0.3s ease-in-out;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
   
   .trans-button:hover {
     background: linear-gradient(45deg, #87CEEB, #1d4b78);
@@ -36,9 +22,26 @@
     padding: 15px 30px;
     transition: all 0.3s ease-in-out;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    justify-content:center;
-    margin-top: 3%;
+    justify-content: center;
+    margin-right: 40px; /* Added margin */
   }
+  
+  .trans-button {
+    width: 200px;
+    background: linear-gradient(45deg, #1d4b78, #87CEEB);
+    border: none;
+    border-radius: 15px;
+    color: white;
+    cursor: pointer;
+    justify-content: center;
+    margin-top: 3%;
+    font-size: 1.2em;
+    padding: 15px 60px;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-left: 40px; /* Added margin */
+  }
+  
   
   .analyz-button:hover {
     background: linear-gradient(45deg, #87CEEB, #1d4b78);

@@ -24,6 +24,7 @@ const edgeTypes = {
 };
 
 const SyntacticAnalysis = () => {
+  const [selectedParser, setSelectedParser] = useState('spacy'); // Default to 'spacy'
   const location = useLocation();
   const { selectedSentence } = location.state || {};
   const [translatedSentence, setTranslatedSentence] = useState('');
@@ -32,7 +33,7 @@ const SyntacticAnalysis = () => {
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [showGraph, setShowGraph] = useState(false);
   const {logindata,setLoginData} = useContext(LoginContext);
-
+  
 
   useEffect(() => {
     if (selectedSentence) {
@@ -66,14 +67,14 @@ const SyntacticAnalysis = () => {
       const response = await fetch('http://localhost:5000/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: selectedSentence }),
+        body: JSON.stringify({ text: selectedSentence, parser: selectedParser }), // Send selected parser
       });
 
       if (response.ok) {
         const data = await response.json();
         setAnalysisResult(data);
         createGraph(data);
-        setShowGraph(true); // Show the graph and download button
+        setShowGraph(true);
       } else {
         setAnalysisResult([{ error: 'Error analyzing text' }]);
       }
@@ -84,15 +85,45 @@ const SyntacticAnalysis = () => {
 
   const createGraph = (data) => {
     const width = 1000;
-
-    const newNodes = data.map((token, index) => ({
-      id: `${index}`,
-      type: 'circularNode',
-      position: { x: width - index * 100, y: 50 },
-      data: { label: `${token.text} (${token.pos})` },
-      draggable: false
-    }));
-
+  
+    const newNodes = data.map((token, index) => {
+      let nodeLabel = '';
+  
+      if (selectedParser === 'spacy') {
+        // For spaCy, use the original format (POS in row format)
+        nodeLabel = `${token.text} (${token.pos})`;
+      } else if (selectedParser === 'camel') {
+        // For Camel, extract the relevant morphological information
+        const morphFeatures = token.morphological_features.split('|'); // Split the morphological features by '|'
+        const morphInfo = {};
+        
+        morphFeatures.forEach(feature => {
+          const [key, value] = feature.split('=');
+          morphInfo[key] = value;
+        });
+  
+        // Create a readable format for each feature
+        const gender = morphInfo.gen === 'm' ? 'Masculine' : 'Feminine';
+        const number = morphInfo.num === 's' ? 'Singular' : 'Plural';
+        const state = morphInfo.stt === 'd' ? 'Definite' : 'Indefinite';
+        const caseType = morphInfo.cas === 'n' ? 'Nominative' : morphInfo.cas === 'a' ? 'Accusative' : 'Genitive';
+        const person = morphInfo.per === 'na' ? 'Not applicable' : morphInfo.per;
+        const rationality = morphInfo.rat === 'i' ? 'Inanimate' : 'Animate';
+  
+        // Construct the node label with the extracted morphological information
+        const additionalInfo = `${token.pos}\n${token.dep}\nGender: ${gender}\nNumber: ${number}\nState: ${state}\nCase: ${caseType}\nPerson: ${person}\nRationality: ${rationality}`;
+        nodeLabel = `${token.text}\n${additionalInfo}`;
+      }
+  
+      return {
+        id: `${index}`,
+        type: 'circularNode',
+        position: { x: width - index * 100, y: 50 },
+        data: { label: nodeLabel },
+        draggable: false
+      };
+    });
+  
     const newEdges = data.map((token, index) => {
       const headIndex = data.findIndex(t => t.text === token.head);
       return {
@@ -107,10 +138,11 @@ const SyntacticAnalysis = () => {
         },
       };
     }).filter(edge => edge.source !== edge.target);
-
+  
     setNodes(newNodes);
     setEdges(newEdges);
   };
+  
 
   const onConnect = useCallback((params) =>
     setEdges((eds) => addEdge({ ...params, type: 'halfCircle', style: { stroke: '#000000', strokeWidth: 1.5 }, markerEnd: { type: 'arrow', color: '#ff0072' } }, eds)), [setEdges]
@@ -179,6 +211,13 @@ const SyntacticAnalysis = () => {
           Analyze
         </button>
       </div>
+      
+      {/* Parser Selection Dropdown */}
+      <select value={selectedParser} onChange={(e) => setSelectedParser(e.target.value)}>
+        <option value="spacy">spaCy</option>
+        <option value="camel">Camel Parser</option>
+      </select>
+
       {showGraph && (
         <>
           <div style={{ width: '100%', height: '400px', marginTop: '20px' }}>
