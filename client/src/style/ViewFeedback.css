@@ -1,92 +1,72 @@
-/* Main feedback container */
 .feedback-container {
-    margin: 30px auto;
-    width: 90%;
-    max-width: 800px; /* Adjusts the max width for better centering */
-    padding: 30px;
-    background: #f9f9f9;
-    
-    height: auto;
-    border-radius: 15px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-    align-items: center;
-}
+    height: 100vh;
+  }
+  
 
-/* Feedback header */
-.feedback-header {
-    font-size: 28px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    color: #1d4b78;
-    text-align: center;
-    width: 100%;
-}
+  .feedback-item button {
+    background-color: #1d4b78;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  .feedback-item button:hover {
+    background-color: #4a90e2;
+  }
+  
+  .legend-dot{
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+  }
 
-/* Feedback content inside the main container */
-.feedback-content {
-    width: 100%;
+  .actionbuttons {
     display: flex;
-    flex-direction: column;
     
     gap: 20px;
-}
-
-/* Individual feedback item */
-.feedback-item {
-    background: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 15px;
-    border: none;
-    transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.07);
-    width: 100%; /* Ensure the item fills the container */
-    box-sizing: border-box;
-}
-
-/* Add hover effect to feedback items */
-.feedback-item:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-/* Text styling */
-.sentence,
-.feedback {
-    font-size: 16px;
     margin: 10px 0;
-    line-height: 1.5;
-    color: #333;
-    word-wrap: break-word;
-}
-
-/* Responsive design */
-@media (max-width: 768px) {
-    .feedback-container {
-        width: 95%;
-        padding: 20px;
-    }
-
-    .feedback-header {
-        font-size: 20px;
-    }
-
-    .feedback-item {
-        padding: 10px;
-    }
-
-    .sentence,
-    .feedback {
-        font-size: 14px;
-    }
-}
-
-/* Further adjustments for very small screens (mobile) */
-@media (max-width: 480px) {
-    .sentence,
-    .feedback {
-        font-size: 14px;
-    }
-}
+  }
+  
+  .accept-btn,
+  .reject-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .accept-btn {
+    border-color: #4caf50;
+    color: #4caf50;
+  }
+  
+  .reject-btn {
+    border-color: #f44336;
+    color: #f44336;
+  }
+  
+  .accept-btn:hover {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  .reject-btn:hover {
+    background-color: #f44336;
+    color: white;
+  }
+  

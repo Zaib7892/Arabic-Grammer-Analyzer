@@ -31,12 +31,7 @@ const SyntacticAnalysis = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [showGraph, setShowGraph] = useState(false);
-<<<<<<< HEAD
-  const {logindata,setLoginData} = useContext(LoginContext);
-  
-=======
   const { logindata, setLoginData } = useContext(LoginContext);
->>>>>>> 4a06e3814e7229a50da6e5140c36c22762124d0e
 
   useEffect(() => {
     if (selectedSentence) {
@@ -88,47 +83,6 @@ const SyntacticAnalysis = () => {
 
   const createGraph = (data) => {
     const width = 1000;
-<<<<<<< HEAD
-  
-    const newNodes = data.map((token, index) => {
-      let nodeLabel = '';
-  
-      if (selectedParser === 'spacy') {
-        // For spaCy, use the original format (POS in row format)
-        nodeLabel = `${token.text} (${token.pos})`;
-      } else if (selectedParser === 'camel') {
-        // For Camel, extract the relevant morphological information
-        const morphFeatures = token.morphological_features.split('|'); // Split the morphological features by '|'
-        const morphInfo = {};
-        
-        morphFeatures.forEach(feature => {
-          const [key, value] = feature.split('=');
-          morphInfo[key] = value;
-        });
-  
-        // Create a readable format for each feature
-        const gender = morphInfo.gen === 'm' ? 'Masculine' : 'Feminine';
-        const number = morphInfo.num === 's' ? 'Singular' : 'Plural';
-        const state = morphInfo.stt === 'd' ? 'Definite' : 'Indefinite';
-        const caseType = morphInfo.cas === 'n' ? 'Nominative' : morphInfo.cas === 'a' ? 'Accusative' : 'Genitive';
-        const person = morphInfo.per === 'na' ? 'Not applicable' : morphInfo.per;
-        const rationality = morphInfo.rat === 'i' ? 'Inanimate' : 'Animate';
-  
-        // Construct the node label with the extracted morphological information
-        const additionalInfo = `${token.pos}\n${token.dep}\nGender: ${gender}\nNumber: ${number}\nState: ${state}\nCase: ${caseType}\nPerson: ${person}\nRationality: ${rationality}`;
-        nodeLabel = `${token.text}\n${additionalInfo}`;
-      }
-  
-      return {
-        id: `${index}`,
-        type: 'circularNode',
-        position: { x: width - index * 100, y: 50 },
-        data: { label: nodeLabel },
-        draggable: false
-      };
-    });
-  
-=======
 
     const newNodes = data.map((token, index) => ({
       id: `${index}`,
@@ -138,7 +92,6 @@ const SyntacticAnalysis = () => {
       draggable: false,
     }));
 
->>>>>>> 4a06e3814e7229a50da6e5140c36c22762124d0e
     const newEdges = data.map((token, index) => {
       const headIndex = data.findIndex(t => t.text === token.head);
       return {

@@ -1,21 +1,30 @@
-/* GiveFeedback.css */
+.graphContainer {
+  width: 100%;
+  height: 400px; 
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+}
 
-.feedback-container {
+
+
+.feedbackContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 40px; /* Increased padding */
-  max-width: 800px; /* Increased max width */
-  height: 400px;
+  padding: 40px; 
+  max-width: 800px;
+  height: 600px;
   margin: auto;
-  background-color: #f9f9f9; /* Light background for contrast */
+  background-color: #f9f9f9; 
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.feedback-heading h2 {
+.feedbackHeading h2 {
   font-size: 24px;
-  color: #333; /* Darker text for better readability */
+  color: #333; 
   margin-bottom: 20px;
 }
 
@@ -29,7 +38,7 @@
   cursor: pointer;
   transition: all 0.3s ease-in-out;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  align-self: flex-start; /* Align back button to the left */
+  align-self: flex-start; 
 }
 
 .backbtn:hover {
@@ -39,23 +48,23 @@
 }
 
 .feedback-textarea {
-  width: 100%; /* Full width */
-  height: 200px; /* Increased height */
-  border: 1px solid #ccc; /* Light border */
+  width: 100%;
+  height: auto; 
+  border: 1px solid #ccc;
   border-radius: 10px;
   padding: 10px;
   font-size: 16px;
-  resize: none; /* Prevent resizing */
-  transition: border-color 0.3s; /* Smooth transition for border color */
+  resize: none;
+  transition: border-color 0.3s;
 }
 
 .feedback-textarea:focus {
-  border-color: #007bff; /* Change border color on focus */
-  outline: none; /* Remove default outline */
+  border-color: #007bff;
+  outline: none; 
 }
 
 .feedback-textarea-error {
-  border-color: #dc3545; /* Bootstrap danger color for error */
+  border-color: #dc3545; 
 }
 
 .submit-button {
@@ -77,7 +86,7 @@
   transform: translateY(-2px);
 }
 
-/* Toast Container Styling */
+
 .Toastify__toast-container {
-  z-index: 9999; /* Ensure it appears above other elements */
+  z-index: 9999; 
 }
