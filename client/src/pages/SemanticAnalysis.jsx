@@ -42,7 +42,7 @@ const SemanticAnalysis = () => {
   const handleTextChange = (e) => {
     const arabicText = e.target.value;
     if (arabicText.trim()) {
-      const isArabic = /^[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF\s.,؛؟]+$/;
+      const isArabic = /^[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF\s.,؛؟()_]+$/;
       if (!isArabic.test(arabicText)) {
         setSessionData({
           ...sessionData,
@@ -114,8 +114,9 @@ const SemanticAnalysis = () => {
       return;
     }
 
-    const sentences = sessionData.arabicText.split(/(?<=[.!؟])\s+/);
-    const initialX = 1000;
+    const sentences = sessionData.arabicText
+    .split(/(?<=[.!؟_])\s+/)
+    .map(sentence => sentence.replace(/[.!؟_]+$/, '').trim());    const initialX = 1000;
     const gap = 200;
     const newNodes = [];
     let currentX = initialX;
