@@ -25,7 +25,8 @@ const edgeTypes = {
 const SyntacticAnalysis = () => {
   const [selectedParser, setSelectedParser] = useState('spacy'); // Default to 'spacy'
   const location = useLocation();
-  const { selectedSentence } = location.state || {};
+  const { selectedSentence: initialSentence } = location.state || {};
+  const [selectedSentence, setSelectedSentence] = useState(initialSentence || '');
   const [translatedSentence, setTranslatedSentence] = useState('');
   const [analysisResult, setAnalysisResult] = useState([]);
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
@@ -242,9 +243,20 @@ const SyntacticAnalysis = () => {
   return (
     <div className="text-analysis">
       <div className="results-container">
-        <div className="selected-sentence">
-          {selectedSentence && <p>{selectedSentence}</p>}
-        </div>
+      <div className="selected-sentence">
+        <textarea
+          value={selectedSentence || ""}
+          onChange={(e) => setSelectedSentence(e.target.value)} // Update state on change
+          rows={3}
+          style={{
+            width: "100%",
+            border: "1px solid #ccc",
+            borderRadius: "4px",
+            padding: "8px",
+          }}
+        />
+      </div>
+
         <div className="translated-sentence">
           {translatedSentence && <p>{translatedSentence}</p>}
         </div>

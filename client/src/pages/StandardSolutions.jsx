@@ -85,7 +85,7 @@ const StandardSolutions = () => {
             {logindata.ValidUserOne?.type === 'u' && (<div style={{ marginTop: '10px', textAlign: 'center' }}>
                 <p>
                     Is there any problem in analysis?{' '}
-                    <Link to={`/standardsolutions/givefeedback`} state={{ graphName: graph.name }}>
+                    <Link to={`/standardsolutions/givefeedback`} state={{ graphName: graph.name, fgraph: graph }}>
                         Give Feedback
                     </Link>
                 </p>

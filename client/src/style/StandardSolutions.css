@@ -6,9 +6,10 @@
     padding: 20px;
 }
 
-/* Graph display area above the list */
+
 .graph-display-area {
-    height: 40vh;
+    height: auto;
+    min-height: 45vh;
     padding: 20px;
     border: 1px solid #ccc;
     background-color: #f3f3f3;
@@ -19,9 +20,9 @@
 }
 
 
-/* Scrollable Graph List below the graph */
+
 .graph-list {
-    height: 50vh; /* Adjust height for the list container */
+    height: 50vh; 
     overflow-y: auto;
     border: 1px solid #ccc;
     padding: 10px;
@@ -29,7 +30,7 @@
     border-radius: 15px;
 }
 
-/* Individual graph container in the list */
+
 .solution {
     display: flex;
     align-items: center;
@@ -42,14 +43,12 @@
     border-radius: 10px;
 }
 
-/* Styling for the graph name and date container on the right */
 .solution-details {
-    text-align: right; /* Align text to the right */
+    text-align: right; 
     display: flex;
     flex-direction: column;
 }
 
-/* Name and Date Styling */
 .solution-name {
     font-weight: bold;
     margin-bottom: 5px;
@@ -74,7 +73,7 @@
     margin-left: 82%;
 }
 
-/* Button for viewing the graph (aligned on the left) */
+/* Button for viewing the graph */
 .solution button,.closebtn {
     background: linear-gradient(45deg, #1d4b78, #87CEEB);
     border: none;

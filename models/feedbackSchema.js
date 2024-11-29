@@ -3,7 +3,12 @@ const mongoose = require("mongoose");
 const graphFeedbackSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "users", // Reference to the user schema
+        ref: "users",
+        required: true
+    },
+    graphId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "graphs",
         required: true
     },
     graphName: {
@@ -12,6 +17,10 @@ const graphFeedbackSchema = new mongoose.Schema({
     },
     feedback: {
         type: String,
+        required: true
+    },
+    graphData: {
+        type: Object, 
         required: true
     },
     createdAt: {

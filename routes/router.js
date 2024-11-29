@@ -185,28 +185,38 @@ router.get("/graphs", async (req, res) => {
 });
 //storing feedbacks
 router.post("/storefeedback", async (req, res) => {
-    const { userId,graphName, feedback } = req.body;
+    const { userId, graphId, graphName, feedback, graphData } = req.body;
 
-    if (!graphName || !feedback) {
-        res.status(422).json({ error: "Graph Name and feedback are required" });
-        return;
+    if (!graphName || !feedback || !graphData) {
+        return res.status(422).json({ error: "Graph Name, feedback, and graphData are required" });
     }
 
     try {
+        // Check if feedback already exists for this graph and user
+        const existingFeedback = await GraphFeedback.findOne({ userId, graphId });
+
+        if (existingFeedback) {
+            return res.status(409).json({ error: "Feedback for this graph is already stored." });
+        }
+
+        // If not, create a new feedback record
         const newFeedback = new GraphFeedback({
-            userId, // Retrieved from authentication middleware
+            userId,
+            graphId,
             graphName,
-            feedback
+            feedback,
+            graphData,
         });
 
         const savedFeedback = await newFeedback.save();
 
         res.status(201).json({ status: 201, savedFeedback });
     } catch (error) {
-        res.status(422).json({ error: "Failed to store feedback" });
-        console.log("Catch block error in storing feedback:", error);
+        console.error("Error storing feedback:", error);
+        res.status(500).json({ error: "Failed to store feedback" });
     }
 });
+
 
 //storing tests
 router.post("/storetest",async (req,res) => {
@@ -247,6 +257,48 @@ router.get('/feedbacks', async(req,res) =>{
         res.status(500).json({ error: "Failed to retrieve feedbacks" });
     }
 }) 
+
+// delete feedback
+
+router.delete('/delfeedback/:_id', async (req, res) => {
+    const { _id } = req.params;
+    try {
+        const deletedFeedback = await GraphFeedback.findByIdAndDelete(_id);
+        if (!deletedFeedback) {
+            return res.status(404).json({ message: 'Feedback not found' });
+        }
+        res.status(200).json({ message: 'Feedback deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting feedback:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+});
+
+//updategraph
+
+router.put('/updateSenGraph/:graphId', async (req, res) => {
+    const { graphId } = req.params;
+    const { graphData } = req.body;
+    try {
+        // Find the graph by its ID
+        const sen_grapg = await Graph.findById(graphId);
+        if (!sen_grapg) {
+            return res.status(404).json({ message: 'Graph not found' });
+        }
+
+        // Update the edges
+        sen_grapg.graphData = graphData;
+
+        // Save the updated graph
+        const updatedGraph = await sen_grapg.save();
+
+        res.status(200).json(updatedGraph);
+    } catch (error) {
+        console.error('Error updating graph:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+});
+
 
 //retreiving tests
 router.get('/tests', async (req, res) => {
@@ -330,6 +382,8 @@ router.get('/getUserGraphs', async (req, res) => {
 });
 
 module.exports = router;
+
+
 
 
 
