@@ -28,7 +28,7 @@
  
 }
 
-.trans-button {
+.trans-button,.diacritics-button {
   width: 200px;
   background: linear-gradient(45deg, #1d4b78, #87CEEB);
   border: none;
@@ -42,7 +42,7 @@
   margin-top: 3%; /* Adjust margin as needed */
 }
 
-.trans-button:hover {
+.trans-button:hover,.diacritics-button:hover {
   background: linear-gradient(45deg, #87CEEB, #1d4b78);
   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
   transform: translateY(-2px);

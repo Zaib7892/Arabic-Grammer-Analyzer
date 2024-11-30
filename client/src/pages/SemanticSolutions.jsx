@@ -6,7 +6,7 @@ import {
     addEdge,
     useEdgesState,
     useNodesState,
-    ReactFlowProvider, // Import the provider
+    ReactFlowProvider, 
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 
@@ -29,7 +29,7 @@ function SemanticSolutions() {
     const [loading, setLoading] = useState(true);
     const [nodes, setNodes, onNodesChange] = useNodesState([]);
     const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-    const [hasChanges, setHasChanges] = useState(false); // Track unsaved changes
+    const [hasChanges, setHasChanges] = useState(false); 
 
 
     const fetchUserGraphs = async () => {
