@@ -13,6 +13,7 @@ import {
 import '@xyflow/react/dist/style.css';
 import '../style/SyntacticAnalysis.css';
 import { CircularNode, HalfCircleEdge } from './Assets/NodeEdge';
+import { diacritizeArabicText } from '../diaApi'; // Import the diacritization API
 
 const nodeTypes = {
   circularNode: CircularNode,
@@ -31,6 +32,7 @@ const SyntacticAnalysis = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [showGraph, setShowGraph] = useState(false);
+  const [loading, setLoading] = useState(false); // State for loading
   const { logindata, setLoginData } = useContext(LoginContext);
 
   useEffect(() => {
@@ -110,7 +112,21 @@ const SyntacticAnalysis = () => {
     setNodes(newNodes);
     setEdges(newEdges);
   };
-  
+
+  const addDiacritics = async () => {
+    if (selectedSentence) {
+      try {
+        setLoading(true);
+        const data = await diacritizeArabicText(selectedSentence); 
+        setTranslatedSentence(data.text);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error adding diacritics', error);
+        setLoading(false);
+        setTranslatedSentence('Error adding diacritics');
+      }
+    }
+  };
 
   const onConnect = useCallback((params) =>
     setEdges((eds) => addEdge({ ...params, type: 'halfCircle', style: { stroke: '#000000', strokeWidth: 1.5 }, markerEnd: { type: 'arrow', color: '#ff0072' } }, eds)), [setEdges]
@@ -157,6 +173,7 @@ const SyntacticAnalysis = () => {
       alert('Error communicating with the server');
     }
   };
+
   return (
     <div className="text-analysis">
       <div className="results-container">
@@ -168,9 +185,15 @@ const SyntacticAnalysis = () => {
         </div>
       </div>
       <div className="button-container">
+        
         <button className="trans-button" onClick={translateSentence}>
           Translate
         </button>
+
+        <button className="diacritics-button" onClick={addDiacritics} disabled={loading}>
+          {loading ? 'Adding Diacritics...' : 'Add Diacritics'}
+        </button>
+
         <button className="analyz-button" onClick={analyzeSentence}>
           Analyze
         </button>
