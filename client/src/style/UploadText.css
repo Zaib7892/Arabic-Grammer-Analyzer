@@ -123,7 +123,7 @@
 }
 
 .analyze-text-button {
-  margin-left: 11.5%; /* Adjust spacing from the left as needed */
+  margin-left: 14.5%; /* Adjust spacing from the left as needed */
   
 }
 
@@ -208,23 +208,28 @@
   }
   .translate-button-uploadtext 
   {
-    max-width: 58%;
+    max-width: 65%;
     
   }
   .analyze-text-button{
-    margin-left: 15%; 
+    margin-left: 11%; 
   }
   .selected-sentence{
     order: 2;
     width: 100%;
+    max-width: 100%;
     margin: 0;
+    overflow: auto;
+    box-sizing: border-box;
+    min-width: 100%;
     margin-bottom: 10px;
   }
   .sentences-list {
     order: 1;
     width: 100%;
     margin: 0;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+    
   }
 
   .start-button {

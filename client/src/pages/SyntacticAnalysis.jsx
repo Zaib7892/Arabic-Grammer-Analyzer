@@ -264,10 +264,16 @@ const SyntacticAnalysis = () => {
           onChange={(e) => setSelectedSentence(e.target.value)} // Update state on change
           rows={3}
           style={{
-            width: "100%",
-            border: "1px solid #ccc",
-            borderRadius: "4px",
+            width: "103%",
+            border: "none",
+            borderRadius: "15px",
             padding: "8px",
+            
+            marginTop: "-1.7%",
+            marginBottom: "-2%",
+            marginRight: "-1.5%",
+            
+            
           }}
         />
       </div>
