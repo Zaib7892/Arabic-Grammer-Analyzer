@@ -199,12 +199,12 @@ const SyntacticAnalysis = () => {
       try {
         setLoading(true);
         const data = await diacritizeArabicText(selectedSentence); 
-        setTranslatedSentence(data.text);
+        setSelectedSentence(data.text);
         setLoading(false);
       } catch (error) {
         console.error('Error adding diacritics', error);
         setLoading(false);
-        setTranslatedSentence('Error adding diacritics');
+        setSelectedSentence('Error adding diacritics');
       }
     }
   };

@@ -24,6 +24,10 @@
   align-items: center;
 }
 
+.input-box-buttons{
+  display: flex;
+}
+
 /* Textarea styling */
 .translation-textarea{
   width: 100%;
@@ -157,6 +161,8 @@
 .save-analysis-button:active {
   transform: translateY(2px);
 }
+
+
 
 /* Responsive adjustments for smaller screens */
 @media (max-width: 768px) {
