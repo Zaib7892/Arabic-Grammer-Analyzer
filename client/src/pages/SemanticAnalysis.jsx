@@ -163,29 +163,12 @@ const SemanticAnalysis = () => {
     }
 
     try {
-      setSessionData({ ...sessionData, isLoading: true, errorMessage: "" });
-
-      const response = await fetch("http://localhost:8000/diacritize", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: sessionData.arabicText }),
+      const diacritizedText = await diacritizeArabicText(sessionData.arabicText); // Assuming `diacritizeArabicText` is the imported function
+      setSessionData({
+        ...sessionData,
+        arabicText: diacritizedText.text,
+        errorMessage: '',
       });
-
-      if (response.ok) {
-        const data = await response.json();
-        setSessionData({
-          ...sessionData,
-          arabicText: data.diacritizedText,
-          isLoading: false,
-          errorMessage: "",
-        });
-      } else {
-        setSessionData({
-          ...sessionData,
-          isLoading: false,
-          errorMessage: "Failed to add diacritics. Please try again.",
-        });
-      }
     } catch (error) {
       console.error("Error adding diacritics:", error);
       setSessionData({

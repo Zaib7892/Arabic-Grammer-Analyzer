@@ -326,11 +326,8 @@ const SyntacticAnalysis = () => {
       </div>
 
       {/* Parser Selection Dropdown */}
-      <select
-        value={selectedParser}
-        onChange={(e) => setSelectedParser(e.target.value)}
-      >
-        <option value="spacy">spaCy</option>
+      <select value={selectedParser} onChange={(e) => setSelectedParser(e.target.value)}>
+        <option value="spacy">Spacy</option>
         <option value="camel">Camel Parser</option>
       </select>
 
