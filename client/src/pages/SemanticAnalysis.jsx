@@ -207,7 +207,7 @@ const SemanticAnalysis = () => {
       const diacritizedText = await diacritizeArabicText(sessionData.arabicText); // Assuming `diacritizeArabicText` is the imported function
       setSessionData({
         ...sessionData,
-        arabicText: diacritizedText,
+        arabicText: diacritizedText.text,
         errorMessage: '',
       });
     } catch (error) {

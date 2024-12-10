@@ -54,7 +54,8 @@
   transition: all 0.3s ease-in-out;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin-top: 3%; /* Adjust margin as needed */
-  margin-right: 27%;
+  margin-left: -22%;
+
 }
 .trans-button:hover {
   background: linear-gradient(45deg, #87CEEB, #1d4b78);
@@ -98,7 +99,7 @@
 
 .export-button {
   margin-top: 10px;
-  width: 180px;
+  width: 200px;
   background: linear-gradient(45deg, #1d4b78, #87CEEB);
   border: none;
   border-radius: 15px;
@@ -123,16 +124,18 @@
 
 .upload-button {
   margin-top: 10px;
-  width: 180px;
+  width: 200px;
   background: linear-gradient(45deg, #1d4b78, #87CEEB);
   border: none;
   border-radius: 15px;
   color: white;
   cursor: pointer;
-  font-size: 1.1em;
+  font-size: 1.2em;
   padding: 15px 30px;
   transition: all 0.3s ease-in-out;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+ 
 }
 
 .upload-button:hover {
@@ -290,10 +293,33 @@ option {
 
 /* Base styles already provided */
 
+@media (max-width: 1524px)
+{
+  .upload-button{
+    margin-right: 20px;
+  }
+
+  .upload-button{
+    margin-left: 20px;
+  }
+}
+
 /* Responsive Adjustments */
 @media (max-width: 1230px) {
   .selected-sentence, .translated-sentence {
     width: 48%; /* Adjust width proportionally */
+  }
+
+  .upload-button {
+    width: 160px; /* Resize buttons */
+    font-size: 1em;
+    padding: 10px 23px;
+  }
+
+  .export-button {
+    width: 160px; /* Resize buttons */
+    font-size: 1em;
+    padding: 10px 23px;
   }
 
   .trans-button  {
@@ -305,7 +331,7 @@ option {
     width: 160px; /* Resize buttons */
     font-size: 1em;
     padding: 10px 23px;
-    margin-left: 5%;
+    margin-right: -3.3%;
   }
   .analyz-button {
     width: 160px; /* Resize buttons */
@@ -325,7 +351,7 @@ option {
     width: 48%; /* Adjust width proportionally */
   }
 
-  .trans-button, .diacritics-button, .analyz-button {
+  .trans-button, .diacritics-button, .analyz-button, .export-button, .upload-button {
     width: 150px; /* Resize buttons */
     font-size: 1em;
     padding: 12px 25px;
@@ -338,8 +364,14 @@ option {
 }
 
 @media (max-width: 1024px) {
-  .selected-sentence, .translated-sentence {
+  .selected-sentence {
     width: 50%; /* Keep elements side-by-side */
+    margin-right: 10px;
+  }
+
+  .translated-sentence {
+    width: 50%;
+    margin-left: 10px;
   }
 
   .trans-button, .diacritics-button, .analyz-button, .export-button, .upload-button {
@@ -354,7 +386,7 @@ option {
     width: 48%;
   }
 
-  .trans-button, .diacritics-button, .analyz-button {
+  .trans-button, .diacritics-button, .analyz-button, .export-button, .upload-button {
     width: 130px; /* Shrink buttons */
     margin: 5px 0;
     padding: 5px,10px;
@@ -394,7 +426,7 @@ option {
     padding: 5px,10px;
     font-size: 0.75em;
   }
-  .trans-button
+  .trans-button , .export-button, .upload-button
   {
     width: 130px; /* Shrink buttons */
     margin-right:15%;
@@ -408,49 +440,37 @@ option {
   }
 }
 
-@media (max-width: 780px) {
-  .selected-sentence, .translated-sentence {
-    width: 90%;
-  }
-
-  .translated-sentence {
-    margin-top: 15px; /* Additional space below */
-  }
-
-  .trans-button, .diacritics-button, .analyz-button {
-    width: 130px;
-    font-size: 0.8em;
-    padding: 8px 15px; /* Adjust padding */
-  }
-
-  .button-container {
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-  }
-}
-
+/* General styles for smaller screens (768px and below) */
 @media (max-width: 768px) {
-  .selected-sentence {
-    width: 100%; /* Full width */
-  }
-
+  .selected-sentence,
   .translated-sentence {
-    width: 100%; /* Full width below */
+    width: 100%; /* Stack elements vertically */
+    margin-bottom: 20px; /* Add vertical spacing */
   }
 
-  .trans-button, .diacritics-button, .analyz-button, .export-button, .upload-button {
-    width: 100%; /* Full-width buttons */
-    font-size: 0.9em;
-    padding: 10px;
-    margin: 5px 0;
+  .trans-button,
+  .diacritics-button,
+  .analyz-button,
+  .export-button,
+  .upload-button {
+    width: 100%; /* Make buttons full width for alignment */
+    font-size: 0.85em; /* Adjust font size */
+    padding: 10px; /* Compact padding */
+    margin: 5px 0; /* Add spacing between buttons */
   }
 
-  .button-container {
-    gap: 10px;
-    align-items: center;
+  select {
+    width: 100%; /* Dropdown spans the full width */
+    margin: 10px 0; /* Add spacing */
+  }
+
+  .error-message, .note {
+    font-size: 0.9em; /* Adjust font for smaller screens */
+    margin: 10px 0;
+    text-align: center; /* Align text for a cleaner look */
   }
 }
+
 
 @media (max-width: 480px) {
   .selected-sentence, .translated-sentence {
