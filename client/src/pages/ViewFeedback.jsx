@@ -154,7 +154,6 @@ const ViewFeedback = () => {
     ✖
   </button>
 </div>
-     
     </div>
   );
 
@@ -190,6 +189,9 @@ const ViewFeedback = () => {
               <button onClick={() => handleViewClick(feedback)}>View</button>
               <div className="solution-details">
                 <span className="solution-name">{feedback.graphName}</span>
+                <span className="feedback-message">
+                Feedback: {feedback.feedback}
+                </span>
                 <span className="solution-date">
                   {new Date(feedback.createdAt).toLocaleDateString()}
                 </span>

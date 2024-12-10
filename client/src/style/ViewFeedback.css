@@ -4,6 +4,12 @@
     height: 100vh;
   }
   
+  .feedback-message {        
+    font-size: 1.2rem;        
+    margin-bottom: 15px;  
+    color:#1d4b78
+  }
+  
 
   .feedback-item button {
     background-color: #1d4b78;
