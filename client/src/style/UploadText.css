@@ -171,6 +171,9 @@
     max-width: 65%;
     
   }
+  .selected-sentence{
+    margin-right: 5%;
+  }
   .analyze-text-button{
     margin-left: 4.5%; 
   }
