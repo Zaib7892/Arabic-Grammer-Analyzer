@@ -13,6 +13,8 @@ import { RectangularNode, ProjectileEdge } from './Assets/NodeEdge';
 import { useSession } from './Contexts/UploadContext';
 import { useNavigate } from 'react-router-dom';
 import { LoginContext } from '../components/ContextProvider/Context';
+import { diacritizeArabicText } from '../diaApi'; // Import the diacritization API
+
 
 const nodeTypes = {
   rectangularNode: RectangularNode,
@@ -192,6 +194,33 @@ const SemanticAnalysis = () => {
     });
   };
 
+  const addDiacritics = async () => {
+    if (!sessionData.arabicText.trim()) {
+      setSessionData({
+        ...sessionData,
+        errorMessage: 'Please enter Arabic text to diacritize.',
+      });
+      return;
+    }
+  
+    try {
+      const diacritizedText = await diacritizeArabicText(sessionData.arabicText); // Assuming `diacritizeArabicText` is the imported function
+      setSessionData({
+        ...sessionData,
+        arabicText: diacritizedText,
+        errorMessage: '',
+      });
+    } catch (error) {
+      console.error('Error adding diacritics', error);
+      setSessionData({
+        ...sessionData,
+        errorMessage: 'Error adding diacritics. Please try again later.',
+      });
+    }
+  };
+  
+
+
   const saveGraphToDatabase = async () => {
     const graphSemData = {
       userId: logindata.ValidUserOne._id,
@@ -245,13 +274,24 @@ const SemanticAnalysis = () => {
             placeholder="اپنا متن یہاں لکھیں...."
             className="arabic-textarea"
           />
-          <button
-            onClick={createGraph}
-            className="start-button analyze-button"
-            disabled={!sessionData.isArabic}
-          >
-            Analyze
-          </button>
+
+          <div className='input-box-buttons'>
+            <button
+              onClick={createGraph}
+              className="start-button analyze-button"
+              disabled={!sessionData.isArabic}
+            >
+              Analyze
+            </button>
+
+            <button onClick={addDiacritics} className="start-button translate-button">
+              Add Diacritics
+            </button>
+
+
+
+          </div>
+          
           {sessionData.errorMessage && <p className="error-message">{sessionData.errorMessage}</p>}
         </div>
       </div>
