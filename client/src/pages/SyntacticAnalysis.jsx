@@ -268,7 +268,6 @@ const SyntacticAnalysis = () => {
             border: "none",
             borderRadius: "15px",
             padding: "8px",
-            
             marginTop: "-1.7%",
             marginBottom: "-2%",
             marginRight: "-1.5%",
@@ -299,7 +298,7 @@ const SyntacticAnalysis = () => {
       
       {/* Parser Selection Dropdown */}
       <select value={selectedParser} onChange={(e) => setSelectedParser(e.target.value)}>
-        <option value="spacy">spaCy</option>
+        <option value="spacy">Spacy</option>
         <option value="camel">Camel Parser</option>
       </select>
   
