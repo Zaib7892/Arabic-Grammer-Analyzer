@@ -49,23 +49,23 @@ Follow these steps to set up the project on your local machine:
    ```bash
    npm install
    ```
-4. **setting up servers**
-   4.1. **Parsing Servers**
+3. **setting up servers**
+  - 3.1. **Parsing Servers**
    Run following command in directory where you downloaded requirements.txt file
    ```bash
    pip install -r requirements.txt
    ```
-   4.2. **Translation server**
+  - 3.2. **Translation server**
    go to folder Parsing Server and unzip free-translation-api.zip
 
-   4.3. **How to run servers**
-      - 4.3.1. **Translation server**
+  - 3.3. **How to run servers**
+      - 3.3.1. **Translation server**
        after unzipping the free-translation-api.zip then run following command in unzipped folder
        ```bash
        go run main.go
        ```
        this will start the translation server
-       - 4.3.2. **Spacy/Camel Server**
+       - 3.3.2. **Spacy/Camel Server**
        after installing all required pachages from requirement.txt file
        run parsing_server.py file. This should start parsing servers if you have successfully installed required packages
 ## Run Application
