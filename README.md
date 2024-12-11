@@ -1,3 +1,4 @@
+![Logo](client/public/logo.png)
 # Arabic Grammar Analyzer
 
 ## Introduction
