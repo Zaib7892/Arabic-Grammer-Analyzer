@@ -71,23 +71,31 @@ Follow these steps to set up the project on your local machine:
        ```
        this will start the translation server
        - 3.3.2. **Spacy/Camel Server** (works with python 3.9.16 or older versions)
-         - 3.3.2.1 Download or clone the Camel Parser from this link into the projects main folder
+       - 3.3.2.1 Download or clone the Camel Parser from this link into the projects main folder
         ```bash
         git clone https://github.com/CAMeL-Lab/camel_parser
         ```
-         - 3.3.2.2 Install the requirements as mentioned in the file but first create a virtual environment
-             (a) -> open camel parser folder
-             (b) -> type ```bash pip install virtualenv```
-             (c) -> type ```bash virtualenv env``` (must ensure python version 3.9.16 or below before creating virtual environment)
+       - 3.3.2.2 Install the requirements as mentioned in the file but first create a virtual environment
+       - (a) -> open camel parser folder
+       - (b) -> type
+         ```bash
+         pip install virtualenv
+         ```
+       - (c) -> type 
+         ```bash 
+         virtualenv env
+         ``` 
+         (must ensure python version 3.9.16 or below before creating virtual environment).
         
-        ```bash
-        pip install -r requirements.txt
-        ```
-        ```bash
-        python download_models.py 
-        ```
-        --->Note: before installing models python may ask you to install huggingface_hub so install them carefully
-        after installing all required pachages from requirement.txt file
+         ```bash
+         pip install -r requirements.txt
+         ```
+         
+         ```bash
+         python download_models.py 
+         
+    --->Note: before installing models python may ask you to install huggingface_hub so install them carefully
+        after installing all required pachages from requirement.txt file.
        run parsing_server.py file. This should start parsing servers if you have successfully installed required packages
 ## Run Application
 1. **Connect with database**
