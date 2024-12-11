@@ -13,6 +13,7 @@ import { RectangularNode, ProjectileEdge } from "./Assets/NodeEdge";
 import { useSession } from "./Contexts/UploadContext";
 import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../components/ContextProvider/Context";
+import { diacritizeArabicText } from "../diaApi"; // Import the diacritization
 
 const nodeTypes = {
   rectangularNode: RectangularNode,
@@ -163,11 +164,13 @@ const SemanticAnalysis = () => {
     }
 
     try {
-      const diacritizedText = await diacritizeArabicText(sessionData.arabicText); // Assuming `diacritizeArabicText` is the imported function
+      const diacritizedText = await diacritizeArabicText(
+        sessionData.arabicText
+      ); // Assuming `diacritizeArabicText` is the imported function
       setSessionData({
         ...sessionData,
         arabicText: diacritizedText.text,
-        errorMessage: '',
+        errorMessage: "",
       });
     } catch (error) {
       console.error("Error adding diacritics:", error);
