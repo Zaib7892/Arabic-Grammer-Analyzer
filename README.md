@@ -16,13 +16,13 @@ The **Arabic Grammar Analyzer** is a tool designed to analyze and parse Arabic s
 
 ## App Structure
    Arabic-Grammar-Analyzer/
-├── camel_parser/       # camel parsing server
-├── client/             # React client-side application (frontend)
-├── db/                 # Database connection 
-├── middleware/         # Middleware functions for the server
-├── models/             # Data models for the application
-├── node_modules/       # Node.js dependencies (automatically managed by npm/yarn)
-├── Parsing Server/     # Spacy parsing server and translation server
+- ├── camel_parser/       # camel parsing server
+- ├── client/             # React client-side application (frontend)
+- ├── db/                 # Database connection 
+- ├── middleware/         # Middleware functions for the server
+- ├── models/             # Data models for the application
+- ├── node_modules/       # Node.js dependencies (automatically managed by npm/yarn)
+- ├── Parsing Server/     # Spacy parsing server and translation server
 
 ---
 
