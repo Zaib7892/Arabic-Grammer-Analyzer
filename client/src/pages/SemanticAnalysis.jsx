@@ -252,7 +252,7 @@ const SemanticAnalysis = () => {
           <div className="input-box-buttons">
             <button
               onClick={createGraph}
-              className="start-button analyze-button"
+              className="start-button _analyze-button"
               disabled={!sessionData.isArabic}
             >
               Analyze
@@ -260,7 +260,7 @@ const SemanticAnalysis = () => {
 
             <button
               onClick={addDiacritics}
-              className="start-button diacritics-button"
+              className="start-button _diacritics-button"
             >
               Add Diacritics
             </button>

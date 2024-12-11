@@ -77,10 +77,11 @@ const StandardSolutions = () => {
     const renderGraph = (graph) => (
         <div style={{ width: '100%', height: '100%' }}>
             <div className='buttons'>
-            <button className='closebtn' onClick={handleCloseClick}>Close</button>
+           
             {logindata.ValidUserOne?.type === 'a' && (
                 <button className='create-test-button' onClick={() => testCreation(graph)}>Create Test</button>
             )}
+             <button className='closebtn' onClick={handleCloseClick}>Close</button>
             </div>
             {logindata.ValidUserOne?.type === 'u' && (<div style={{ marginTop: '10px', textAlign: 'center' }}>
                 <p>

@@ -19,7 +19,13 @@ logging.basicConfig(level=logging.DEBUG)
 stanza.download('ar')
 nlp = spacy_stanza.load_pipeline('ar')
 
+
 def run_camel_parser(input_text):
+    print("Current Directory:", os.getcwd())
+    camel_parser_path = os.path.abspath("../camel_parser")
+    print("Camel Parser Path:", camel_parser_path)
+
+    
     try:
         # Detect the operating system
         is_windows = platform.system().lower() == 'windows'
@@ -31,22 +37,22 @@ def run_camel_parser(input_text):
 
         # Set up the command based on the operating system
         if is_windows:
-            # Windows command (assumes using `venv\\Scripts\\activate.bat`)
+            # Corrected Windows command
             shell_command = (
                 f"cmd /c \"cd ..\\camel_parser && venv\\Scripts\\activate && "
                 f"python text_to_conll_cli.py -i {temp_file_path} -f text -m catib\""
             )
         else:
-            # Linux/Mac command (using `source` to activate the virtual environment)
+            # Linux/Mac command
             shell_command = (
                 f"bash -c 'cd ../camel_parser && source venv/bin/activate && "
                 f"python text_to_conll_cli.py -i {temp_file_path} -f text -m catib'"
             )
 
-        # Log the command for debugging purposes
-        print(f"Running command: {shell_command}")
+        # Log the command for debugging
+        logging.debug(f"Running command: {shell_command}")
 
-        # Run the command in the shell
+        # Run the command
         process = subprocess.run(
             shell_command,
             stdout=subprocess.PIPE,
@@ -54,27 +60,25 @@ def run_camel_parser(input_text):
             shell=True
         )
 
-        # Capture the output (both stdout and stderr)
+        # Handle output and errors
         output = process.stdout.decode('utf-8')
         error_output = process.stderr.decode('utf-8')
+        logging.debug(f"Camel Parser Output: {output}")
+        logging.debug(f"Camel Parser Error (if any): {error_output}")
 
-        # Print output for debugging
-        print("Camel Parser Output:", output)
-        print("Camel Parser Error (if any):", error_output)
-
-        # Check for errors
         if process.returncode != 0 or "ERROR" in error_output or "Traceback" in error_output:
             raise Exception(f"Camel Parser Error: {error_output}")
 
         # Clean up the temporary file
         os.remove(temp_file_path)
 
-        # Process the output and convert it to JSON format
+        # Parse the output
         parsed_output = parse_camel_output_to_json(output)
         return parsed_output
     except Exception as e:
         logging.error(f"Error running Camel Parser: {e}", exc_info=True)
         return None
+
 
 def parse_camel_output_to_json(output):
     # Process the output and structure it into JSON

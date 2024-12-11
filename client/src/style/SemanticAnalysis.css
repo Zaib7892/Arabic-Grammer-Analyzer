@@ -27,7 +27,7 @@
 .input-box-buttons{
   display: flex;
   justify-content: space-between;
-  width: 60%;
+  width: 70%;
   
 }
 
@@ -71,7 +71,7 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin-top: 20px;
 }
-.diacritics-button{
+._diacritics-button{
   margin-left: 22%;
 }
 .start-button:hover {
@@ -226,7 +226,7 @@
   .input-box-buttons {
     display: flex;
     justify-content: space-between;
-    width: 50%;
+    width: 60%;
   }
 }
 
@@ -245,7 +245,7 @@
   .input-box-buttons {
     display: flex;
     justify-content: space-between;
-    width: 50%;
+    width: 60%;
   }
 
   .translation-textarea,
@@ -272,7 +272,7 @@
   .input-box-buttons {
     display: flex;
     justify-content: space-between;
-    width: 60%;
+    width: 70%;
   }
 
   .translation-textarea,
@@ -310,7 +310,7 @@
   .input-box-buttons {
     display: flex;
     justify-content: space-between;
-    width: 50%;
+    width: 80%;
   }
 
   .translation-textarea,
@@ -335,7 +335,7 @@
   .input-box-buttons{
     display: flex;
     justify-content: space-between;
-    width: 60%;
+    width: 80%;
     
   }
   .translation-textarea,
@@ -366,7 +366,7 @@
   .input-box-buttons{
     display: flex;
     justify-content: space-between;
-    width: 70%;
+    width: 90%;
     
   }
   .translation-textarea,

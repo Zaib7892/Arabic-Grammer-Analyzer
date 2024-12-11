@@ -153,18 +153,60 @@ function SemanticSolutions() {
                 </Box>
             ) : (
                 sem_graphs.map((graph, index) => (
-                    <div key={index} className="solution" style={{ display: 'inline-block', marginRight: '10px' }}>
-                        <span className="date-display">{`${graph.arabicText} (${new Date(graph.createdAt).toLocaleDateString()})`}</span>
-                        {!selectedsemGraph || selectedsemGraph._id !== graph._id ? (
-                            <button onClick={() => handleViewClick(graph)}>View</button>
-                        ) : (
-                            renderGraph()
-                        )}
+                    <div
+                        key={index}
+                        className="solution"
+                        style={{
+                            display: 'flex', // Use flexbox for alignment
+                            alignItems: 'flex-start', // Align items to the top
+                            marginBottom: '15px', // Add spacing between items
+                            padding: '15px', // Add padding for visual clarity
+                            border: '1px solid #ccc', // Optional: border for each box
+                            borderRadius: '8px', // Optional: rounded corners
+                            backgroundColor: '#f9f9f9', // Optional: light background color
+                        }}
+                    >
+                        {/* View Button on the left */}
+                        <button
+                            onClick={() =>
+                                selectedsemGraph && selectedsemGraph._id === graph._id
+                                    ? handleCloseClick()
+                                    : handleViewClick(graph)
+                            }
+                            style={{
+                                marginRight: '15px', // Space between button and content
+                                padding: '10px 20px', // Button padding
+                                borderRadius: '8px', // Rounded corners
+                                backgroundColor: '#1d4b78', // Button background
+                                color: 'white', // Button text color
+                                border: 'none', // Remove default border
+                                cursor: 'pointer', // Add pointer cursor
+                                fontWeight: 'bold', // Make button text bold
+                              
+                            }}
+                        >
+                            {!selectedsemGraph || selectedsemGraph._id !== graph._id ? 'View' : 'Close'}
+                        </button>
+    
+                        {/* Display Arabic Text and Date */}
+                        <div style={{ flex: 1 }}>
+                            <span className="date-display" style={{ display: 'block', marginBottom: '10px' ,textAlign:'right'}}>
+                                {`${graph.arabicText} (${new Date(graph.createdAt).toLocaleDateString()})`}
+                            </span>
+    
+                            {/* Conditionally render the graph */}
+                            {selectedsemGraph && selectedsemGraph._id === graph._id && (
+                                <div style={{ marginTop: '20px', width: '100%' }}>
+                                    {renderGraph()}
+                                </div>
+                            )}
+                        </div>
                     </div>
                 ))
             )}
         </div>
     );
+    
 }
 
 export default SemanticSolutions;

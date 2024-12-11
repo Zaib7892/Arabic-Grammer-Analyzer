@@ -61,20 +61,17 @@
 }
 
 .create-test-button{
-    background: linear-gradient(45deg, #1d4b78, #87CEEB);
-    border: none;
-    border-radius: 10px;
-    color: white;
-    cursor: pointer;
-    padding: 8px 16px;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin-left: 82%;
+    margin-left: 1.7%;
+    
+    
+}
+.closebtn{
+    margin-left: 2%;
+    
 }
 
 /* Button for viewing the graph */
-.solution button,.closebtn {
+.solution button,.closebtn, .create-test-button{
     background: linear-gradient(45deg, #1d4b78, #87CEEB);
     border: none;
     border-radius: 10px;
@@ -84,7 +81,7 @@
     cursor: pointer;
     transition: all 0.3s ease-in-out;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin-left: 20px;
+   
 }
 .closebtn:hover{
     background: linear-gradient(45deg, #87CEEB, #1d4b78);
