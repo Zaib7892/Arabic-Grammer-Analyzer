@@ -2,6 +2,7 @@
 <div style="text-align: center;">
   <img src="client/public/logo.png" alt="Logo" width="200" />
 </div>
+
 # Arabic Grammar Analyzer
 
 ## Introduction
