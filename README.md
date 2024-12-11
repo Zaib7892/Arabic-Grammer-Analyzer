@@ -1,5 +1,5 @@
-![Logo](client/public/logo.png)
-# Arabic Grammar Analyzer
+
+<img src="client/public/logo.png" alt="Logo" width="200" /># Arabic Grammar Analyzer
 
 ## Introduction
 The **Arabic Grammar Analyzer** is a tool designed to analyze and parse Arabic sentences. It identifies grammatical components, such as nouns, verbs, and particles, and provides syntactic structures of the input text. This project aims to assist linguists, educators, and software developers working with the Arabic language by providing detailed grammatical insights.
