@@ -13,6 +13,7 @@ import { RectangularNode, ProjectileEdge } from "./Assets/NodeEdge";
 import { useSession } from "./Contexts/UploadContext";
 import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../components/ContextProvider/Context";
+import { diacritizeArabicText } from "../diaApi"; // Import the diacritization
 
 const nodeTypes = {
   rectangularNode: RectangularNode,

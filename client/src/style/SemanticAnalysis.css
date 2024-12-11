@@ -26,6 +26,9 @@
 
 .input-box-buttons{
   display: flex;
+  justify-content: space-between;
+  width: 60%;
+  
 }
 
 /* Textarea styling */
@@ -68,7 +71,9 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin-top: 20px;
 }
-
+.diacritics-button{
+  margin-left: 22%;
+}
 .start-button:hover {
   background: linear-gradient(45deg, #87CEEB, #1d4b78);
   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
@@ -78,6 +83,7 @@
 .start-button:active {
   transform: translateY(2px);
 }
+
 
 /* Error message styling */
 .error-message {
@@ -165,7 +171,66 @@
 
 
 /* Responsive adjustments for smaller screens */
-@media (max-width: 768px) {
+@media (max-width: 1540px) {
+  .semantic-analysis-container {
+    flex-direction: row;
+  }
+  .input-box-buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+  }
+  .start-button {
+    font-size: 1em;
+  }
+  .button-group {
+      gap: 20px; /* Adjust gap between the buttons */
+  }
+  
+}
+
+
+@media (max-width: 1280px) {
+  .semantic-analysis-container {
+    flex-direction: row;
+  }
+  .input-box-buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .start-button {
+    font-size: 1em;
+  }
+  .button-group {
+      gap: 20px; /* Adjust gap between the buttons */
+  }
+}
+
+@media (max-width: 1080px) {
+  .semantic-analysis-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .translation-box{
+    order: 2;
+    width: 100%;
+  }
+  .arabic-input-box {
+    order: 1;
+    width: 100%;
+  }
+
+  .input-box-buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+  }
+}
+
+@media (max-width: 1024px) {
   .semantic-analysis-container {
     flex-direction: column;
     align-items: center;
@@ -177,10 +242,138 @@
     width: 100%;
   }
 
+  .input-box-buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+  }
+
   .translation-textarea,
   .arabic-textarea {
     height: 150px;
   }
+
+  .start-button,
+  .view-analysis-button,
+  .save-analysis-button {
+    width: 90%;
+    padding: 10px 20px;
+    font-size: 1em;
+  }
+}
+
+@media (max-width: 980px) {
+  .semantic-analysis-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .input-box-buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 60%;
+  }
+
+  .translation-textarea,
+  .arabic-textarea {
+    height: 150px;
+  }
+}
+
+@media (max-width: 890px) {
+  .semantic-analysis-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .input-box-buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 70%;
+  }
+
+  .translation-textarea,
+  .arabic-textarea {
+    height: 120px;
+  }
+}
+
+@media (max-width: 780px) {
+  .semantic-analysis-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .input-box-buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+  }
+
+  .translation-textarea,
+  .arabic-textarea {
+    height: 100px;
+  }
+}
+
+
+
+@media (max-width: 768px) {
+  .semantic-analysis-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .translation-box,
+  .arabic-input-box {
+    width: 100%;
+  }
+  .input-box-buttons{
+    display: flex;
+    justify-content: space-between;
+    width: 60%;
+    
+  }
+  .translation-textarea,
+  .arabic-textarea {
+    height: 150px;
+  }
+
+
+  .start-button,
+  .view-analysis-button,
+  .save-analysis-button {
+    width: 80%;
+    padding: 10px 20px;
+    font-size: 1em;
+  }
+}
+@media (max-width: 740px) {
+  .semantic-analysis-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .translation-box,
+  .arabic-input-box {
+    width: 100%;
+  }
+  .input-box-buttons{
+    display: flex;
+    justify-content: space-between;
+    width: 70%;
+    
+  }
+  .translation-textarea,
+  .arabic-textarea {
+    height: 150px;
+  }
+
 
   .start-button,
   .view-analysis-button,
