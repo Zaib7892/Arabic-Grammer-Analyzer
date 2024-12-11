@@ -33,18 +33,18 @@ Follow these steps to set up the project on your local machine:
    ```bash
    git clone https://github.com/Zaib7892/Arabic-Grammer-Analyzer.git
 2. **Install Dependencies for react**
-   2.1. **for server**
+  - 2.1. **for server**
    run command
    ```bash
    npm install
    ```
-   2.2.
+  - 2.2.
    First navigate to client
    run command
    ```bash
    cd client
    ```
-   2.3.
+  - 2.3.
    run command
    ```bash
    npm install
@@ -59,13 +59,13 @@ Follow these steps to set up the project on your local machine:
    go to folder Parsing Server and unzip free-translation-api.zip
 
    4.3. **How to run servers**
-       4.3.1. **Translation server**
+      - 4.3.1. **Translation server**
        after unzipping the free-translation-api.zip then run following command in unzipped folder
        ```bash
        go run main.go
        ```
        this will start the translation server
-       4.3.2. **Spacy/Camel Server**
+       - 4.3.2. **Spacy/Camel Server**
        after installing all required pachages from requirement.txt file
        run parsing_server.py file. This should start parsing servers if you have successfully installed required packages
 ## Run Application
