@@ -174,7 +174,7 @@ function UploadText() {
           </div>
 
           <button className="start-button translate-button-uploadtext" onClick={handleTranslate}>
-            Translate
+            Translate All
           </button>
         </>
       )}
