@@ -58,55 +58,54 @@ router.post("/login", async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-        return res.status(422).json({ error: "Please fill all the details" });
+        res.status(422).json({ error: "fill all the details" })
+        
     }
 
     try {
-        console.log("Entered into try block");
+       
+       console.log("Entered into try block");
+       const userValid = await userdb.findOne({email:email});
+       //console.log("Step 1", userValid);
+        if(userValid){
+            console.log("Step 2");
+            const isMatch = await bcrypt.compare(password,userValid.password);
+            console.log("isMatch",isMatch)
+            if(isMatch == false){
+                toast.fail()
+                res.status(422).json({ error: "invalid details"});
+            }else{
 
-        // Check if the user exists
-        const userValid = await userdb.findOne({ email: email });
-        if (!userValid) {
-            console.log("Email not found");
-            return res.status(404).json({ error: "Invalid email or password" });
+                // token generate
+
+                console.log("generating token");
+                const token = await userValid.generateAuthtoken();
+                console.log("Token Generated Successfully");
+                console.log(token);
+                // cookiegenerate
+                console.log("Generating Cookie");
+                res.cookie("usercookie",token,{
+                    expires:new Date(Date.now()+9000000),
+                    httpOnly:true
+                });
+                console.log("Cookie Generated Successfully");
+                const result = {
+                    userValid,
+                    token
+                }
+                console.log("User is valid");
+                res.status(201).json({status:201,result})
+                console.log("User validated-> Status 201 called");
+            }
         }
+        
 
-        console.log("Email found");
-
-        // Check if the password matches
-        const isMatch = await bcrypt.compare(password, userValid.password);
-        if (!isMatch) {
-            console.log("Password does not match");
-            return res.status(401).json({ error: "Invalid email or password" });
-        }
-
-        // Generate token
-        console.log("Generating token");
-        const token = await userValid.generateAuthtoken();
-        console.log("Token generated successfully:", token);
-
-        // Set cookie
-        console.log("Generating cookie");
-        res.cookie("usercookie", token, {
-            expires: new Date(Date.now() + 9000000),
-            httpOnly: true,
-        });
-        console.log("Cookie generated successfully");
-
-        const result = {
-            userValid,
-            token,
-        };
-
-        console.log("User validated");
-        res.status(200).json({ status: 200, result });
-        console.log("Response sent with status 200");
     } catch (error) {
-        console.error("Error in try block:", error);
-        res.status(500).json({ error: "Internal Server Error" });
+        console.log("Going to 401");
+        res.status(401).json(error);
+        console.log("catch block");
     }
 });
-
 
 
 
@@ -251,7 +250,6 @@ router.post("/storetest", async (req, res) => {
         console.error("ERROR: ", error);
     }
 });
-
 //retreiving feedbacks
 router.get('/feedbacks', async(req,res) =>{
     try {
