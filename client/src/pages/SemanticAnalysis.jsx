@@ -45,6 +45,7 @@ const SemanticAnalysis = () => {
   );
 
   const handleTextChange = (e) => {
+    sessionData.translatedTextSemantic = '';
     const arabicText = e.target.value;
 
     const isArabic =
@@ -77,40 +78,45 @@ const SemanticAnalysis = () => {
   };
 
   const handleTranslate = async () => {
-    if (!sessionData.arabicText.trim()) {
-      setSessionData({
-        ...sessionData,
-        errorMessage: "Please enter some Arabic text.",
-      });
-      return;
-    }
+    const isArabic =
+      /^[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF\s.,؛؟()_]+$/;
 
-    try {
-      const response = await fetch("http://localhost:8000/translate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: sessionData.arabicText, to: "en" }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
+    if (isArabic.test(sessionData.arabicText)) {
+      if (!sessionData.arabicText.trim()) {
         setSessionData({
           ...sessionData,
-          translatedTextSemantic: data.translatedText,
-          errorMessage: "",
+          errorMessage: "Please enter some Arabic text.",
         });
-      } else {
+        return;
+      }
+
+      try {
+        const response = await fetch("http://localhost:8000/translate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text: sessionData.arabicText, to: "en" }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setSessionData({
+            ...sessionData,
+            translatedTextSemantic: data.translatedText,
+            errorMessage: "",
+          });
+        } else {
+          setSessionData({
+            ...sessionData,
+            errorMessage: "Failed to translate the text. Please try again.",
+          });
+        }
+      } catch (error) {
         setSessionData({
           ...sessionData,
-          errorMessage: "Failed to translate the text. Please try again.",
+          errorMessage:
+            "An error occurred while connecting to the translation service.",
         });
       }
-    } catch (error) {
-      setSessionData({
-        ...sessionData,
-        errorMessage:
-          "An error occurred while connecting to the translation service.",
-      });
     }
   };
 
@@ -155,35 +161,48 @@ const SemanticAnalysis = () => {
   };
 
   const addDiacritics = async () => {
-    if (!sessionData.arabicText.trim()) {
-      setSessionData({
-        ...sessionData,
-        errorMessage: "Please enter some Arabic text to add diacritics.",
-      });
-      return;
-    }
+    const isArabic =
+      /^[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF\s.,؛؟()_]+$/;
 
-    try {
-      const diacritizedText = await diacritizeArabicText(
-        sessionData.arabicText
-      ); // Assuming `diacritizeArabicText` is the imported function
-      setSessionData({
-        ...sessionData,
-        arabicText: diacritizedText.text,
-        errorMessage: "",
-      });
-    } catch (error) {
-      console.error("Error adding diacritics:", error);
-      setSessionData({
-        ...sessionData,
-        isLoading: false,
-        errorMessage: "An error occurred while adding diacritics.",
-      });
+    if (isArabic.test(sessionData.arabicText)) {
+      if (!sessionData.arabicText.trim()) {
+        setSessionData({
+          ...sessionData,
+          errorMessage: "Please enter some Arabic text to add diacritics.",
+        });
+        return;
+      }
+
+      try {
+        const diacritizedText = await diacritizeArabicText(
+          sessionData.arabicText
+        ); // Assuming `diacritizeArabicText` is the imported function
+        setSessionData({
+          ...sessionData,
+          arabicText: diacritizedText.text,
+          errorMessage: "",
+        });
+      } catch (error) {
+        console.error("Error adding diacritics:", error);
+        setSessionData({
+          ...sessionData,
+          isLoading: false,
+          errorMessage: "An error occurred while adding diacritics.",
+        });
+      }
     }
   };
 
   const handleConnect = (params) => {
-    const newEdges = addEdge({ ...params, type: "projectileEdge", style:{strokeWidth: '2.4' },markerEnd: { type: "arrow", color: "#ff0072",strokeWidth: '1.4' } }, edges);
+    const newEdges = addEdge(
+      {
+        ...params,
+        type: "projectileEdge",
+        style: { strokeWidth: "2.4" },
+        markerEnd: { type: "arrow", color: "#ff0072", strokeWidth: "1.4" },
+      },
+      edges
+    );
     setEdges(newEdges);
 
     setSessionData({
