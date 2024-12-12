@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useContext } from "react";
+
 import { useLocation } from "react-router-dom";
 import { LoginContext } from "../components/ContextProvider/Context";
 import {
@@ -43,12 +44,33 @@ const SyntacticAnalysis = () => {
   const [showGraph, setShowGraph] = useState(false);
   const [loading, setLoading] = useState(false); // State for loading
   const { logindata, setLoginData } = useContext(LoginContext);
+  const [errorMessage, setErrorMessage] = useState("");
   const [tooltip, setTooltip] = useState({
     visible: false,
     content: "",
     position: { x: 0, y: 0 },
   });
-  const [errorMessage, setErrorMessage] = useState(""); // State for validation error
+
+  const isArabicText = (text) => {
+    // Regex to match Arabic script characters
+    const arabicRegex = /^[\u0600-\u06FF\s]+$/;
+    return arabicRegex.test(text.trim());
+  };
+  
+  const handleTextareaChange = (e) => {
+    const value = e.target.value;
+  
+    // Check if the text is Arabic
+    if (!isArabicText(value)) {
+      setErrorMessage("Please enter text in Arabic only.");
+    } else {
+      setErrorMessage(""); // Clear the error message if the input is valid
+    }
+    
+    setSelectedSentence(value);
+  };
+  
+  
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -68,27 +90,6 @@ const SyntacticAnalysis = () => {
       setShowGraph(false); // Hide the graph and download button initially
     }
   }, [selectedSentence]);
-
-  const validateInput = (input) => {
-    // Example validation criteria
-    if (!input.trim()) {
-      return "The input cannot be empty.";
-    }
-    if (input.length > 500) {
-      return "The input exceeds the maximum allowed length of 500 characters.";
-    }
-    if (/[^a-zA-Z\u0600-\u06FF\s]/.test(input)) {
-      return "The input contains invalid characters. Only letters and spaces are allowed.";
-    }
-    return ""; // No error
-  };
-
-  const handleInputChange = (e) => {
-    const input = e.target.value;
-    setSelectedSentence(input);
-    const validationError = validateInput(input);
-    setErrorMessage(validationError); // Update the error message
-  };
 
   const translateSentence = async () => {
     try {
@@ -135,6 +136,7 @@ const SyntacticAnalysis = () => {
       setAnalysisResult([{ error: "Error communicating with API" }]);
     }
   };
+  
 
   const createGraph = (data) => {
     const width = 1000;
@@ -308,27 +310,31 @@ const SyntacticAnalysis = () => {
     <div className="text-analysis">
       <div className="results-container">
         <div className="selected-sentence">
-          <textarea
-            value={selectedSentence || ""}
-            onChange={(e) => setSelectedSentence(e.target.value)} // Update state on change
-            rows={3}
-            style={{
-              width: "103%",
-              border: "none",
-              borderRadius: "15px",
-              padding: "8px",
-
-              marginTop: "-1.7%",
-              marginBottom: "-2%",
-              marginRight: "-1.5%",
-            }}
-          />
+        <div>
+        <textarea
+              value={selectedSentence || ""}
+              onChange={handleTextareaChange} // Updated to use the validation handler
+              rows={3}
+              style={{
+                width: "103%",
+                border: "none",
+                borderRadius: "15px",
+                padding: "8px",
+                marginTop: "-1.7%",
+                marginBottom: "-2%",
+                marginRight: "-1.5%",
+             }}
+/>
+       
+  </div>
         </div>
 
         <div className="translated-sentence">
           {translatedSentence && <p>{translatedSentence}</p>}
         </div>
       </div>
+      {errorMessage && <div className="error-message" style={{ marginLeft: '-45%', color: 'red' ,marginBottom: '-2.5%'}}>{errorMessage}</div>}   
+
       <div className="button-container">
         <button className="trans-button" onClick={translateSentence}>
           Translate
