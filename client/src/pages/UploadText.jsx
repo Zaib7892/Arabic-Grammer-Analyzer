@@ -38,7 +38,7 @@ function UploadText() {
     setInputText(text);
 
     // Arabic text validation using a regular expression
-    const arabicRegex = /[\u0600-\u06FF]/;
+    const arabicRegex = /^[\u0600-\u06FF\u200C\u200B\u060C\u061B\u064B-\u065F\s\.,?!؛؟]+$/;
     if (!arabicRegex.test(text)) {
       setErrorMessage('Please enter text in Arabic.');
       setShowFields(false); // Hide further processing options
