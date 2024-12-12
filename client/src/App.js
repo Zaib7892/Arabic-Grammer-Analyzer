@@ -72,7 +72,7 @@ function App() {
                   <Route path="/diacritization" element={<Diacritization />} />
                   <Route path="/syntacticanalysis" element={<SyntacticAnalysis />} />
                   <Route path="/semanticanalysis" element={<SemanticAnalysis />} />
-                  <Route path="/semanticanalysis/previousanalysis" element={<SemanticSolutions/>}/>
+                  <Route path="/previousanalysis" element={<SemanticSolutions/>}/>
                   <Route path="/standardsolutions" element={<StandardSolutions />} />
                   <Route path="/test" element={<Test />} />
                   <Route path="/standardsolutions/givefeedback" element={<GiveFeedback />} />

@@ -381,6 +381,24 @@ router.get('/getUserGraphs', async (req, res) => {
     }
 });
 
+// deleting semantic graphs
+router.delete('/deleteSemGraph/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const deletedGraph = await semGraph.findByIdAndDelete(id);
+
+        if (!deletedGraph) {
+            return res.status(404).json({ message: 'Semantic graph not found' });
+        }
+
+        return res.status(200).json({ message: 'Semantic graph deleted successfully', deletedGraph });
+    } catch (error) {
+        console.error('Error deleting semantic graph:', error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
 module.exports = router;
 
 

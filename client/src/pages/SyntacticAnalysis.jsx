@@ -252,7 +252,7 @@ const SyntacticAnalysis = () => {
         } catch (error) {
           console.error("Error adding diacritics", error);
           setLoadingforDiacritics(false);
-          setSelectedSentence("Error adding diacritics");
+          setErrorMessage("Error adding diacritics");
         }
       }
     }
@@ -272,8 +272,8 @@ const SyntacticAnalysis = () => {
             },
             data: {
               hitArea: {
-                stroke: "transparent", // Invisible buffer
-                strokeWidth: 10, // Larger clickable area
+                stroke: "transparent", 
+                strokeWidth: 10,
               },
             },
             markerEnd: { type: "arrow", color: "#ff0072" },

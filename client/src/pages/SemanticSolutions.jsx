@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext, useCallback } from 'react';
+import { MdDelete } from "react-icons/md";
 import { LoginContext } from '../components/ContextProvider/Context';
 import {
     ReactFlow,
@@ -66,6 +67,7 @@ function SemanticSolutions() {
 
     const handleCloseClick = () => {
         setSelectedSemGraph(null);
+        setHasChanges(false);
     };
 
     // Callback to handle connecting edges and setting hasChanges to true
@@ -107,12 +109,35 @@ function SemanticSolutions() {
             console.error('Error saving changes:', error);
         }
     };
-
+    const handleDeleteGraph = async () => {
+        if (!selectedsemGraph) return;
+    
+        const confirmDelete = window.confirm("Are you sure you want to delete this graph?");
+        if (!confirmDelete) return;
+    
+        try {
+            const response = await fetch(`/deleteSemGraph/${selectedsemGraph._id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+    
+            if (response.ok) {
+                console.log("Graph deleted successfully");
+                setSelectedSemGraph(null); 
+                fetchUserGraphs();
+            } else {
+                console.error("Failed to delete graph");
+            }
+        } catch (error) {
+            console.error("Error deleting graph:", error);
+        }
+    };
+    
     const renderGraph = () => (
-        <div style={{ width: '100%', height: '400px', marginTop: '20px' }}>
-            {/* <button onClick={handleCloseClick}>Close</button> */}
+        <div style={{ width: '100%', height: '400px', marginTop: '20px', position: 'relative' }}>
             <ReactFlowProvider>
-                {/* Wrap ReactFlow with ReactFlowProvider */}
                 <ReactFlow
                     nodes={nodes}
                     edges={edges}
@@ -127,30 +152,50 @@ function SemanticSolutions() {
                     <Background variant="dots" gap={12} size={1} />
                 </ReactFlow>
             </ReactFlowProvider>
-
-            {/* Show "Save Changes" button if there are unsaved changes */}
-            {hasChanges && (
+    
+            {/* Conditionally render Save or Delete button */}
+            {hasChanges ? (
                 <button
-                onClick={handleSaveChanges}
-                style={{
-                    position: 'relative',
-                    top: '-37px', // Adjust upward relative to the graph
-                    left: '-90px', // Align to the left
-                    backgroundColor: '#1d4b78',
-                    color: 'white',
-                    padding: '10px 20px',
-                    border: 'none',
-                    borderRadius: '8px',
-                    cursor: 'pointer',
-                    fontSize: '1em',
-                    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-                }}
-            >
-                Save Changes
-            </button>
+                    onClick={handleSaveChanges}
+                    style={{
+                        position: 'relative',
+                        top: '-37px', // Adjust upward relative to the graph
+                        left: '-90px', // Align to the left
+                        backgroundColor: '#1d4b78',
+                        color: 'white',
+                        padding: '10px 20px',
+                        border: 'none',
+                        borderRadius: '8px',
+                        cursor: 'pointer',
+                        fontSize: '1em',
+                        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                    }}
+                >
+                    Save Changes
+                </button>
+            ) : (
+                <button
+                    onClick={handleDeleteGraph}
+                    style={{
+                        position: 'relative',
+                        top: '-37px', 
+                        left: '90px', 
+                        backgroundColor: '#1d4b78',
+                        color: 'white',
+                        padding: '10px 15px',
+                        border: 'none',
+                        borderRadius: '8px',
+                        cursor: 'pointer',
+                        fontSize: '1.2em',
+                        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                    }}
+                >
+                   <MdDelete />
+                </button>
             )}
         </div>
     );
+    
 
     return (
         <div className="sentences">
@@ -166,19 +211,34 @@ function SemanticSolutions() {
                     Loading... &nbsp;
                     <CircularProgress />
                 </Box>
+            ) : sem_graphs.length === 0 ? (
+                // Fallback message when there are no graphs
+                <div
+                    style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        height: '60vh',
+                        textAlign: 'center',
+                        color: '#555',
+                        fontSize: '1.2em',
+                    }}
+                >
+                    No graphs found. Start by saving your first semantic graph.
+                </div>
             ) : (
                 sem_graphs.map((graph, index) => (
                     <div
                         key={index}
                         className="solution"
                         style={{
-                            display: 'flex', // Use flexbox for alignment
-                            alignItems: 'flex-start', // Align items to the top
-                            marginBottom: '15px', // Add spacing between items
-                            padding: '15px', // Add padding for visual clarity
-                            border: '1px solid #ccc', // Optional: border for each box
-                            borderRadius: '8px', // Optional: rounded corners
-                            backgroundColor: '#f9f9f9', // Optional: light background color
+                            display: 'flex',
+                            alignItems: 'flex-start',
+                            marginBottom: '15px',
+                            padding: '15px',
+                            border: '1px solid #ccc',
+                            borderRadius: '8px',
+                            backgroundColor: '#f9f9f9',
                         }}
                     >
                         {/* View Button on the left */}
@@ -189,15 +249,14 @@ function SemanticSolutions() {
                                     : handleViewClick(graph)
                             }
                             style={{
-                                marginRight: '15px', // Space between button and content
-                                padding: '10px 20px', // Button padding
-                                borderRadius: '8px', // Rounded corners
-                                backgroundColor: '#1d4b78', // Button background
-                                color: 'white', // Button text color
-                                border: 'none', // Remove default border
-                                cursor: 'pointer', // Add pointer cursor
-                                fontWeight: 'bold', // Make button text bold
-                              
+                                marginRight: '15px',
+                                padding: '10px 20px',
+                                borderRadius: '8px',
+                                backgroundColor: '#1d4b78',
+                                color: 'white',
+                                border: 'none',
+                                cursor: 'pointer',
+                                fontWeight: 'bold',
                             }}
                         >
                             {!selectedsemGraph || selectedsemGraph._id !== graph._id ? 'View' : 'Close'}
@@ -205,7 +264,7 @@ function SemanticSolutions() {
     
                         {/* Display Arabic Text and Date */}
                         <div style={{ flex: 1 }}>
-                            <span className="date-display" style={{ display: 'block', marginBottom: '10px' ,textAlign:'right'}}>
+                            <span className="date-display" style={{ display: 'block', marginBottom: '10px', textAlign: 'right' }}>
                                 {`${graph.arabicText} (${new Date(graph.createdAt).toLocaleDateString()})`}
                             </span>
     
@@ -221,7 +280,6 @@ function SemanticSolutions() {
             )}
         </div>
     );
-    
-}
+}    
 
 export default SemanticSolutions;

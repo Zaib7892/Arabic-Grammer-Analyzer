@@ -5,6 +5,7 @@ import React, { useContext, useState } from 'react';
 import { FaHome, FaBars, FaDochub } from 'react-icons/fa';
 import { FaDiceD20 } from "react-icons/fa6";
 import { BiSpreadsheet } from "react-icons/bi";
+import { PiListStarLight } from "react-icons/pi";
 import logo from './logo.png';
 import { NavLink } from 'react-router-dom';
 import { LoginContext } from "./ContextProvider/Context";
@@ -35,6 +36,11 @@ const SideBar = ({ children }) => {
             path: "/semanticanalysis",
             name: "Semantic Analysis",
             icon: <SiGraphql />
+        },
+        {
+            path: "/previousanalysis",
+            name: "Previuos Semantic Analysis",
+            icon: <PiListStarLight />
         },
         {
             path: "/standardsolutions",
