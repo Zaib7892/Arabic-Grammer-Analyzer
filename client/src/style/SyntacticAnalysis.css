@@ -93,7 +93,7 @@
   transform: translateY(2px);
 }
 
-.download-button-for-user{
+.download-button-for-user, .export-button{
   position: relative;
   margin: 0 auto; 
   display: block; 
@@ -111,24 +111,6 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.download-button-for-user{
-  position: relative;
-  margin: 0 auto; 
-  display: block; 
-  
-  margin-top: 10px;
-  width: 200px;
-  background: linear-gradient(45deg, #1d4b78, #87CEEB);
-  border: none;
-  border-radius: 15px;
-  color: white;
-  cursor: pointer;
-  font-size: 1.1em;
-  padding: 15px 30px;
-  transition: all 0.3s ease-in-out;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  
-}
 
 .export-button:hover, .download-button-for-user:hover {
   background: linear-gradient(45deg, #87CEEB, #1d4b78);

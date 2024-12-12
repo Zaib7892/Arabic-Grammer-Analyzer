@@ -92,22 +92,22 @@ const SyntacticAnalysis = () => {
 
   const translateSentence = async () => {
     if (isArabicText(selectedSentence)) {
-    try {
-      const response = await fetch("http://localhost:8000/translate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: selectedSentence, to: "en" }),
-      });
+      try {
+        const response = await fetch("http://localhost:8000/translate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text: selectedSentence, to: "en" }),
+        });
 
-      if (response.ok) {
-        const data = await response.json();
-        setTranslatedSentence(data.translatedText);
-      } else {
-        setTranslatedSentence("Error translating text");
+        if (response.ok) {
+          const data = await response.json();
+          setTranslatedSentence(data.translatedText);
+        } else {
+          setTranslatedSentence("Error translating text");
+        }
+      } catch (error) {
+        setTranslatedSentence("Error communicating with API");
       }
-    } catch (error) {
-      setTranslatedSentence("Error communicating with API");
-    }
     }
   };
 
@@ -129,7 +129,6 @@ const SyntacticAnalysis = () => {
             text: sentenceWithoutDiacritics,
             parser: selectedParser,
           }),
-
         });
 
         setLoading(false);
@@ -272,7 +271,7 @@ const SyntacticAnalysis = () => {
             },
             data: {
               hitArea: {
-                stroke: "transparent", 
+                stroke: "transparent",
                 strokeWidth: 10,
               },
             },
@@ -463,12 +462,14 @@ const SyntacticAnalysis = () => {
 
           {/* Graph Buttons */}
           <div className="buttonscontainer">
-            <button
-              className="download-button-for-user"
-              onClick={downloadGraph}
-            >
-              Download Graph
-            </button>
+            {logindata.ValidUserOne?.type === "u" && (
+              <button
+                className="download-button-for-user"
+                onClick={downloadGraph}
+              >
+                Download Graph
+              </button>
+            )}
 
             {logindata.ValidUserOne?.type === "a" && (
               <button className="export-button" onClick={downloadGraph}>
