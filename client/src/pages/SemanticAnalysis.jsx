@@ -183,7 +183,7 @@ const SemanticAnalysis = () => {
   };
 
   const handleConnect = (params) => {
-    const newEdges = addEdge({ ...params, type: "projectileEdge" }, edges);
+    const newEdges = addEdge({ ...params, type: "projectileEdge",markerEnd: { type: "arrow", color: "#ff0072",strokeWidth: '2.4' } }, edges);
     setEdges(newEdges);
 
     setSessionData({

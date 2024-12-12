@@ -166,7 +166,7 @@ const ProjectileEdge = ({ id, sourceX, sourceY, targetX, targetY, style = {}, ma
         style={style}
         className="react-flow__edge-path"
         d={edgePath}
-        markerEnd="url(#arrowhead)"  // Set arrowhead at the end of the path
+        markerEnd={markerEnd}  
       />
     </>
   );
