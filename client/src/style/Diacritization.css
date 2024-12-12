@@ -40,27 +40,12 @@
   border: 1px solid #ccc;
   background-color: #f0f0f0;
   border-radius: 15px;
-  
+  padding: 35px 10px 10px; /* Add extra top padding */
   direction: rtl;
   resize: none;
   font-size: 1em;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   position: relative;
-
-
- 
-  
-  
-  
-  
-  
- 
-  
-  
-  
-  
-  
-  
 }
 
 /* Container for edit mode or display mode */
@@ -77,6 +62,7 @@
 /* Result display area styling */
 .result-sentence {
   width: 100%;
+  padding: 35px 10px 10px; /* Add extra top padding */
   margin-bottom: 10px;
   font-size: 16px;
   border: 1px solid #ccc;
@@ -85,8 +71,8 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   background-color: #f0f0f0;
   min-height: 200px;
-  padding: 10px;
-  text-align: center;
+  
+  text-align: right;
   font-size: 1em;
   position: relative;
 }

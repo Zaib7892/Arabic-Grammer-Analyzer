@@ -210,7 +210,7 @@ const SemanticAnalysis = () => {
       });
 
       if (response.ok) {
-        alert("Graph uploaded successfully!");
+        alert("Graph saved successfully!");
       } else {
         alert("Error uploading graph");
       }
