@@ -283,6 +283,7 @@ const SemanticAnalysis = () => {
               onConnect={handleConnect}
               nodeTypes={nodeTypes}
               edgeTypes={edgeTypes}
+              onEdgeClick={handleEdgeClick}
             >
               <Controls />
               <Background variant="dots" gap={12} size={1} />

@@ -303,6 +303,8 @@ option {
   text-align: center;
 }
 
+
+
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
   select {

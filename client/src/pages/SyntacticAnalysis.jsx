@@ -230,7 +230,17 @@ const SyntacticAnalysis = () => {
           {
             ...params,
             type: "halfCircle",
-            style: { stroke: "#000000", strokeWidth: 1.5 },
+            style: {
+              stroke: "#000000", // Visible stroke color
+              strokeWidth: 2.4, // Normal visible stroke width
+              pointerEvents: "stroke", // Enable interactivity on stroke
+            },
+            data: {
+              hitArea: {
+                stroke: "transparent", // Invisible buffer
+                strokeWidth: 10, // Larger clickable area
+              },
+            },
             markerEnd: { type: "arrow", color: "#ff0072" },
           },
           eds
@@ -238,6 +248,7 @@ const SyntacticAnalysis = () => {
       ),
     [setEdges]
   );
+  
 
   const onEdgeClick = useCallback(
     (event, edge) => {
@@ -329,7 +340,7 @@ const SyntacticAnalysis = () => {
           onClick={analyzeSentence}
           disabled={loading} // Disable button when loading
         >
-          {loading ? "Fetching Results..." : "Analyze"}
+          {loading ? "... Fetching" : "Analyze"}
         </button>
 
         {/* Loading Spinner
