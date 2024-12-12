@@ -21,13 +21,7 @@ nlp = spacy_stanza.load_pipeline('ar')
 
 
 def run_camel_parser(input_text):
-    print("Current Directory:", os.getcwd())
-    camel_parser_path = os.path.abspath("../camel_parser")
-    print("Camel Parser Path:", camel_parser_path)
-
-    
     try:
-        # Detect the operating system
         is_windows = platform.system().lower() == 'windows'
 
         # Create a temporary file for the input text
@@ -35,24 +29,25 @@ def run_camel_parser(input_text):
             temp_file.write(input_text)
             temp_file_path = temp_file.name
 
-        # Set up the command based on the operating system
+        # Define the absolute path to the Camel Parser directory
+        camel_parser_path = "D:\\all data\\Arabic-Grammer-Analyzer\\camel_parser"
+
+        # Construct the shell command
         if is_windows:
-            # Corrected Windows command
             shell_command = (
-                f"cmd /c \"cd ..\\camel_parser && venv\\Scripts\\activate && "
-                f"python text_to_conll_cli.py -i {temp_file_path} -f text -m catib\""
+                f"cmd /c \"cd {camel_parser_path} && venv\\Scripts\\activate && "
+                f"python text_to_conll_cli.py -i \"{temp_file_path}\" -f text -m catib\""
             )
         else:
-            # Linux/Mac command
             shell_command = (
-                f"bash -c 'cd ../camel_parser && source venv/bin/activate && "
-                f"python text_to_conll_cli.py -i {temp_file_path} -f text -m catib'"
+                f"bash -c 'cd {camel_parser_path} && source venv/bin/activate && "
+                f"python text_to_conll_cli.py -i \"{temp_file_path}\" -f text -m catib'"
             )
 
-        # Log the command for debugging
         logging.debug(f"Running command: {shell_command}")
+        logging.debug(f"Temporary file path: {temp_file_path}")
 
-        # Run the command
+        # Execute the command
         process = subprocess.run(
             shell_command,
             stdout=subprocess.PIPE,
@@ -60,24 +55,26 @@ def run_camel_parser(input_text):
             shell=True
         )
 
-        # Handle output and errors
+        # Capture the output
         output = process.stdout.decode('utf-8')
         error_output = process.stderr.decode('utf-8')
+
         logging.debug(f"Camel Parser Output: {output}")
         logging.debug(f"Camel Parser Error (if any): {error_output}")
 
+        # Handle errors
         if process.returncode != 0 or "ERROR" in error_output or "Traceback" in error_output:
             raise Exception(f"Camel Parser Error: {error_output}")
 
         # Clean up the temporary file
         os.remove(temp_file_path)
 
-        # Parse the output
-        parsed_output = parse_camel_output_to_json(output)
-        return parsed_output
+        # Process and return the result
+        return parse_camel_output_to_json(output)
     except Exception as e:
         logging.error(f"Error running Camel Parser: {e}", exc_info=True)
         return None
+
 
 
 def parse_camel_output_to_json(output):

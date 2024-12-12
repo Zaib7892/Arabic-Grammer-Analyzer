@@ -48,6 +48,7 @@ const SyntacticAnalysis = () => {
     content: "",
     position: { x: 0, y: 0 },
   });
+  const [errorMessage, setErrorMessage] = useState(""); // State for validation error
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -67,6 +68,27 @@ const SyntacticAnalysis = () => {
       setShowGraph(false); // Hide the graph and download button initially
     }
   }, [selectedSentence]);
+
+  const validateInput = (input) => {
+    // Example validation criteria
+    if (!input.trim()) {
+      return "The input cannot be empty.";
+    }
+    if (input.length > 500) {
+      return "The input exceeds the maximum allowed length of 500 characters.";
+    }
+    if (/[^a-zA-Z\u0600-\u06FF\s]/.test(input)) {
+      return "The input contains invalid characters. Only letters and spaces are allowed.";
+    }
+    return ""; // No error
+  };
+
+  const handleInputChange = (e) => {
+    const input = e.target.value;
+    setSelectedSentence(input);
+    const validationError = validateInput(input);
+    setErrorMessage(validationError); // Update the error message
+  };
 
   const translateSentence = async () => {
     try {
