@@ -60,8 +60,25 @@
     color: #666;
 }
 
+.buttons {
+    display: flex;
+    justify-content: flex-start; /* Align buttons to the left */
+    margin-top: -10px; /* Move the entire button container upward */
+    gap: 10px; /* Space between the buttons */
+}
+
+.create-test-button,
+.closebtn {
+    margin-top: 0; /* Override existing top margin to ensure consistent alignment */
+}
+
+
+.button{
+    margin-top: -30px;
+}
+
 .create-test-button{
-    margin-left: 1.7%;
+    margin-left: 1%;
     
     
 }
@@ -102,3 +119,4 @@
     align-items: center;
     height: 30vh;
 }
+

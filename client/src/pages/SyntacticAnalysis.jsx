@@ -390,9 +390,16 @@ const SyntacticAnalysis = () => {
 
           {/* Graph Buttons */}
           <div className="buttonscontainer">
+            <button className="download-button-for-user" onClick={downloadGraph}>
+              Download Graph
+            </button>
+
+            {logindata.ValidUserOne?.type === "a" && (
             <button className="export-button" onClick={downloadGraph}>
               Download Graph
             </button>
+            )}
+
             {logindata.ValidUserOne?.type === "a" && (
               <button className="upload-button" onClick={uploadGraph}>
                 Upload Solution

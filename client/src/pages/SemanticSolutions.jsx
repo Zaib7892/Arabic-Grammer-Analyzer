@@ -110,7 +110,7 @@ function SemanticSolutions() {
 
     const renderGraph = () => (
         <div style={{ width: '100%', height: '400px', marginTop: '20px' }}>
-            <button onClick={handleCloseClick}>Close</button>
+            {/* <button onClick={handleCloseClick}>Close</button> */}
             <ReactFlowProvider>
                 {/* Wrap ReactFlow with ReactFlowProvider */}
                 <ReactFlow
@@ -130,9 +130,24 @@ function SemanticSolutions() {
 
             {/* Show "Save Changes" button if there are unsaved changes */}
             {hasChanges && (
-                <button onClick={handleSaveChanges} style={{ marginTop: '10px' }}>
-                    Save Changes
-                </button>
+                <button
+                onClick={handleSaveChanges}
+                style={{
+                    position: 'relative',
+                    top: '-37px', // Adjust upward relative to the graph
+                    left: '-90px', // Align to the left
+                    backgroundColor: '#1d4b78',
+                    color: 'white',
+                    padding: '10px 20px',
+                    border: 'none',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    fontSize: '1em',
+                    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                }}
+            >
+                Save Changes
+            </button>
             )}
         </div>
     );

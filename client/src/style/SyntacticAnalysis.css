@@ -97,6 +97,24 @@
   transform: translateY(2px);
 }
 
+.download-button-for-user{
+  position: relative;
+  margin: 0 auto; 
+  display: block; 
+  
+  margin-top: 10px;
+  width: 200px;
+  background: linear-gradient(45deg, #1d4b78, #87CEEB);
+  border: none;
+  border-radius: 15px;
+  color: white;
+  cursor: pointer;
+  font-size: 1.1em;
+  padding: 15px 30px;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
 .export-button {
   margin-top: 10px;
   width: 200px;
@@ -112,13 +130,13 @@
   
 }
 
-.export-button:hover {
+.export-button:hover, .download-button-for-user:hover {
   background: linear-gradient(45deg, #87CEEB, #1d4b78);
   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
   transform: translateY(-2px);
 }
 
-.export-button:active {
+.export-button:active, .download-button-for-user:active {
   transform: translateY(2px);
 }
 
@@ -321,6 +339,8 @@ option {
     font-size: 1em;
     padding: 10px 23px;
   }
+
+
 
   .trans-button  {
     width: 160px; /* Resize buttons */
