@@ -57,21 +57,19 @@ const SyntacticAnalysis = () => {
     const arabicRegex = /^[\u0600-\u06FF\s]+$/;
     return arabicRegex.test(text.trim());
   };
-  
+
   const handleTextareaChange = (e) => {
     const value = e.target.value;
-  
+
     // Check if the text is Arabic
     if (!isArabicText(value)) {
       setErrorMessage("Please enter text in Arabic only.");
     } else {
       setErrorMessage(""); // Clear the error message if the input is valid
     }
-    
+
     setSelectedSentence(value);
   };
-  
-  
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -93,56 +91,60 @@ const SyntacticAnalysis = () => {
   }, [selectedSentence]);
 
   const translateSentence = async () => {
-    try {
-      const response = await fetch("http://localhost:8000/translate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: selectedSentence, to: "en" }),
-      });
+    if (isArabicText(selectedSentence)) {
+      try {
+        const response = await fetch("http://localhost:8000/translate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text: selectedSentence, to: "en" }),
+        });
 
-      if (response.ok) {
-        const data = await response.json();
-        setTranslatedSentence(data.translatedText);
-      } else {
-        setTranslatedSentence("Error translating text");
+        if (response.ok) {
+          const data = await response.json();
+          setTranslatedSentence(data.translatedText);
+        } else {
+          setTranslatedSentence("Error translating text");
+        }
+      } catch (error) {
+        setTranslatedSentence("Error communicating with API");
       }
-    } catch (error) {
-      setTranslatedSentence("Error communicating with API");
     }
   };
 
   // Updated analyzeSentence function
   const analyzeSentence = async () => {
-    try {
-      const cleanedSentence = selectedParser === 'spacy' 
-      ? selectedSentence.trim() 
-      : selectedSentence;
-      // Remove diacritics from the selected sentence
-      const sentenceWithoutDiacritics = removeDiacritics(cleanedSentence);
-      const response = await fetch("http://localhost:5000/analyze", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          text: sentenceWithoutDiacritics,
-          parser: selectedParser,
-        }),
-      });
+    if (isArabicText(selectedSentence)) {
+      try {
+        const cleanedSentence =
+          selectedParser === "spacy"
+            ? selectedSentence.trim()
+            : selectedSentence;
+        // Remove diacritics from the selected sentence
+        const sentenceWithoutDiacritics = removeDiacritics(cleanedSentence);
+        const response = await fetch("http://localhost:5000/analyze", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            text: sentenceWithoutDiacritics,
+            parser: selectedParser,
+          }),
+        });
 
-      if (response.ok) {
-        const data = await response.json();
-        setAnalysisResult(data);
-        createGraph(data);
-        setShowGraph(true);
-      } else {
-        setAnalysisResult([{ error: "Error analyzing text" }]);
+        if (response.ok) {
+          const data = await response.json();
+          setAnalysisResult(data);
+          createGraph(data);
+          setShowGraph(true);
+        } else {
+          setAnalysisResult([{ error: "Error analyzing text" }]);
+        }
+      } catch (error) {
+        setAnalysisResult([{ error: "Error communicating with API" }]);
+      } finally {
+        setLoading(false); // Stop loading
       }
-    } catch (error) {
-      setAnalysisResult([{ error: "Error communicating with API" }]);
-    } finally {
-      setLoading(false); // Stop loading
     }
   };
-  
 
   const createGraph = (data) => {
     const width = 1000;
@@ -235,16 +237,18 @@ const SyntacticAnalysis = () => {
   };
 
   const addDiacritics = async () => {
-    if (selectedSentence) {
-      try {
-        setLoadingforDiacritics(true);
-        const data = await diacritizeArabicText(selectedSentence);
-        setSelectedSentence(data.text);
-        setLoadingforDiacritics(false);
-      } catch (error) {
-        console.error("Error adding diacritics", error);
-        setLoadingforDiacritics(false);
-        setSelectedSentence("Error adding diacritics");
+    if (isArabicText(selectedSentence)) {
+      if (selectedSentence) {
+        try {
+          setLoadingforDiacritics(true);
+          const data = await diacritizeArabicText(selectedSentence);
+          setSelectedSentence(data.text);
+          setLoadingforDiacritics(false);
+        } catch (error) {
+          console.error("Error adding diacritics", error);
+          setLoadingforDiacritics(false);
+          setSelectedSentence("Error adding diacritics");
+        }
       }
     }
   };
@@ -274,7 +278,6 @@ const SyntacticAnalysis = () => {
       ),
     [setEdges]
   );
-  
 
   const onEdgeClick = useCallback(
     (event, edge) => {
@@ -327,8 +330,8 @@ const SyntacticAnalysis = () => {
     <div className="text-analysis">
       <div className="results-container">
         <div className="selected-sentence">
-        <div>
-        <textarea
+          <div>
+            <textarea
               value={selectedSentence || ""}
               onChange={handleTextareaChange} // Updated to use the validation handler
               rows={3}
@@ -340,17 +343,23 @@ const SyntacticAnalysis = () => {
                 marginTop: "-1.7%",
                 marginBottom: "-2%",
                 marginRight: "-1.5%",
-             }}
-/>
-       
-  </div>
+              }}
+            />
+          </div>
         </div>
 
         <div className="translated-sentence">
           {translatedSentence && <p>{translatedSentence}</p>}
         </div>
       </div>
-      {errorMessage && <div className="error-message" style={{ marginLeft: '-45%', color: 'red' ,marginBottom: '-2.5%'}}>{errorMessage}</div>}   
+      {errorMessage && (
+        <div
+          className="error-message"
+          style={{ marginLeft: "-45%", color: "red", marginBottom: "-2.5%" }}
+        >
+          {errorMessage}
+        </div>
+      )}
 
       <div className="button-container">
         <button className="trans-button" onClick={translateSentence}>
@@ -449,14 +458,17 @@ const SyntacticAnalysis = () => {
 
           {/* Graph Buttons */}
           <div className="buttonscontainer">
-            <button className="download-button-for-user" onClick={downloadGraph}>
+            <button
+              className="download-button-for-user"
+              onClick={downloadGraph}
+            >
               Download Graph
             </button>
 
             {logindata.ValidUserOne?.type === "a" && (
-            <button className="export-button" onClick={downloadGraph}>
-              Download Graph
-            </button>
+              <button className="export-button" onClick={downloadGraph}>
+                Download Graph
+              </button>
             )}
 
             {logindata.ValidUserOne?.type === "a" && (
