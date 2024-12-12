@@ -92,22 +92,22 @@ const SyntacticAnalysis = () => {
 
   const translateSentence = async () => {
     if (isArabicText(selectedSentence)) {
-      try {
-        const response = await fetch("http://localhost:8000/translate", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ text: selectedSentence, to: "en" }),
-        });
+    try {
+      const response = await fetch("http://localhost:8000/translate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: selectedSentence, to: "en" }),
+      });
 
-        if (response.ok) {
-          const data = await response.json();
-          setTranslatedSentence(data.translatedText);
-        } else {
-          setTranslatedSentence("Error translating text");
-        }
-      } catch (error) {
-        setTranslatedSentence("Error communicating with API");
+      if (response.ok) {
+        const data = await response.json();
+        setTranslatedSentence(data.translatedText);
+      } else {
+        setTranslatedSentence("Error translating text");
       }
+    } catch (error) {
+      setTranslatedSentence("Error communicating with API");
+    }
     }
   };
 
@@ -121,6 +121,7 @@ const SyntacticAnalysis = () => {
             : selectedSentence;
         // Remove diacritics from the selected sentence
         const sentenceWithoutDiacritics = removeDiacritics(cleanedSentence);
+        setLoading(true);
         const response = await fetch("http://localhost:5000/analyze", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -128,9 +129,13 @@ const SyntacticAnalysis = () => {
             text: sentenceWithoutDiacritics,
             parser: selectedParser,
           }),
+
         });
 
+        setLoading(false);
+
         if (response.ok) {
+          setLoading(false);
           const data = await response.json();
           setAnalysisResult(data);
           createGraph(data);
