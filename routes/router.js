@@ -219,29 +219,38 @@ router.post("/storefeedback", async (req, res) => {
 
 
 //storing tests
-router.post("/storetest",async (req,res) => {
-    const {userId,graphId,name,graph}=req.body;
-    if(!userId || !graphId){
-        res.status(422).json({error:"Graph Id and User Id required"});
+router.post("/storetest", async (req, res) => {
+    const { userId, graphId, name, graph } = req.body;
+
+    if (!userId || !graphId) {
+        res.status(422).json({ error: "Graph Id and User Id required" });
         return;
     }
 
     try {
-        const newTest = Test({
+        // Check if the test already exists
+        const existingTest = await Test.findOne({ graphId });
+        if (existingTest) {
+            res.status(409).json({ error: "Test already exists for this Graph Id" });
+            return;
+        }
+
+        // Create a new test if it doesn't exist
+        const newTest = new Test({
             userId,
             graphId,
             name,
             graph,
-        })
-    const saveTest = await newTest.save();
-    res.status(201).json({status:201,saveTest});
-    
-    } catch (error) {
-        res.status(422).json({error:"Error storing test"});
-        console.log("ERROR: ",error)
-    }
+        });
 
+        const saveTest = await newTest.save();
+        res.status(201).json({ status: 201, saveTest });
+    } catch (error) {
+        res.status(500).json({ error: "Error storing test" });
+        console.error("ERROR: ", error);
+    }
 });
+
 //retreiving feedbacks
 router.get('/feedbacks', async(req,res) =>{
     try {

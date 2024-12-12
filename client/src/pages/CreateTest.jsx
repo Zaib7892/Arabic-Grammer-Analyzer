@@ -57,12 +57,15 @@ const CreateTest = () => {
                     graph: graph.graphData
                 })
             });
+    
+            const responseData = await response.json();
+    
             if (response.ok) {
                 toast.success(`Test Created Successfully`, {
                     position: "top-center"
                 });
             } else {
-                toast.error("Failed to Create test", {
+                toast.error(responseData.error || "Failed to Create test", {
                     position: "top-center"
                 });
             }
@@ -72,7 +75,7 @@ const CreateTest = () => {
             });
         }
     };
-
+    
     const renderGraph = (graph) => {
         return (
             <div style={{ width: '100%', height: '200px', marginTop: '20px' }}>
@@ -118,8 +121,8 @@ const CreateTest = () => {
                             // Display graph and hide "View" button when the graph is selected
                             <div>{renderGraph(selectedGraph)}</div>
                         ) : (
-                            // Show "View" button when the graph is not selected
                             <button onClick={() => handleViewClick(graph)}>View</button>
+                            
                         )}
                     </div>
                 ))
