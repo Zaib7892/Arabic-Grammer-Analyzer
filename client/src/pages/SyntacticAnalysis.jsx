@@ -42,6 +42,7 @@ const SyntacticAnalysis = () => {
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [showGraph, setShowGraph] = useState(false);
   const [loading, setLoading] = useState(false); // State for loading
+  const [loadingdiacritics, setLoadingforDiacritics] = useState(false); // State for loading
   const { logindata, setLoginData } = useContext(LoginContext);
   const [tooltip, setTooltip] = useState({
     visible: false,
@@ -87,9 +88,10 @@ const SyntacticAnalysis = () => {
     }
   };
 
+  // Updated analyzeSentence function
   const analyzeSentence = async () => {
     try {
-      // Remove diacritics from the selected sentence
+      setLoading(true); // Start loading
       const sentenceWithoutDiacritics = removeDiacritics(selectedSentence);
 
       const response = await fetch("http://localhost:5000/analyze", {
@@ -98,7 +100,7 @@ const SyntacticAnalysis = () => {
         body: JSON.stringify({
           text: sentenceWithoutDiacritics,
           parser: selectedParser,
-        }), // Send selected parser
+        }),
       });
 
       if (response.ok) {
@@ -111,6 +113,8 @@ const SyntacticAnalysis = () => {
       }
     } catch (error) {
       setAnalysisResult([{ error: "Error communicating with API" }]);
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
 
@@ -207,13 +211,13 @@ const SyntacticAnalysis = () => {
   const addDiacritics = async () => {
     if (selectedSentence) {
       try {
-        setLoading(true);
+        setLoadingforDiacritics(true);
         const data = await diacritizeArabicText(selectedSentence);
         setSelectedSentence(data.text);
-        setLoading(false);
+        setLoadingforDiacritics(false);
       } catch (error) {
         console.error("Error adding diacritics", error);
-        setLoading(false);
+        setLoadingforDiacritics(false);
         setSelectedSentence("Error adding diacritics");
       }
     }
@@ -315,18 +319,32 @@ const SyntacticAnalysis = () => {
         <button
           className="diacritics-button"
           onClick={addDiacritics}
-          disabled={loading}
+          disabled={loadingdiacritics}
         >
-          {loading ? "Adding Diacritics..." : "Add Diacritics"}
+          {loadingdiacritics ? "Adding Diacritics..." : "Add Diacritics"}
         </button>
 
-        <button className="analyz-button" onClick={analyzeSentence}>
-          Analyze
+        <button
+          className="analyz-button"
+          onClick={analyzeSentence}
+          disabled={loading} // Disable button when loading
+        >
+          {loading ? "Fetching Results..." : "Analyze"}
         </button>
+
+        {/* Loading Spinner
+        {loading && (
+          <div className="loading-indicator">
+            <p>Fetching Results...</p>
+          </div>
+        )} */}
       </div>
 
       {/* Parser Selection Dropdown */}
-      <select value={selectedParser} onChange={(e) => setSelectedParser(e.target.value)}>
+      <select
+        value={selectedParser}
+        onChange={(e) => setSelectedParser(e.target.value)}
+      >
         <option value="spacy">Spacy</option>
         <option value="camel">Camel Parser</option>
       </select>
