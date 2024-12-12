@@ -220,7 +220,7 @@ const SemanticAnalysis = () => {
   };
 
   const fetchUserGraphs = () => {
-    navigate("/semanticanalysis/previousanalysis");
+    navigate("/previousanalysis");
   };
 
   return (
@@ -294,7 +294,7 @@ const SemanticAnalysis = () => {
               onClick={fetchUserGraphs}
               className="start-button view-analysis-button"
             >
-              View Analysis
+              Prev Analysis
             </button>
             <button
               onClick={saveGraphToDatabase}

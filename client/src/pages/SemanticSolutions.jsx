@@ -73,7 +73,7 @@ function SemanticSolutions() {
     // Callback to handle connecting edges and setting hasChanges to true
     const onConnect = useCallback(
         (params) => {
-            setEdges((eds) => addEdge({ ...params, type: 'projectileEdge' }, eds));
+            setEdges((eds) => addEdge({ ...params, type: 'projectileEdge',markerEnd: { type: "arrow", color: "#ff0072",strokeWidth: '2.4'} }, eds));
             setHasChanges(true); // Mark changes as unsaved
         },
         [setEdges]
@@ -125,7 +125,8 @@ function SemanticSolutions() {
     
             if (response.ok) {
                 console.log("Graph deleted successfully");
-                setSelectedSemGraph(null); 
+                setSelectedSemGraph(null);
+                setSemGraphs((prevGraphs) => prevGraphs.filter(graph => graph._id !== selectedsemGraph._id));
                 fetchUserGraphs();
             } else {
                 console.error("Failed to delete graph");
