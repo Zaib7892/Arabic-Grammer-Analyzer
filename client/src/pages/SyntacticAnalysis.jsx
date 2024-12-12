@@ -89,9 +89,11 @@ const SyntacticAnalysis = () => {
 
   const analyzeSentence = async () => {
     try {
+      const cleanedSentence = selectedParser === 'spacy' 
+      ? selectedSentence.trim() 
+      : selectedSentence;
       // Remove diacritics from the selected sentence
-      const sentenceWithoutDiacritics = removeDiacritics(selectedSentence);
-
+      const sentenceWithoutDiacritics = removeDiacritics(cleanedSentence);
       const response = await fetch("http://localhost:5000/analyze", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
