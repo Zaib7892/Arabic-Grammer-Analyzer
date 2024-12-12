@@ -32,16 +32,8 @@ const Login = () => {
       toast.error("email is required!", {
         position: "top-center",
       });
-    } else if (!email.includes("@")) {
-      toast.warning("includes @ in your email!", {
-        position: "top-center",
-      });
     } else if (password === "") {
       toast.error("password is required!", {
-        position: "top-center",
-      });
-    } else if (password.length < 6) {
-      toast.error("password must be 6 char!", {
         position: "top-center",
       });
     } else {
@@ -68,7 +60,7 @@ const Login = () => {
         window.location.href = "/home";
         setInpval({ ...inpval, email: "", password: "" });
       } else {
-        toast.error("Invalid username or password!", {
+        toast.error("Invalid email or password!", {
           position: "top-center",
         });
       }
