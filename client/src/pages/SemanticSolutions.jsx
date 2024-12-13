@@ -203,7 +203,7 @@ function SemanticSolutions() {
           style={{
             position: "relative",
             top: "-37px",
-            left: "90px",
+            left: "-80px",
             backgroundColor: "#1d4b78",
             color: "white",
             padding: "10px 15px",
